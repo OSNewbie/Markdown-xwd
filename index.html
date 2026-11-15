@@ -148,6 +148,8 @@ body {
 
 .pane-body { flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; min-height: 0; }
 
+.pane-preview .pane-body { scroll-behavior: smooth; }
+
 .pane-body::-webkit-scrollbar { width: 10px; height: 10px; }
 .pane-body::-webkit-scrollbar-thumb {
   background: var(--border);
@@ -246,7 +248,7 @@ body {
 
 .stack { display: flex; flex-direction: column; gap: 8px; }
 .row   { display: flex; gap: 8px; align-items: center; }
-.row > .select { flex: 0 0 104px; }
+.row > .select { flex: 0 0 120px; }
 
 .field {
   display: grid;
@@ -296,30 +298,24 @@ body {
 .pal-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
+  gap: 6px;
+  padding: 6px 12px;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--fg);
   background: var(--bg-elev);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 7px;
   cursor: pointer;
   transition: .15s;
+  white-space: nowrap;
 }
 .pal-btn:hover {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
 }
-.pal-btn .ico {
-  display: inline-block;
-  min-width: 14px;
-  font-size: 12px;
-  font-weight: 700;
-  text-align: center;
-  opacity: .75;
-}
+.pal-btn .ico { font-size: 14px; line-height: 1; }
 
 /* =========================================================
  *  5. 编辑卡片
@@ -348,8 +344,8 @@ body {
   place-items: center;
   min-width: 20px; height: 20px;
   padding: 0 4px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
   color: var(--accent);
   background: var(--accent-soft);
   border-radius: 5px;
@@ -375,18 +371,68 @@ body {
 .empty .muted { font-size: 12.5px; opacity: .75; }
 
 /* =========================================================
- *  6. 表格编辑器
+ *  6. 表格编辑器（网格 + 链接）
  * =======================================================*/
-.te { display: flex; flex-direction: column; gap: 6px; }
+.table-editor { overflow-x: auto; margin: 0 -2px; }
 
-.te-row {
-  display: grid;
-  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)) auto;
-  gap: 6px;
-  align-items: center;
+.te-table {
+  width: 100%;
+  min-width: 260px;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: auto;
 }
-.te-head .input { font-weight: 600; background: var(--bg-soft); }
-.te-actions { display: flex; gap: 6px; padding-top: 2px; }
+.te-table th,
+.te-table td {
+  border: 1px solid var(--border);
+  padding: 0;
+  vertical-align: middle;
+}
+.te-table th { background: var(--bg-soft); }
+
+.te-cell {
+  display: block;
+  width: 100%;
+  min-width: 60px;
+  border: none;
+  outline: none;
+  padding: 7px 10px;
+  background: transparent;
+  font: inherit;
+  color: var(--fg);
+  border-radius: 0;
+}
+.te-cell:focus { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.te-cell::placeholder { color: var(--fg-muted); opacity: .6; }
+.te-table th .te-cell { font-weight: 600; }
+
+.te-row-del {
+  width: 38px;
+  text-align: center;
+  background: var(--bg-soft);
+}
+.te-row-del .btn-icon { display: inline-flex; margin: 2px; }
+
+.te-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.te-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+.te-hint code {
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  background: var(--code-bg);
+  border-radius: 4px;
+}
 
 /* =========================================================
  *  7. Markdown 预览（GitHub / MkDocs 风格）
@@ -413,6 +459,7 @@ body {
   margin: 1.6em 0 .65em;
   font-weight: 600;
   line-height: 1.3;
+  scroll-margin-top: 12px;
 }
 
 .markdown-body h1 { font-size: 2em;    padding-bottom: .3em; border-bottom: 1px solid var(--border); }
@@ -579,7 +626,51 @@ body {
 }
 
 /* =========================================================
- *  8. Toast
+ *  8. 链接插入浮层
+ * =======================================================*/
+.link-pop {
+  position: fixed;
+  z-index: 1000;
+  width: 290px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  animation: popIn .12s ease-out;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.link-pop .link-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.link-pop .link-hint {
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+
+.link-pop .link-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+
+/* =========================================================
+ *  9. Toast
  * =======================================================*/
 .toast {
   position: fixed;
@@ -601,7 +692,7 @@ body {
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 /* =========================================================
- *  9. 响应式
+ *  10. 响应式
  * =======================================================*/
 @media (max-width: 880px) {
   body { overflow: auto; }
@@ -659,14 +750,6 @@ body {
 <script>
 /* =========================================================================
  *  Markdown 文档生成器
- *  -----------------------------------------------------------------------
- *  结构说明：
- *    1. 工具函数       —— el / input / textarea / select / toast
- *    2. 组件注册表     —— COMPONENTS，新增组件只需 defineComponent({...})
- *    3. 状态与渲染     —— state.blocks → 编辑区 + 预览区
- *    4. Markdown 生成  —— 每个组件的 toMarkdown()
- *    5. 预览渲染       —— marked.js + highlight.js + GitHub Alerts
- *    6. 底部操作       —— 复制 / 下载 / 清空
  * ========================================================================= */
 
 /* =========================================================================
@@ -676,7 +759,6 @@ body {
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-/** 创建元素：el('div', { class: 'x', onClick: fn }, child1, 'text') */
 function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
   for (const [key, val] of Object.entries(attrs)) {
@@ -695,7 +777,6 @@ function el(tag, attrs = {}, ...children) {
   return node;
 }
 
-/** 单行输入框 */
 function input(value, onInput, placeholder = '') {
   return el('input', {
     type: 'text',
@@ -706,7 +787,6 @@ function input(value, onInput, placeholder = '') {
   });
 }
 
-/** 多行输入框（自动增高） */
 function textarea(value, onInput, placeholder = '', rows = 3) {
   const ta = el('textarea', { class: 'input textarea', placeholder, rows });
   ta.value = value ?? '';
@@ -719,7 +799,6 @@ function autoGrow(ta) {
   ta.style.height = Math.max(ta.scrollHeight, 62) + 'px';
 }
 
-/** 下拉选择 */
 function select(value, options, onChange) {
   const sel = el('select', { class: 'input select' });
   for (const [val, label] of options) {
@@ -731,7 +810,6 @@ function select(value, options, onChange) {
   return sel;
 }
 
-/** 带标签的字段行 */
 function field(labelText, control) {
   return el('div', { class: 'field' },
     el('span', { class: 'field-label' }, labelText),
@@ -739,7 +817,6 @@ function field(labelText, control) {
   );
 }
 
-/** 轻提示 */
 let toastTimer = null;
 function toast(message) {
   let node = $('.toast');
@@ -753,25 +830,146 @@ function toast(message) {
   toastTimer = setTimeout(() => node.classList.remove('show'), 1900);
 }
 
+/* ---------- 标题 slug（用于锚点） ---------- */
+function slugify(text) {
+  return String(text ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/<[^>]*>/g, '')                     // 去 HTML 标签
+    .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')       // 保留字母数字中文空格连字符
+    .replace(/\s+/g, '-')                        // 空白 → 连字符
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 /* =========================================================================
- * 2. 组件注册表
- * -------------------------------------------------------------------------
- *  每个组件定义：
- *    type       唯一标识
- *    label      中文名
- *    icon       工具栏图标字符
- *    create()   返回该组件的默认 data
- *    editor()   返回编辑区 DOM 元素
- *    toMarkdown()返回 Markdown 字符串
- *
- *  ★ 新增组件（Mermaid / Tabs / Badge / FAQ / Timeline ...）只需：
- *      defineComponent({ type: 'mermaid', label: '流程图', icon: '◇',
- *        create: () => ({ code: '' }),
- *        editor: (block, ctx) => textarea(block.data.code,
- *                       (v) => ctx.update({ code: v }), '输入 Mermaid 代码'),
- *        toMarkdown: (block) => '```mermaid\n' + block.data.code + '\n```',
- *      });
- *    再把 'mermaid' 加进下方的 TOOLBAR 数组即可。
+ * 2. 链接插入浮层
+ * ========================================================================= */
+
+let currentPopover = null;
+
+function closeLinkPopover() {
+  if (!currentPopover) return;
+  currentPopover.remove();
+  currentPopover = null;
+  document.removeEventListener('mousedown', onDocMouseDown, true);
+  document.removeEventListener('keydown', onDocKeyDown, true);
+}
+
+function onDocMouseDown(e) {
+  if (!currentPopover) return;
+  if (currentPopover.contains(e.target)) return;
+  if (e.target.closest && e.target.closest('.link-trigger')) return;
+  closeLinkPopover();
+}
+
+function onDocKeyDown(e) {
+  if (e.key === 'Escape') closeLinkPopover();
+}
+
+/**
+ * 打开链接插入浮层
+ * @param {HTMLElement} anchorBtn 触发按钮（用于定位）
+ * @param {(text:string, url:string) => boolean} onInsert 返回 true 表示插入成功
+ */
+function openLinkPopover(anchorBtn, onInsert) {
+  if (currentPopover) closeLinkPopover();
+
+  /* 尝试预填选中文字 */
+  let presetText = '';
+  const activeEl = document.activeElement;
+  if (activeEl && activeEl.classList && activeEl.classList.contains('te-cell')) {
+    const s = activeEl.selectionStart ?? 0;
+    const e = activeEl.selectionEnd ?? 0;
+    if (s !== e) presetText = activeEl.value.slice(s, e);
+  }
+
+  const textInput = el('input', {
+    type: 'text',
+    class: 'input',
+    placeholder: '显示的文字（留空则用链接地址）',
+    value: presetText,
+  });
+  const urlInput = el('input', {
+    type: 'text',
+    class: 'input',
+    placeholder: 'https://… 或 #标题',
+  });
+
+  const pop = el('div', { class: 'link-pop' },
+    el('label', { class: 'link-field' }, '显示文字', textInput),
+    el('label', { class: 'link-field' }, '链接地址', urlInput),
+    el('div', { class: 'link-hint' },
+      '填网页地址（https://…），或填 ',
+      el('code', {}, '#标题'),
+      ' 跳转到本文档内的标题'
+    ),
+    el('div', { class: 'link-actions' },
+      el('button', { class: 'btn tiny', type: 'button', onClick: closeLinkPopover }, '取消'),
+      el('button', {
+        class: 'btn tiny primary', type: 'button',
+        onClick: () => {
+          const text = textInput.value.trim();
+          const url  = urlInput.value.trim();
+          if (!url) { toast('请填写链接地址'); urlInput.focus(); return; }
+          if (onInsert(text, url)) closeLinkPopover();
+        },
+      }, '插入')
+    )
+  );
+
+  document.body.append(pop);
+  currentPopover = pop;
+
+  /* 定位：优先显示在按钮下方，空间不足时显示在上方 */
+  const rect    = anchorBtn.getBoundingClientRect();
+  const popRect = pop.getBoundingClientRect();
+  let left = rect.left;
+  let top  = rect.bottom + 6;
+  if (left + popRect.width > window.innerWidth - 8)
+    left = window.innerWidth - popRect.width - 8;
+  if (top + popRect.height > window.innerHeight - 8)
+    top = rect.top - popRect.height - 6;
+  if (left < 8) left = 8;
+  if (top < 8)  top  = 8;
+  pop.style.left = left + 'px';
+  pop.style.top  = top  + 'px';
+
+  textInput.focus();
+  textInput.select();
+
+  setTimeout(() => {
+    document.addEventListener('mousedown', onDocMouseDown, true);
+    document.addEventListener('keydown', onDocKeyDown, true);
+  }, 0);
+
+  /* Enter 快捷提交 */
+  [textInput, urlInput].forEach((inp) => {
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        pop.querySelector('.link-actions .primary').click();
+      }
+    });
+  });
+}
+
+/** 把 Markdown 链接插入到 input 的光标位置 */
+function insertLinkIntoCell(inputEl, text, url) {
+  const s = inputEl.selectionStart ?? inputEl.value.length;
+  const e = inputEl.selectionEnd   ?? inputEl.value.length;
+  const selected = inputEl.value.slice(s, e);
+  const display  = text || selected || url;
+  const linkMd   = `[${display}](${url})`;
+  inputEl.value  = inputEl.value.slice(0, s) + linkMd + inputEl.value.slice(e);
+  inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+  inputEl.focus();
+  const pos = s + linkMd.length;
+  inputEl.setSelectionRange(pos, pos);
+}
+
+/* =========================================================================
+ * 3. 组件注册表
  * ========================================================================= */
 
 const COMPONENTS = {};
@@ -782,19 +980,23 @@ function defineComponent(def) {
 }
 
 /* ---------------------------------------------------------------
- * 2.1 标题 H1~H4
+ * 3.1 标题
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'heading',
   label: '标题',
-  icon: 'H',
+  icon: '📌',
   create: () => ({ level: 1, text: '' }),
   editor(block, ctx) {
     const d = block.data;
     return el('div', { class: 'row' },
-      select(d.level, [['1', 'H1'], ['2', 'H2'], ['3', 'H3'], ['4', 'H4']],
-        (v) => ctx.update({ level: Number(v) })),
-      input(d.text, (v) => ctx.update({ text: v }), '标题文字…')
+      select(d.level, [
+        ['1', '大标题'],
+        ['2', '中标题'],
+        ['3', '小标题'],
+        ['4', '四级标题'],
+      ], (v) => ctx.update({ level: Number(v) })),
+      input(d.text, (v) => ctx.update({ text: v }), '输入标题文字…')
     );
   },
   toMarkdown(b) {
@@ -804,16 +1006,16 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 2.2 正文
+ * 3.2 文字
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'paragraph',
-  label: '正文',
-  icon: '¶',
+  label: '文字',
+  icon: '📝',
   create: () => ({ text: '' }),
   editor(block, ctx) {
     return textarea(block.data.text, (v) => ctx.update({ text: v }),
-      '输入正文，支持 **粗体**、*斜体*、`行内代码`、[链接](https://…) 等行内语法', 3);
+      '输入文字，支持 **粗体**、*斜体*、`行内代码`、[链接](https://…)', 3);
   },
   toMarkdown(b) {
     return (b.data.text || '').trim();
@@ -821,12 +1023,12 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 2.3 表格
+ * 3.3 表格（网格编辑 + 链接支持）
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'table',
   label: '表格',
-  icon: '▦',
+  icon: '📊',
   create: () => ({
     header: ['列 1', '列 2'],
     rows: [['', ''], ['', '']],
@@ -834,36 +1036,67 @@ defineComponent({
   editor(block, ctx) {
     const d = block.data;
     const cols = Math.max(d.header.length, 1);
-    const wrap = el('div', { class: 'te' });
+    const wrap = el('div', { class: 'table-editor' });
+
+    /* 当前聚焦的单元格（用于插入链接） */
+    let activeCell = null;
+
+    function makeCellInput(value, onInputFn, placeholder) {
+      const inp = el('input', {
+        type: 'text',
+        class: 'te-cell',
+        value: value ?? '',
+        placeholder,
+        onInput: (e) => { onInputFn(e.target.value); ctx.touch(); },
+      });
+      inp.addEventListener('focus', () => { activeCell = inp; });
+      return inp;
+    }
+
+    /* ---------- 表格主体 ---------- */
+    const table = el('table', { class: 'te-table' });
 
     /* 表头 */
-    const headRow = el('div', { class: 'te-row te-head', style: `--cols:${cols}` });
+    const thead = el('thead');
+    const headRow = el('tr');
     d.header.forEach((h, ci) => {
-      headRow.append(input(h, (v) => { d.header[ci] = v; ctx.touch(); }, `列 ${ci + 1}`));
+      headRow.append(el('th', {},
+        makeCellInput(h, (v) => { d.header[ci] = v; }, `列${ci + 1}`)
+      ));
     });
-    wrap.append(headRow);
+    headRow.append(el('th', { class: 'te-row-del' }));
+    thead.append(headRow);
+    table.append(thead);
 
     /* 数据行 */
+    const tbody = el('tbody');
     d.rows.forEach((row, ri) => {
-      const rowEl = el('div', { class: 'te-row', style: `--cols:${cols}` });
+      const tr = el('tr');
       row.forEach((cell, ci) => {
-        rowEl.append(input(cell, (v) => { d.rows[ri][ci] = v; ctx.touch(); }, ''));
+        tr.append(el('td', {},
+          makeCellInput(cell, (v) => { d.rows[ri][ci] = v; }, '')
+        ));
       });
-      rowEl.append(el('button', {
-        class: 'btn-icon danger',
-        type: 'button',
-        title: '删除该行',
-        onClick: () => { d.rows.splice(ri, 1); ctx.rerender(); },
-      }, '✕'));
-      wrap.append(rowEl);
+      tr.append(el('td', { class: 'te-row-del' },
+        el('button', {
+          class: 'btn-icon danger',
+          type: 'button',
+          title: '删除此行',
+          onClick: () => { d.rows.splice(ri, 1); ctx.rerender(); },
+        }, '✕')
+      ));
+      tbody.append(tr);
     });
+    table.append(tbody);
 
-    /* 操作栏 */
-    wrap.append(el('div', { class: 'te-actions' },
+    wrap.append(table);
+
+    /* ---------- 工具栏 ---------- */
+    wrap.append(el('div', { class: 'te-toolbar' },
       el('button', {
         class: 'btn tiny', type: 'button',
         onClick: () => { d.rows.push(new Array(cols).fill('')); ctx.rerender(); },
-      }, '+ 行'),
+      }, '＋ 行'),
       el('button', {
         class: 'btn tiny', type: 'button',
         onClick: () => {
@@ -871,7 +1104,7 @@ defineComponent({
           d.rows.forEach((r) => r.push(''));
           ctx.rerender();
         },
-      }, '+ 列'),
+      }, '＋ 列'),
       el('button', {
         class: 'btn tiny', type: 'button',
         disabled: cols <= 1,
@@ -881,7 +1114,26 @@ defineComponent({
           d.rows.forEach((r) => r.pop());
           ctx.rerender();
         },
-      }, '− 列')
+      }, '－ 列'),
+      el('button', {
+        class: 'btn tiny link-trigger', type: 'button',
+        title: '在当前选中的单元格插入链接',
+        onMouseDown: (e) => e.preventDefault(),
+        onClick: (e) => openLinkPopover(e.currentTarget, (text, url) => {
+          if (!activeCell) { toast('请先点击一个表格单元格'); return false; }
+          insertLinkIntoCell(activeCell, text, url);
+          return true;
+        }),
+      }, '🔗 插入链接')
+    ));
+
+    /* ---------- 提示 ---------- */
+    wrap.append(el('div', { class: 'te-hint' },
+      '单元格支持 Markdown 行内语法，例如 ',
+      el('code', {}, '[文字](https://…)'),
+      ' 可插入网页链接，',
+      el('code', {}, '[文字](#标题)'),
+      ' 可跳转到文档内标题。'
     ));
 
     return wrap;
@@ -889,6 +1141,7 @@ defineComponent({
   toMarkdown(b) {
     const { header, rows } = b.data;
     if (!header.length) return '';
+    /* 只转义表格分隔符 |，保留行内 Markdown 语法（链接等） */
     const esc = (s) => String(s ?? '').replace(/\|/g, '\\|');
     const line = (arr) => `| ${arr.map(esc).join(' | ')} |`;
     const sep  = `| ${header.map(() => '---').join(' | ')} |`;
@@ -897,53 +1150,57 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 2.4 图片
+ * 3.4 图片
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'image',
   label: '图片',
-  icon: '▣',
-  create: () => ({ url: '', alt: '', title: '' }),
+  icon: '🖼️',
+  create: () => ({ url: '', alt: '' }),
   editor(block, ctx) {
     const d = block.data;
     return el('div', { class: 'stack' },
       field('图片地址', input(d.url, (v) => ctx.update({ url: v }), 'https://…')),
-      field('替代文字', input(d.alt, (v) => ctx.update({ alt: v }), '图片描述（无障碍 & SEO）')),
-      field('悬停标题', input(d.title, (v) => ctx.update({ title: v }), '可选'))
+      field('图片描述', input(d.alt, (v) => ctx.update({ alt: v }), '可选，用于无障碍 & SEO'))
     );
   },
   toMarkdown(b) {
-    const { url, alt, title } = b.data;
-    const src = (url || '').trim() || 'https://via.placeholder.com/800x400?text=Image';
-    return `![${alt || ''}](${src}${title ? ` "${title}"` : ''})`;
+    const src = (b.data.url || '').trim() || 'https://via.placeholder.com/800x400?text=Image';
+    return `![${b.data.alt || ''}](${src})`;
   },
 });
 
 /* ---------------------------------------------------------------
- * 2.5 代码块
+ * 3.5 代码块
  * ------------------------------------------------------------- */
 const CODE_LANGUAGES = [
-  ['javascript', 'JavaScript'], ['typescript', 'TypeScript'], ['jsx', 'JSX'],
-  ['vue', 'Vue'], ['python', 'Python'], ['java', 'Java'], ['go', 'Go'],
-  ['rust', 'Rust'], ['c', 'C'], ['cpp', 'C++'], ['csharp', 'C#'],
-  ['php', 'PHP'], ['ruby', 'Ruby'], ['swift', 'Swift'], ['kotlin', 'Kotlin'],
-  ['html', 'HTML'], ['css', 'CSS'], ['scss', 'SCSS'], ['json', 'JSON'],
-  ['yaml', 'YAML'], ['xml', 'XML'], ['sql', 'SQL'], ['bash', 'Bash'],
-  ['shell', 'Shell'], ['powershell', 'PowerShell'], ['dockerfile', 'Dockerfile'],
-  ['markdown', 'Markdown'], ['plaintext', '纯文本'],
+  ['javascript', 'JavaScript'], ['typescript', 'TypeScript'],
+  ['python', 'Python'],         ['html', 'HTML'],
+  ['css', 'CSS'],               ['json', 'JSON'],
+  ['bash', 'Bash'],             ['shell', 'Shell'],
+  ['java', 'Java'],             ['go', 'Go'],
+  ['rust', 'Rust'],             ['php', 'PHP'],
+  ['sql', 'SQL'],               ['yaml', 'YAML'],
+  ['xml', 'XML'],               ['markdown', 'Markdown'],
+  ['plaintext', '纯文本'],      ['vue', 'Vue'],
+  ['jsx', 'JSX'],               ['c', 'C'],
+  ['cpp', 'C++'],               ['csharp', 'C#'],
+  ['ruby', 'Ruby'],             ['swift', 'Swift'],
+  ['kotlin', 'Kotlin'],         ['scss', 'SCSS'],
+  ['dockerfile', 'Dockerfile'], ['powershell', 'PowerShell'],
 ];
 
 defineComponent({
   type: 'code',
-  label: '代码块',
-  icon: '</>',
+  label: '代码',
+  icon: '💻',
   create: () => ({ lang: 'javascript', code: '' }),
   editor(block, ctx) {
     const d = block.data;
     return el('div', { class: 'stack' },
       el('div', { class: 'row' },
         select(d.lang, CODE_LANGUAGES, (v) => ctx.update({ lang: v })),
-        el('span', { class: 'hint' }, '选择高亮语言')
+        el('span', { class: 'hint' }, '高亮语言')
       ),
       textarea(d.code, (v) => ctx.update({ code: v }), '在此粘贴代码…', 6)
     );
@@ -956,60 +1213,50 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 2.6 提示框（GitHub Alerts 语法）
+ * 3.6 提示框
  * ------------------------------------------------------------- */
 const ALERT_TYPES = [
-  ['note', 'Note'],
-  ['tip', 'Tip'],
-  ['important', 'Important'],
-  ['warning', 'Warning'],
-  ['caution', 'Caution'],
+  ['note', '💡 提示'],
+  ['tip', '✨ 技巧'],
+  ['warning', '⚠️ 警告'],
 ];
 
 defineComponent({
   type: 'admonition',
-  label: '提示框',
-  icon: '❗',
-  create: () => ({ kind: 'note', title: '', text: '' }),
+  label: '提示',
+  icon: '💡',
+  create: () => ({ kind: 'note', text: '' }),
   editor(block, ctx) {
     const d = block.data;
     return el('div', { class: 'stack' },
-      el('div', { class: 'row' },
-        select(d.kind, ALERT_TYPES, (v) => ctx.update({ kind: v })),
-        input(d.title, (v) => ctx.update({ title: v }), '自定义标题（可选）')
-      ),
+      select(d.kind, ALERT_TYPES, (v) => ctx.update({ kind: v })),
       textarea(d.text, (v) => ctx.update({ text: v }), '提示内容，支持 Markdown…', 3)
     );
   },
   toMarkdown(b) {
-    const { kind, title, text } = b.data;
+    const { kind, text } = b.data;
     const tag = `> [!${(kind || 'note').toUpperCase()}]`;
-
-    const lines = [];
-    if (title && title.trim()) lines.push(`**${title.trim()}**`);
-    (text || '').split('\n').forEach((l) => lines.push(l));
-
-    // 除最后一行外，行尾加两个空格 → 渲染为 <br>，保留用户换行
+    const lines = (text || '').split('\n');
     const quoted = lines.map((l, i) => {
       if (l === '') return '>';
       const isLast = i === lines.length - 1;
       return `> ${l}${isLast ? '' : '  '}`;
     });
-
     return [tag, ...quoted].join('\n');
   },
 });
 
 /* ---------------------------------------------------------------
- * 2.7 引用
+ * 3.7 引用
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'quote',
   label: '引用',
-  icon: '❝',
+  icon: '💬',
   create: () => ({ text: '' }),
   editor(block, ctx) {
-    return textarea(block.data.text, (v) => ctx.update({ text: v }), '引用内容，支持 Markdown…', 3);
+    return textarea(block.data.text, (v) => ctx.update({ text: v }),
+      '引用内容，支持 Markdown…', 3);
   },
   toMarkdown(b) {
     const lines = (b.data.text || '').split('\n');
@@ -1018,7 +1265,7 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 2.8 列表
+ * 3.8 列表
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'list',
@@ -1055,12 +1302,12 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 2.9 分割线
+ * 3.9 分割线
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'hr',
   label: '分割线',
-  icon: '—',
+  icon: '➖',
   create: () => ({}),
   editor() {
     return el('div', { class: 'hint' }, '分割线无需配置，将在预览中显示为一条水平线。');
@@ -1069,12 +1316,12 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 2.10 折叠（Details）
+ * 3.10 折叠
  * ------------------------------------------------------------- */
 defineComponent({
   type: 'details',
   label: '折叠',
-  icon: '▸',
+  icon: '📋',
   create: () => ({ summary: '点击展开', body: '' }),
   editor(block, ctx) {
     const d = block.data;
@@ -1097,7 +1344,7 @@ defineComponent({
 });
 
 /* ---------------------------------------------------------------
- * 工具栏顺序（新增组件时把 type 追加到这里）
+ * 工具栏顺序
  * ------------------------------------------------------------- */
 const TOOLBAR = [
   'heading', 'paragraph', 'table', 'image', 'code',
@@ -1105,22 +1352,16 @@ const TOOLBAR = [
 ];
 
 /* =========================================================================
- * 3. 状态 & 渲染
+ * 4. 状态 & 渲染
  * ========================================================================= */
 
-const state = {
-  blocks: [],
-  seq: 0,
-};
-
+const state = { blocks: [], seq: 0 };
 let previewTimer = null;
 
-/* ---------- DOM 引用 ---------- */
 const previewEl   = $('#preview');
 const blockListEl = $('#blockList');
 const paletteEl   = $('#palette');
 
-/* ---------- 预览调度（防抖） ---------- */
 function schedulePreview() {
   clearTimeout(previewTimer);
   previewTimer = setTimeout(() => {
@@ -1136,7 +1377,7 @@ const THEME_KEY   = 'md-generator:theme';
 function persist() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.blocks));
-  } catch (_) { /* 存储已满或不可用时静默忽略 */ }
+  } catch (_) { /* ignore */ }
 }
 
 function restore() {
@@ -1162,7 +1403,7 @@ function renderBlockList() {
       el('div', { class: 'empty' },
         el('div', { class: 'empty-icon' }, '📝'),
         el('p', {}, '还没有任何内容'),
-        el('p', { class: 'muted' }, '点击上方按钮添加第一个组件')
+        el('p', { class: 'muted' }, '点击上方按钮开始编写')
       )
     );
     return;
@@ -1172,25 +1413,20 @@ function renderBlockList() {
     blockListEl.append(renderBlockCard(block, index));
   });
 
-  // 插入 DOM 后统一修正 textarea 高度
   $$('textarea', blockListEl).forEach(autoGrow);
 }
 
 function renderBlockCard(block, index) {
   const def = COMPONENTS[block.type];
 
-  /* 传给组件编辑器的上下文 */
   const ctx = {
-    /** 更新数据 + 刷新预览（不重建 DOM，避免输入失焦） */
     update(patch) {
       Object.assign(block.data, patch);
       schedulePreview();
     },
-    /** 仅刷新预览（数据已在外部就地修改） */
     touch() {
       schedulePreview();
     },
-    /** 数据结构性变化：重建编辑区 */
     rerender() {
       renderBlockList();
       schedulePreview();
@@ -1256,7 +1492,7 @@ function moveBlock(index, delta) {
 }
 
 /* =========================================================================
- * 4. Markdown 生成
+ * 5. Markdown 生成
  * ========================================================================= */
 
 function buildMarkdown() {
@@ -1278,21 +1514,20 @@ function buildMarkdown() {
 }
 
 /* =========================================================================
- * 5. 预览渲染
+ * 6. 预览渲染
  * ========================================================================= */
 
-/* GitHub Alerts → admonition DOM */
+/* GitHub Alerts → 提示框 DOM */
 const ADMONITION_META = {
-  note:      { icon: 'ℹ️', label: 'Note' },
-  tip:       { icon: '💡', label: 'Tip' },
-  important: { icon: '📌', label: 'Important' },
-  warning:   { icon: '⚠️', label: 'Warning' },
-  caution:   { icon: '🛑', label: 'Caution' },
+  note:      { icon: '💡', label: '提示' },
+  tip:       { icon: '✨', label: '技巧' },
+  important: { icon: '📌', label: '重要' },
+  warning:   { icon: '⚠️', label: '警告' },
+  caution:   { icon: '🛑', label: '注意' },
 };
 
 const ALERT_RE = /\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i;
 
-/** 从节点开头的文本中移除指定前缀（跨多个文本节点安全） */
 function stripLeadingText(root, prefixLength) {
   let remaining = prefixLength;
   let skipping = true;
@@ -1313,7 +1548,6 @@ function stripLeadingText(root, prefixLength) {
   }
 }
 
-/** 把 marked 生成的 blockquote 中的 [!NOTE] 转换成美观的提示框 */
 function transformAlerts(container) {
   Array.from(container.querySelectorAll('blockquote')).forEach((bq) => {
     const firstP = bq.querySelector('p');
@@ -1323,7 +1557,6 @@ function transformAlerts(container) {
     const match = textContent.match(ALERT_RE);
     if (!match) return;
 
-    // 只处理位于首段开头的标记（允许前导空白）
     const idx = textContent.indexOf(match[0]);
     if (idx < 0) return;
     if (textContent.slice(0, idx).trim() !== '') return;
@@ -1331,7 +1564,6 @@ function transformAlerts(container) {
     const kind = match[1].toLowerCase();
     const meta = ADMONITION_META[kind] || ADMONITION_META.note;
 
-    // 移除标记文本
     stripLeadingText(firstP, idx + match[0].length);
     if (!firstP.textContent.trim() && firstP.children.length === 0) {
       firstP.remove();
@@ -1350,17 +1582,13 @@ function transformAlerts(container) {
   });
 }
 
-/** 代码高亮 */
 function highlightCode(container) {
   if (typeof hljs === 'undefined') return;
   container.querySelectorAll('pre code').forEach((block) => {
-    try {
-      hljs.highlightElement(block);
-    } catch (_) { /* 高亮失败不影响渲染 */ }
+    try { hljs.highlightElement(block); } catch (_) { /* ignore */ }
   });
 }
 
-/** 外链新窗口打开 */
 function decorateLinks(container) {
   container.querySelectorAll('a[href]').forEach((a) => {
     const href = a.getAttribute('href') || '';
@@ -1398,7 +1626,7 @@ function renderPreview() {
 }
 
 /* =========================================================================
- * 6. 底部操作
+ * 7. 底部操作
  * ========================================================================= */
 
 async function copyMarkdown() {
@@ -1457,7 +1685,7 @@ function clearAll() {
 }
 
 /* =========================================================================
- * 7. 主题
+ * 8. 主题
  * ========================================================================= */
 
 function applyTheme(theme) {
@@ -1475,18 +1703,32 @@ function initTheme() {
   try { saved = localStorage.getItem(THEME_KEY); } catch (_) { /* ignore */ }
 
   let prefersDark = false;
-  try {
-    prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  } catch (_) { /* ignore */ }
+  try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; }
+  catch (_) { /* ignore */ }
 
   applyTheme(saved || (prefersDark ? 'dark' : 'light'));
 }
 
 /* =========================================================================
- * 8. 初始化
+ * 9. 初始化
  * ========================================================================= */
 
-/** 首次打开时的示例内容 */
+/** 配置 marked：为标题自动生成锚点 id，支持 #标题 跳转 */
+function configureMarked() {
+  if (typeof marked === 'undefined') return;
+  marked.use({
+    renderer: {
+      heading(token) {
+        const { tokens, depth, text } = token;
+        const htmlText = this.parser.parseInline(tokens);
+        const id = slugify(text || '');
+        const idAttr = id ? ` id="${String(id).replace(/"/g, '&quot;')}"` : '';
+        return `<h${depth}${idAttr}>${htmlText}</h${depth}>\n`;
+      },
+    },
+  });
+}
+
 function seedDefault() {
   const push = (type, data) => {
     const def = COMPONENTS[type];
@@ -1503,8 +1745,7 @@ function seedDefault() {
   });
   push('admonition', {
     kind: 'tip',
-    title: '小提示',
-    text: '点击左侧上方的按钮即可添加标题、表格、代码块、提示框等组件。',
+    text: '点击左侧上方的按钮即可添加标题、表格、代码块、提示等组件。',
   });
   push('code', {
     lang: 'javascript',
@@ -1541,7 +1782,6 @@ function bindEvents() {
   $('#btnDownload').addEventListener('click', downloadMarkdown);
   $('#btnClear').addEventListener('click', clearAll);
 
-  /* Ctrl / ⌘ + S 下载 */
   window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
       e.preventDefault();
@@ -1555,6 +1795,7 @@ function init() {
     try { hljs.configure({ ignoreUnescapedHTML: true }); } catch (_) { /* ignore */ }
   }
 
+  configureMarked();
   renderPalette();
 
   const hasSaved = restore();
