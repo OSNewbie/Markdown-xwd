@@ -9,9 +9,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
 <style>
-/* =========================================================
- *  1. 设计变量
- * =======================================================*/
 :root {
   --bg:#fff; --bg-soft:#f6f8fa; --bg-elev:#fff;
   --fg:#1f2328; --fg-muted:#59636e;
@@ -47,9 +44,6 @@
   --adm-caution:#f85149; --adm-caution-bg:rgba(248,81,73,.10);
 }
 
-/* =========================================================
- *  2. 基础布局
- * =======================================================*/
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 body {
@@ -124,9 +118,6 @@ body {
 }
 .spacer { flex: 1 1 auto; }
 
-/* =========================================================
- *  3. 通用控件
- * =======================================================*/
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   gap: 6px; padding: 7px 14px;
@@ -182,9 +173,6 @@ body {
 }
 .seg-btn.active { color: var(--fg); background: var(--bg-elev); box-shadow: var(--shadow); }
 
-/* =========================================================
- *  4. Palette
- * =======================================================*/
 .palette {
   flex: 0 0 auto;
   display: flex; flex-wrap: wrap; gap: 6px;
@@ -203,9 +191,6 @@ body {
 .pal-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .pal-btn .ico { font-size: 14px; line-height: 1; }
 
-/* =========================================================
- *  5. 卡片
- * =======================================================*/
 .card {
   margin: 10px 12px;
   background: var(--bg-elev);
@@ -214,18 +199,22 @@ body {
   transition: border-color .15s, box-shadow .15s;
 }
 .card:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.card.card-unknown { border-color: var(--danger); }
+.card.card-unknown:focus-within { box-shadow: 0 0 0 3px var(--danger-soft); }
 .card-head {
   display: flex; align-items: center; gap: 8px;
   padding: 5px 6px 5px 10px;
   background: var(--bg-soft);
   border-bottom: 1px solid var(--border-soft);
 }
+.card.card-unknown .card-head { background: var(--danger-soft); }
 .card-badge {
   display: grid; place-items: center;
   min-width: 20px; height: 20px; padding: 0 4px;
   font-size: 12px; line-height: 1;
   color: var(--accent); background: var(--accent-soft); border-radius: 5px;
 }
+.card.card-unknown .card-badge { color: var(--danger); background: rgba(207,34,46,.15); }
 .card-title { flex: 1 1 auto; font-size: 12.5px; font-weight: 600; color: var(--fg-muted); }
 .card-actions { display: flex; gap: 2px; }
 .card-body { padding: 10px; }
@@ -239,9 +228,6 @@ body {
 .empty p { margin: 0; font-size: 13.5px; }
 .empty .muted { font-size: 12.5px; opacity: .75; }
 
-/* =========================================================
- *  6. 表格
- * =======================================================*/
 .table-editor { overflow-x: auto; margin: 0 -2px; }
 .te-table { width: 100%; min-width: 260px; border-collapse: collapse; font-size: 13px; table-layout: auto; }
 .te-table th, .te-table td { border: 1px solid var(--border); padding: 0; vertical-align: middle; }
@@ -265,9 +251,6 @@ body {
   background: var(--code-bg); border-radius: 4px;
 }
 
-/* =========================================================
- *  7. 预览
- * =======================================================*/
 .markdown-body {
   max-width: 900px; margin: 0 auto;
   padding: 28px 34px 100px;
@@ -386,11 +369,38 @@ body {
   display: flex; align-items: center; justify-content: center;
   min-height: 55vh; padding: 40px;
   font-size: 14px; color: var(--fg-muted); text-align: center;
+  flex-direction: column; gap: 10px;
 }
 
-/* =========================================================
- *  8. 链接浮层
- * =======================================================*/
+.preview-fallback {
+  margin: 0 auto;
+  padding: 20px 24px;
+  max-width: 900px;
+}
+.preview-fallback .fallback-note {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  background: var(--danger-soft);
+  border-left: 3px solid var(--danger);
+  border-radius: 6px;
+}
+.preview-fallback pre {
+  margin: 0; padding: 14px 16px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--pre-bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+
 .link-pop {
   position: fixed; z-index: 1000; width: 300px;
   padding: 12px;
@@ -405,9 +415,6 @@ body {
 .link-pop .link-hint { font-size: 11.5px; color: var(--fg-muted); line-height: 1.5; }
 .link-pop .link-actions { display: flex; gap: 6px; justify-content: flex-end; margin-top: 2px; }
 
-/* =========================================================
- *  9. 语法速查
- * =======================================================*/
 .guide-overlay {
   position: fixed; inset: 0; z-index: 2000;
   display: flex; align-items: center; justify-content: center;
@@ -502,9 +509,6 @@ body {
   .guide-item-code { font-size: 11.5px; }
 }
 
-/* =========================================================
- *  10. Toast
- * =======================================================*/
 .toast {
   position: fixed; left: 50%; bottom: 78px;
   transform: translate(-50%, 12px);
@@ -520,9 +524,6 @@ body {
 [data-theme="dark"] .toast { background: #3d444d; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-/* =========================================================
- *  11. 响应式
- * =======================================================*/
 @media (max-width: 880px) {
   body { overflow: auto; }
   .app { height: auto; min-height: 100dvh; }
@@ -585,7 +586,12 @@ body {
 
 <script>
 /* =========================================================================
- * Markdown 文档生成器（双语 + 语法速查）—— 修复版
+ * Markdown 文档生成器 —— 稳定版
+ * 核心改进：
+ *   1. 完全移除 marked.use 自定义 renderer（崩溃根源）
+ *   2. 三级解析兜底：正常解析 → 清理重试 → 展示源码
+ *   3. restore 时 normalize 所有数据，兼容旧版本字段
+ *   4. 未知组件降级为 unknown 卡片，数据不丢失
  * ========================================================================= */
 
 /* ---------- 1. 工具函数 ---------- */
@@ -609,6 +615,13 @@ function el(tag, attrs = {}, ...children) {
   }
   return node;
 }
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
 function input(value, onInput, placeholder = '') {
   return el('input', {
     type: 'text', class: 'input',
@@ -616,16 +629,19 @@ function input(value, onInput, placeholder = '') {
     onInput: (e) => onInput(e.target.value),
   });
 }
+
 function textarea(value, onInput, placeholder = '', rows = 3) {
   const ta = el('textarea', { class: 'input textarea', placeholder, rows });
   ta.value = value ?? '';
   ta.addEventListener('input', () => { onInput(ta.value); autoGrow(ta); });
   return ta;
 }
+
 function autoGrow(ta) {
   ta.style.height = 'auto';
   ta.style.height = Math.max(ta.scrollHeight, 62) + 'px';
 }
+
 function select(value, options, onChange) {
   const sel = el('select', { class: 'input select' });
   for (const [val, label] of options) {
@@ -636,12 +652,14 @@ function select(value, options, onChange) {
   sel.addEventListener('change', () => onChange(sel.value));
   return sel;
 }
+
 function field(labelText, control) {
   return el('div', { class: 'field' },
     el('span', { class: 'field-label' }, labelText),
     control
   );
 }
+
 let toastTimer = null;
 function toast(message) {
   let node = $('.toast');
@@ -654,6 +672,7 @@ function toast(message) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => node.classList.remove('show'), 1900);
 }
+
 function slugify(text) {
   return String(text ?? '')
     .trim().toLowerCase()
@@ -682,6 +701,7 @@ const I18N = {
     heading: '标题', paragraph: '文字', table: '表格', image: '图片',
     code: '代码', admonition: '提示', quote: '引用', list: '列表',
     hr: '分割线', details: '折叠',
+    unknown: '未知组件',
     h1: '大标题', h2: '中标题', h3: '小标题', h4: '四级标题',
     note: '💡 提示', tip: '✨ 技巧', warning: '⚠️ 警告',
     headingPlaceholder: '输入标题文字…',
@@ -707,7 +727,8 @@ const I18N = {
     emptyTitle: '还没有任何内容',
     emptyHint: '点击上方按钮开始编写',
     previewEmpty: '在左侧添加组件后，这里会实时渲染 Markdown 预览',
-    previewError: 'Markdown 解析失败，请检查内容',
+    previewFallbackNote: 'Markdown 渲染遇到了问题，下面是原始内容（你仍可复制或下载）。',
+    previewFallbackLib: '渲染库未加载，下面是原始内容。',
     nothingToCopy: '还没有内容可复制',
     copied: 'Markdown 已复制到剪贴板',
     nothingToDownload: '还没有内容可下载',
@@ -727,6 +748,9 @@ const I18N = {
     sampleTitle: '我的文档',
     sampleParagraph: '这是一个使用 **Markdown 文档生成器** 创建的文档：左侧编辑，右侧实时预览。',
     sampleTip: '点击左侧上方的按钮即可添加标题、表格、代码块、提示等组件。',
+    unknownTypeHint: '此组件来自旧版本或未知来源，数据已保留但不能编辑，你可以删除它。',
+    unknownOriginalType: '原始类型',
+    unknownRawData: '原始数据',
   },
   en: {
     appTitle: 'Markdown Document Generator',
@@ -744,6 +768,7 @@ const I18N = {
     heading: 'Heading', paragraph: 'Text', table: 'Table', image: 'Image',
     code: 'Code', admonition: 'Callout', quote: 'Quote', list: 'List',
     hr: 'Divider', details: 'Details',
+    unknown: 'Unknown',
     h1: 'Heading 1', h2: 'Heading 2', h3: 'Heading 3', h4: 'Heading 4',
     note: '💡 Note', tip: '✨ Tip', warning: '⚠️ Warning',
     headingPlaceholder: 'Enter heading text…',
@@ -769,7 +794,8 @@ const I18N = {
     emptyTitle: 'Nothing here yet',
     emptyHint: 'Click a button above to start',
     previewEmpty: 'Add components on the left. Preview will appear here in real time.',
-    previewError: 'Failed to parse Markdown, please check the content.',
+    previewFallbackNote: 'Markdown rendering ran into a problem. The raw content is shown below (you can still copy or download it).',
+    previewFallbackLib: 'Rendering library is unavailable. The raw content is shown below.',
     nothingToCopy: 'Nothing to copy',
     copied: 'Markdown copied to clipboard',
     nothingToDownload: 'Nothing to download',
@@ -789,6 +815,9 @@ const I18N = {
     sampleTitle: 'My Document',
     sampleParagraph: 'This document is built with the **Markdown Document Generator**: edit on the left, see the preview on the right in real time.',
     sampleTip: 'Click the buttons above to add headings, tables, code blocks, callouts, and more.',
+    unknownTypeHint: 'This component came from an older version or an unknown source. Its data is preserved but cannot be edited. You can delete it.',
+    unknownOriginalType: 'Original type',
+    unknownRawData: 'Raw data',
   },
 };
 const LANG_KEY = 'md-generator:lang';
@@ -809,8 +838,7 @@ const state = {
   userEdited: false,
 };
 function t(key) {
-  return (I18N[state.lang] && I18N[state.lang][key])
-      ?? I18N.zh[key] ?? key;
+  return (I18N[state.lang] && I18N[state.lang][key]) ?? I18N.zh[key] ?? key;
 }
 function saveLang() {
   try { localStorage.setItem(LANG_KEY, state.lang); } catch (_) { /* ignore */ }
@@ -1099,7 +1127,7 @@ defineComponent({
   },
   toMarkdown(b) {
     const { header, rows } = b.data;
-    if (!header.length) return '';
+    if (!Array.isArray(header) || !header.length) return '';
     const esc = (s) => String(s ?? '').replace(/\|/g, '\\|');
     const line = (arr) => `| ${arr.map(esc).join(' | ')} |`;
     const sep = `| ${header.map(() => '---').join(' | ')} |`;
@@ -1246,12 +1274,116 @@ defineComponent({
   },
 });
 
+/* ★ 未知组件降级：数据不丢失，允许用户查看和删除 */
+defineComponent({
+  type: 'unknown', icon: '❓',
+  create: () => ({ originalType: '', rawData: null }),
+  editor(block) {
+    const d = block.data;
+    let rawStr = '';
+    try { rawStr = JSON.stringify(d.rawData, null, 2); }
+    catch (_) { rawStr = String(d.rawData); }
+    if (!rawStr) rawStr = '(empty)';
+    return el('div', { class: 'stack' },
+      el('div', { class: 'hint' }, t('unknownTypeHint')),
+      field(t('unknownOriginalType'), el('div', { class: 'hint' }, d.originalType || '(none)')),
+      field(t('unknownRawData'), el('pre', {
+        class: 'input',
+        style: 'max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-all;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;',
+      }, rawStr))
+    );
+  },
+  toMarkdown() { return ''; },
+});
+
 const TOOLBAR = [
   'heading', 'paragraph', 'table', 'image', 'code',
   'admonition', 'quote', 'list', 'hr', 'details',
 ];
 
-/* ---------- 7. 状态渲染 ---------- */
+/* ---------- 7. 数据 normalize（兼容旧内容） ---------- */
+function normalizeData(type, raw) {
+  const def = COMPONENTS[type];
+  const base = def.create();
+  const src  = (raw && typeof raw === 'object') ? raw : {};
+  const merged = Object.assign({}, base, src);
+
+  /* 通用：确保特定字段是字符串 */
+  ['text', 'code', 'url', 'alt', 'summary', 'body', 'items', 'lang'].forEach((k) => {
+    if (k in merged && merged[k] != null && typeof merged[k] !== 'string') {
+      merged[k] = String(merged[k]);
+    }
+  });
+
+  /* 类型特定 normalize */
+  if (type === 'heading') {
+    const lv = Number(merged.level);
+    merged.level = [1, 2, 3, 4].includes(lv) ? lv : 1;
+    if (typeof merged.text !== 'string') merged.text = '';
+  } else if (type === 'table') {
+    if (!Array.isArray(merged.header)) merged.header = base.header.slice();
+    if (!Array.isArray(merged.rows))   merged.rows   = base.rows.slice();
+    merged.header = merged.header.map((h) => String(h ?? ''));
+    merged.rows = merged.rows.map((r) => Array.isArray(r) ? r.map((c) => String(c ?? '')) : []);
+    const cols = merged.header.length;
+    merged.rows = merged.rows.map((r) => {
+      const out = r.slice(0, cols);
+      while (out.length < cols) out.push('');
+      return out;
+    });
+    if (!merged.header.length) merged.header = base.header.slice();
+  } else if (type === 'admonition') {
+    if (!['note', 'tip', 'warning', 'important', 'caution'].includes(merged.kind)) {
+      merged.kind = 'note';
+    }
+    if (typeof merged.text !== 'string') merged.text = '';
+  } else if (type === 'image') {
+    if (typeof merged.url !== 'string') merged.url = '';
+    if (typeof merged.alt !== 'string') merged.alt = '';
+  } else if (type === 'code') {
+    if (typeof merged.lang !== 'string' || !merged.lang) merged.lang = 'plaintext';
+    if (typeof merged.code !== 'string') merged.code = '';
+  } else if (type === 'paragraph' || type === 'quote') {
+    if (typeof merged.text !== 'string') merged.text = '';
+  } else if (type === 'list') {
+    merged.ordered = !!merged.ordered;
+    if (typeof merged.items !== 'string') merged.items = '';
+  } else if (type === 'details') {
+    if (typeof merged.summary !== 'string') merged.summary = '';
+    if (typeof merged.body    !== 'string') merged.body    = '';
+  } else if (type === 'hr') {
+    /* 无需 normalize */
+  }
+
+  return merged;
+}
+
+function normalizeBlock(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const type = String(raw.type || '');
+  let id = Number(raw.id);
+  if (!Number.isFinite(id) || id <= 0) id = ++state.seq;
+  else state.seq = Math.max(state.seq, id);
+
+  /* 已知类型：合并默认值 + 类型特定 normalize */
+  if (COMPONENTS[type] && type !== 'unknown') {
+    return { id, type, data: normalizeData(type, raw.data) };
+  }
+
+  /* 未知类型：如果连 raw.data 都没有意义就丢弃 */
+  if (!raw.data && !type) return null;
+
+  return {
+    id,
+    type: 'unknown',
+    data: {
+      originalType: type || '(none)',
+      rawData: raw.data ?? null,
+    },
+  };
+}
+
+/* ---------- 8. 状态渲染 ---------- */
 let previewTimer = null;
 const previewEl   = $('#preview');
 const blockListEl = $('#blockList');
@@ -1266,16 +1398,25 @@ const THEME_KEY = 'md-generator:theme';
 function persist() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.blocks)); } catch (_) { /* ignore */ }
 }
+
 function restore() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return false;
     const data = JSON.parse(raw);
     if (!Array.isArray(data)) return false;
-    state.blocks = data.filter((b) => b && COMPONENTS[b.type]);
-    state.seq = state.blocks.reduce((m, b) => Math.max(m, Number(b.id) || 0), 0);
+
+    state.blocks = [];
+    state.seq = 0;
+    data.forEach((rawBlock) => {
+      const normalized = normalizeBlock(rawBlock);
+      if (normalized) state.blocks.push(normalized);
+    });
     return state.blocks.length > 0;
-  } catch (_) { return false; }
+  } catch (e) {
+    console.warn('restore failed:', e);
+    return false;
+  }
 }
 
 function renderBlockList() {
@@ -1297,19 +1438,20 @@ function renderBlockList() {
 }
 
 function renderBlockCard(block, index) {
-  const def = COMPONENTS[block.type];
+  const def = COMPONENTS[block.type] || COMPONENTS.unknown;
+  const isUnknown = block.type === 'unknown';
   const ctx = {
     update(patch) { Object.assign(block.data, patch); state.userEdited = true; schedulePreview(); },
     touch() { state.userEdited = true; schedulePreview(); },
     rerender() { state.userEdited = true; renderBlockList(); schedulePreview(); },
   };
-  return el('div', { class: 'card', 'data-id': block.id },
+  return el('div', { class: 'card' + (isUnknown ? ' card-unknown' : ''), 'data-id': block.id },
     el('div', { class: 'card-head' },
       el('span', { class: 'card-badge' }, def.icon),
       el('span', { class: 'card-title' }, t(def.type)),
       el('div', { class: 'card-actions' },
-        el('button', { class: 'btn-icon', type: 'button', title: t('moveUp'), onClick: () => moveBlock(index, -1) }, '↑'),
-        el('button', { class: 'btn-icon', type: 'button', title: t('moveDown'), onClick: () => moveBlock(index, 1) }, '↓'),
+        isUnknown ? null : el('button', { class: 'btn-icon', type: 'button', title: t('moveUp'), onClick: () => moveBlock(index, -1) }, '↑'),
+        isUnknown ? null : el('button', { class: 'btn-icon', type: 'button', title: t('moveDown'), onClick: () => moveBlock(index, 1) }, '↓'),
         el('button', { class: 'btn-icon danger', type: 'button', title: t('delete'), onClick: () => removeBlock(index) }, '✕')
       )
     ),
@@ -1349,21 +1491,28 @@ function moveBlock(index, delta) {
   schedulePreview();
 }
 
-/* ---------- 8. Markdown 生成 ---------- */
+/* ---------- 9. Markdown 生成（加固） ---------- */
 function buildMarkdown() {
-  const parts = state.blocks
-    .map((block) => {
-      const def = COMPONENTS[block.type];
-      if (!def) return '';
-      try { return def.toMarkdown(block) || ''; }
-      catch (err) { console.warn('Component toMarkdown failed:', block.type, err); return ''; }
-    })
-    .map((s) => String(s).trim())
-    .filter((s) => s !== '');
-  return parts.length ? parts.join('\n\n') : '';
+  const parts = [];
+  state.blocks.forEach((block) => {
+    const def = COMPONENTS[block.type];
+    if (!def || typeof def.toMarkdown !== 'function') return;
+    let out;
+    try {
+      out = def.toMarkdown(block);
+    } catch (err) {
+      console.warn('toMarkdown failed:', block.type, err);
+      return;
+    }
+    if (out == null) return;
+    if (typeof out !== 'string') out = String(out);
+    out = out.trim();
+    if (out) parts.push(out);
+  });
+  return parts.join('\n\n');
 }
 
-/* ---------- 9. 预览渲染 ---------- */
+/* ---------- 10. 预览渲染（三级兜底） ---------- */
 function admonitionMeta() {
   return {
     note:      { icon: '💡', label: t('admNote') },
@@ -1421,7 +1570,7 @@ function transformAlerts(container) {
   });
 }
 
-/* 修复点：不用自定义 renderer，改为渲染后遍历 DOM 补 id */
+/* 后处理：为标题补 id（不再依赖 marked 的自定义 renderer） */
 function addHeadingIds(container) {
   container.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((h) => {
     if (h.id) return;
@@ -1446,30 +1595,82 @@ function decorateLinks(container) {
   });
 }
 
+/* 三级解析兜底：永远返回 HTML 字符串，不会抛异常 */
+function safeParse(md) {
+  if (typeof md !== 'string') md = String(md ?? '');
+  if (!md.trim()) return '';
+
+  /* 渲染库不可用 */
+  if (typeof marked === 'undefined' || typeof marked.parse !== 'function') {
+    return {
+      html: `<div class="preview-fallback">
+               <div class="fallback-note">${escapeHtml(t('previewFallbackLib'))}</div>
+               <pre>${escapeHtml(md)}</pre>
+             </div>`,
+      ok: false,
+    };
+  }
+
+  /* 尝试 1：正常解析 */
+  try {
+    const html = marked.parse(md, { gfm: true, breaks: false });
+    if (typeof html === 'string' && html.length) return { html, ok: true };
+  } catch (e1) {
+    console.warn('[safeParse] attempt 1 failed:', e1);
+  }
+
+  /* 尝试 2：清理控制字符后重试 */
+  try {
+    const cleaned = md.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+    const html = marked.parse(cleaned, { gfm: true, breaks: false });
+    if (typeof html === 'string' && html.length) return { html, ok: true };
+  } catch (e2) {
+    console.warn('[safeParse] attempt 2 failed:', e2);
+  }
+
+  /* 尝试 3：老式 API（marked v4 / 兼容） */
+  try {
+    if (typeof marked === 'function') {
+      const html = marked(md);
+      if (typeof html === 'string' && html.length) return { html, ok: true };
+    }
+  } catch (e3) {
+    console.warn('[safeParse] attempt 3 failed:', e3);
+  }
+
+  /* 兜底：显示源码 */
+  return {
+    html: `<div class="preview-fallback">
+             <div class="fallback-note">${escapeHtml(t('previewFallbackNote'))}</div>
+             <pre>${escapeHtml(md)}</pre>
+           </div>`,
+    ok: false,
+  };
+}
+
 function renderPreview() {
   const md = buildMarkdown();
   if (!md.trim()) {
-    previewEl.innerHTML = `<div class="preview-empty">${t('previewEmpty')}</div>`;
+    previewEl.innerHTML = `<div class="preview-empty">${escapeHtml(t('previewEmpty'))}</div>`;
     return;
   }
-  let html;
-  try {
-    html = (typeof marked !== 'undefined')
-      ? marked.parse(md, { gfm: true, breaks: false })
-      : `<pre>${md.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</pre>`;
-  } catch (err) {
-    console.error('Markdown parse failed:', err);
-    previewEl.innerHTML = `<div class="preview-empty">${t('previewError')}<br><small style="opacity:.7;font-size:12px">${String(err && err.message || err)}</small></div>`;
+
+  const { html, ok } = safeParse(md);
+
+  if (!ok) {
+    /* 解析彻底失败：直接显示 fallback HTML，跳过 DOM 后处理 */
+    previewEl.innerHTML = html;
     return;
   }
+
   previewEl.innerHTML = html;
-  addHeadingIds(previewEl);   /* ← 新增：后处理补标题 id */
+  addHeadingIds(previewEl);
   transformAlerts(previewEl);
   highlightCode(previewEl);
   decorateLinks(previewEl);
 }
 
-/* ---------- 10. 语法速查 Modal ---------- */
+/* ---------- 11. 语法速查 Modal ---------- */
 let guideOverlayEl = null;
 
 function buildGuide() {
@@ -1486,18 +1687,18 @@ function buildGuide() {
       if (item.note) itemEl.append(el('div', { class: 'guide-item-note' }, item.note));
       itemEl.append(el('pre', { class: 'guide-item-code' }, item.code));
       const resultEl = el('div', { class: 'markdown-body guide-item-result' });
-      try {
-        if (typeof marked !== 'undefined') {
-          resultEl.innerHTML = marked.parse(item.code, { gfm: true, breaks: false });
-          addHeadingIds(resultEl);   /* ← 新增 */
+      const { html, ok } = safeParse(item.code);
+      if (ok) {
+        resultEl.innerHTML = html;
+        try {
+          addHeadingIds(resultEl);
           transformAlerts(resultEl);
           highlightCode(resultEl);
           decorateLinks(resultEl);
-        } else {
-          resultEl.textContent = item.code;
+        } catch (e) {
+          console.warn('guide post-process failed:', e);
         }
-      } catch (err) {
-        console.warn('Guide example parse failed:', err);
+      } else {
         resultEl.textContent = item.code;
       }
       itemEl.append(resultEl);
@@ -1528,7 +1729,7 @@ function isGuideOpen() {
   return !!guideOverlayEl && guideOverlayEl.classList.contains('open');
 }
 
-/* ---------- 11. 底部操作 ---------- */
+/* ---------- 12. 底部操作 ---------- */
 async function copyMarkdown() {
   const md = buildMarkdown();
   if (!md.trim()) { toast(t('nothingToCopy')); return; }
@@ -1579,7 +1780,7 @@ function clearAll() {
   toast(t('cleared'));
 }
 
-/* ---------- 12. 主题 ---------- */
+/* ---------- 13. 主题 ---------- */
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   const btn = $('#themeToggle');
@@ -1597,7 +1798,7 @@ function initTheme() {
   applyTheme(saved || (prefersDark ? 'dark' : 'light'));
 }
 
-/* ---------- 13. 语言切换 ---------- */
+/* ---------- 14. 语言切换 ---------- */
 function updateChromeText() {
   document.documentElement.setAttribute('lang', state.lang === 'zh' ? 'zh-CN' : 'en');
   document.title = t('appTitle');
@@ -1634,17 +1835,7 @@ function toggleLanguage() {
   applyLanguage();
 }
 
-/* ---------- 14. 初始化 ---------- */
-/* 修复点：不再注册自定义 heading renderer，只做基础配置 */
-function configureMarked() {
-  if (typeof marked === 'undefined') return;
-  try {
-    if (typeof marked.setOptions === 'function') {
-      marked.setOptions({ gfm: true, breaks: false });
-    }
-  } catch (_) { /* ignore */ }
-}
-
+/* ---------- 15. 初始化 ---------- */
 function seedDefault() {
   const push = (type, data) => {
     const def = COMPONENTS[type];
@@ -1707,7 +1898,7 @@ function init() {
   if (typeof hljs !== 'undefined') {
     try { hljs.configure({ ignoreUnescapedHTML: true }); } catch (_) { /* ignore */ }
   }
-  configureMarked();
+  /* 不再配置任何 marked renderer —— 使用 marked 默认配置 + 后处理 */
   updateChromeText();
   const hasSaved = restore();
   if (hasSaved) state.userEdited = true;
