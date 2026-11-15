@@ -7,6 +7,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 
 <style>
 :root {
@@ -43,44 +44,31 @@
   --adm-warning:#d29922; --adm-warning-bg:rgba(210,153,34,.10);
   --adm-caution:#f85149; --adm-caution-bg:rgba(248,81,73,.10);
 }
-
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-               Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
-  background: var(--bg); color: var(--fg);
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px; background: var(--bg); color: var(--fg);
+  overflow: hidden; -webkit-font-smoothing: antialiased;
 }
 .app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
 
 .topbar {
   flex: 0 0 auto; height: 52px;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-elev);
+  padding: 0 16px; border-bottom: 1px solid var(--border); background: var(--bg-elev);
 }
 .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .brand-mark {
   display: grid; place-items: center;
-  flex: 0 0 auto; width: 28px; height: 28px;
-  border-radius: 7px;
-  background: var(--accent); color: #fff;
-  font-weight: 700; font-size: 13px; letter-spacing: -.5px;
+  flex: 0 0 auto; width: 28px; height: 28px; border-radius: 7px;
+  background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; letter-spacing: -.5px;
 }
-.brand-name {
-  font-weight: 600; font-size: 14.5px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.brand-name { font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .topbar-actions { display: flex; gap: 6px; align-items: center; }
-
 .lang-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  min-width: 34px; height: 26px;
-  padding: 0 8px;
+  min-width: 34px; height: 26px; padding: 0 8px;
   font-family: inherit; font-size: 12px; font-weight: 600;
   color: var(--fg-muted); background: transparent;
   border: 1px solid var(--border); border-radius: 6px;
@@ -93,14 +81,29 @@ body {
 .pane-editor  { flex: 0 0 46%; border-right: 1px solid var(--border); }
 .pane-preview { flex: 1 1 0; background: var(--bg); }
 
+.page-bar {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-elev); border-bottom: 1px solid var(--border);
+}
+.page-select {
+  flex: 1 1 auto; min-width: 0;
+  padding: 5px 9px;
+  font-family: inherit; font-size: 13px;
+  color: var(--fg); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.page-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
 .pane-head {
   flex: 0 0 auto;
   display: flex; align-items: center; justify-content: space-between;
   gap: 8px; padding: 9px 14px;
-  font-size: 11.5px; font-weight: 600;
-  letter-spacing: .05em; text-transform: uppercase;
-  color: var(--fg-muted);
-  background: var(--bg-soft);
+  font-size: 11.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--fg-muted); background: var(--bg-soft);
   border-bottom: 1px solid var(--border);
 }
 .pane-body { flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; min-height: 0; }
@@ -113,8 +116,7 @@ body {
   flex: 0 0 auto;
   display: flex; align-items: center; gap: 10px;
   padding: 11px 16px;
-  border-top: 1px solid var(--border);
-  background: var(--bg-elev);
+  border-top: 1px solid var(--border); background: var(--bg-elev);
 }
 .spacer { flex: 1 1 auto; }
 
@@ -166,20 +168,10 @@ body {
 .hint { font-size: 12px; color: var(--fg-muted); }
 
 .seg { display: inline-flex; padding: 2px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 7px; align-self: flex-start; }
-.seg-btn {
-  padding: 4px 12px; font-family: inherit; font-size: 12.5px;
-  color: var(--fg-muted); background: transparent;
-  border: none; border-radius: 5px; cursor: pointer; transition: .15s;
-}
+.seg-btn { padding: 4px 12px; font-family: inherit; font-size: 12.5px; color: var(--fg-muted); background: transparent; border: none; border-radius: 5px; cursor: pointer; transition: .15s; }
 .seg-btn.active { color: var(--fg); background: var(--bg-elev); box-shadow: var(--shadow); }
 
-.palette {
-  flex: 0 0 auto;
-  display: flex; flex-wrap: wrap; gap: 6px;
-  padding: 10px 12px;
-  background: var(--bg-soft);
-  border-bottom: 1px solid var(--border);
-}
+.palette { flex: 0 0 auto; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px; background: var(--bg-soft); border-bottom: 1px solid var(--border); }
 .pal-btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px;
@@ -191,39 +183,19 @@ body {
 .pal-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .pal-btn .ico { font-size: 14px; line-height: 1; }
 
-.card {
-  margin: 10px 12px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: 9px; overflow: hidden;
-  transition: border-color .15s, box-shadow .15s;
-}
+.card { margin: 10px 12px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; transition: border-color .15s, box-shadow .15s; }
 .card:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .card.card-unknown { border-color: var(--danger); }
 .card.card-unknown:focus-within { box-shadow: 0 0 0 3px var(--danger-soft); }
-.card-head {
-  display: flex; align-items: center; gap: 8px;
-  padding: 5px 6px 5px 10px;
-  background: var(--bg-soft);
-  border-bottom: 1px solid var(--border-soft);
-}
+.card-head { display: flex; align-items: center; gap: 8px; padding: 5px 6px 5px 10px; background: var(--bg-soft); border-bottom: 1px solid var(--border-soft); }
 .card.card-unknown .card-head { background: var(--danger-soft); }
-.card-badge {
-  display: grid; place-items: center;
-  min-width: 20px; height: 20px; padding: 0 4px;
-  font-size: 12px; line-height: 1;
-  color: var(--accent); background: var(--accent-soft); border-radius: 5px;
-}
+.card-badge { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; font-size: 12px; line-height: 1; color: var(--accent); background: var(--accent-soft); border-radius: 5px; }
 .card.card-unknown .card-badge { color: var(--danger); background: rgba(207,34,46,.15); }
 .card-title { flex: 1 1 auto; font-size: 12.5px; font-weight: 600; color: var(--fg-muted); }
 .card-actions { display: flex; gap: 2px; }
 .card-body { padding: 10px; }
 
-.empty {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 4px; padding: 60px 20px;
-  color: var(--fg-muted); text-align: center;
-}
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 60px 20px; color: var(--fg-muted); text-align: center; }
 .empty-icon { font-size: 32px; opacity: .55; margin-bottom: 6px; }
 .empty p { margin: 0; font-size: 13.5px; }
 .empty .muted { font-size: 12.5px; opacity: .75; }
@@ -232,11 +204,7 @@ body {
 .te-table { width: 100%; min-width: 260px; border-collapse: collapse; font-size: 13px; table-layout: auto; }
 .te-table th, .te-table td { border: 1px solid var(--border); padding: 0; vertical-align: middle; }
 .te-table th { background: var(--bg-soft); }
-.te-cell {
-  display: block; width: 100%; min-width: 60px;
-  border: none; outline: none; padding: 7px 10px;
-  background: transparent; font: inherit; color: var(--fg); border-radius: 0;
-}
+.te-cell { display: block; width: 100%; min-width: 60px; border: none; outline: none; padding: 7px 10px; background: transparent; font: inherit; color: var(--fg); border-radius: 0; }
 .te-cell:focus { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
 .te-cell::placeholder { color: var(--fg-muted); opacity: .6; }
 .te-table th .te-cell { font-weight: 600; }
@@ -244,105 +212,72 @@ body {
 .te-row-del .btn-icon { display: inline-flex; margin: 2px; }
 .te-toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .te-hint { margin-top: 6px; font-size: 12px; color: var(--fg-muted); line-height: 1.5; }
-.te-hint code {
-  padding: 1px 5px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 11.5px;
-  background: var(--code-bg); border-radius: 4px;
-}
+.te-hint code { padding: 1px 5px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; background: var(--code-bg); border-radius: 4px; }
 
-.markdown-body {
-  max-width: 900px; margin: 0 auto;
-  padding: 28px 34px 100px;
-  font-size: 15px; line-height: 1.72;
-  color: var(--fg); word-wrap: break-word;
+.sub-item {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 8px; margin-bottom: 6px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
 }
+.sub-item-head { display: flex; align-items: center; gap: 6px; }
+
+.markdown-body { max-width: 900px; margin: 0 auto; padding: 28px 34px 100px; font-size: 15px; line-height: 1.72; color: var(--fg); word-wrap: break-word; }
 .markdown-body > *:first-child { margin-top: 0 !important; }
 .markdown-body > *:last-child  { margin-bottom: 0 !important; }
-.markdown-body h1,
-.markdown-body h2,
-.markdown-body h3,
-.markdown-body h4,
-.markdown-body h5,
-.markdown-body h6 {
-  margin: 1.6em 0 .65em;
-  font-weight: 600; line-height: 1.3;
-  scroll-margin-top: 12px;
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+  margin: 1.6em 0 .65em; font-weight: 600; line-height: 1.3; scroll-margin-top: 12px; transition: background-color .35s;
 }
 .markdown-body h1 { font-size: 2em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
 .markdown-body h2 { font-size: 1.5em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
 .markdown-body h3 { font-size: 1.25em; }
 .markdown-body h4 { font-size: 1em; }
 .markdown-body p { margin: 0 0 1em; }
-.markdown-body a { color: var(--accent); text-decoration: none; }
+.markdown-body a { color: var(--accent); text-decoration: none; cursor: pointer; }
 .markdown-body a:hover { text-decoration: underline; }
-.markdown-body img {
-  max-width: 100%; border-radius: 8px;
-  border: 1px solid var(--border-soft); background: var(--bg-soft);
-}
-.markdown-body ul,
-.markdown-body ol { margin: 0 0 1em; padding-left: 1.9em; }
+.markdown-body img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-soft); background: var(--bg-soft); vertical-align: middle; }
+.markdown-body ul, .markdown-body ol { margin: 0 0 1em; padding-left: 1.9em; }
 .markdown-body li { margin: .3em 0; }
 .markdown-body li > p { margin: .3em 0; }
-.markdown-body hr {
-  height: 1px; margin: 2em 0; padding: 0; border: 0; background: var(--border);
-}
-.markdown-body blockquote {
-  margin: 1em 0; padding: 0 1em;
-  color: var(--fg-muted);
-  border-left: .25em solid var(--border);
-}
+.markdown-body hr { height: 1px; margin: 2em 0; padding: 0; border: 0; background: var(--border); }
+.markdown-body blockquote { margin: 1em 0; padding: 0 1em; color: var(--fg-muted); border-left: .25em solid var(--border); }
 .markdown-body blockquote > :first-child { margin-top: 0; }
 .markdown-body blockquote > :last-child  { margin-bottom: 0; }
 
-.markdown-body table {
-  display: block; width: max-content; max-width: 100%;
-  margin: 1em 0; overflow: auto;
-  border-collapse: collapse; border-spacing: 0;
-  font-size: 14px;
-}
+.markdown-body table { display: block; width: max-content; max-width: 100%; margin: 1em 0; overflow: auto; border-collapse: collapse; border-spacing: 0; font-size: 14px; }
 .markdown-body th, .markdown-body td { padding: 7px 13px; border: 1px solid var(--border); }
 .markdown-body th { font-weight: 600; background: var(--bg-soft); }
 .markdown-body tbody tr:nth-child(2n) td { background: var(--bg-soft); }
 
-.markdown-body code {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  font-size: .86em; padding: .18em .4em;
-  background: var(--code-bg); border-radius: 6px;
-}
-.markdown-body pre {
-  margin: 1em 0; padding: 14px 16px;
-  overflow: auto; background: var(--pre-bg);
-  border: 1px solid var(--border-soft); border-radius: 8px;
-  line-height: 1.6;
-}
+.markdown-body code { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: .86em; padding: .18em .4em; background: var(--code-bg); border-radius: 6px; }
+.markdown-body pre { margin: 1em 0; padding: 14px 16px; overflow: auto; background: var(--pre-bg); border: 1px solid var(--border-soft); border-radius: 8px; line-height: 1.6; }
 .markdown-body pre code { padding: 0; font-size: 13px; background: transparent; border-radius: 0; }
 
+.markdown-body kbd {
+  display: inline-block; padding: 2px 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em; line-height: 1.2;
+  color: var(--fg); background: var(--bg-soft);
+  border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 5px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05); vertical-align: middle;
+}
+.markdown-body video { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-soft); background: #000; }
+
+.mermaid-rendered { margin: 1em 0; text-align: center; background: var(--bg-soft); border: 1px solid var(--border-soft); border-radius: 8px; padding: 14px; overflow-x: auto; }
+.mermaid-rendered svg { max-width: 100%; height: auto; }
+
 .hljs-comment, .hljs-quote { color: var(--hl-comment); font-style: italic; }
-.hljs-keyword, .hljs-selector-tag,
-.hljs-literal, .hljs-type, .hljs-doctag { color: var(--hl-keyword); }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-type, .hljs-doctag { color: var(--hl-keyword); }
 .hljs-string, .hljs-regexp, .hljs-addition { color: var(--hl-string); }
 .hljs-number, .hljs-symbol, .hljs-bullet, .hljs-link { color: var(--hl-number); }
 .hljs-title, .hljs-section, .hljs-name, .hljs-title.function_ { color: var(--hl-function); }
-.hljs-attr, .hljs-attribute, .hljs-variable,
-.hljs-template-variable, .hljs-property { color: var(--hl-attr); }
+.hljs-attr, .hljs-attribute, .hljs-variable, .hljs-template-variable, .hljs-property { color: var(--hl-attr); }
 .hljs-built_in, .hljs-class .hljs-title { color: var(--hl-builtin); }
 .hljs-meta { color: var(--hl-meta); }
 .hljs-emphasis { font-style: italic; }
 .hljs-strong { font-weight: 700; }
 
-.admonition {
-  margin: 1em 0; padding: 10px 16px 12px;
-  border-left: 4px solid var(--adm-color);
-  border-radius: 7px;
-  background: var(--adm-bg); color: var(--fg);
-}
-.admonition-title {
-  display: flex; align-items: center; gap: 6px;
-  margin-bottom: 5px;
-  font-weight: 600; font-size: 14.5px;
-  color: var(--adm-color);
-}
+.admonition { margin: 1em 0; padding: 10px 16px 12px; border-left: 4px solid var(--adm-color); border-radius: 7px; background: var(--adm-bg); color: var(--fg); }
+.admonition-title { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-weight: 600; font-size: 14.5px; color: var(--adm-color); }
 .admonition-body > :first-child { margin-top: 0; }
 .admonition-body > :last-child { margin-bottom: 0; }
 .admonition.note      { --adm-color: var(--adm-note);      --adm-bg: var(--adm-note-bg); }
@@ -351,176 +286,44 @@ body {
 .admonition.warning   { --adm-color: var(--adm-warning);   --adm-bg: var(--adm-warning-bg); }
 .admonition.caution   { --adm-color: var(--adm-caution);   --adm-bg: var(--adm-caution-bg); }
 
-.markdown-body details {
-  margin: 1em 0; padding: 10px 16px;
-  background: var(--bg-soft);
-  border: 1px solid var(--border); border-radius: 8px;
-}
+.markdown-body details { margin: 1em 0; padding: 10px 16px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; }
 .markdown-body summary { font-weight: 600; cursor: pointer; user-select: none; list-style: none; }
 .markdown-body summary::-webkit-details-marker { display: none; }
-.markdown-body summary::before {
-  content: "▸"; display: inline-block; margin-right: 6px;
-  color: var(--fg-muted); transition: transform .18s;
-}
+.markdown-body summary::before { content: "▸"; display: inline-block; margin-right: 6px; color: var(--fg-muted); transition: transform .18s; }
 .markdown-body details[open] > summary::before { transform: rotate(90deg); }
 .markdown-body details[open] > summary { margin-bottom: 8px; }
 
-.preview-empty {
-  display: flex; align-items: center; justify-content: center;
-  min-height: 55vh; padding: 40px;
-  font-size: 14px; color: var(--fg-muted); text-align: center;
-  flex-direction: column; gap: 10px;
-}
+.preview-empty { display: flex; align-items: center; justify-content: center; min-height: 55vh; padding: 40px; font-size: 14px; color: var(--fg-muted); text-align: center; flex-direction: column; gap: 10px; }
+.preview-fallback { margin: 0 auto; padding: 20px 24px; max-width: 900px; }
+.preview-fallback .fallback-note { margin-bottom: 12px; padding: 10px 14px; font-size: 12.5px; line-height: 1.55; color: var(--fg-muted); background: var(--danger-soft); border-left: 3px solid var(--danger); border-radius: 6px; }
+.preview-fallback pre { margin: 0; padding: 14px 16px; font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.6; color: var(--fg); background: var(--pre-bg); border: 1px solid var(--border-soft); border-radius: 8px; white-space: pre-wrap; word-break: break-word; overflow-x: auto; }
 
-.preview-fallback {
-  margin: 0 auto;
-  padding: 20px 24px;
-  max-width: 900px;
-}
-.preview-fallback .fallback-note {
-  margin-bottom: 12px;
-  padding: 10px 14px;
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: var(--fg-muted);
-  background: var(--danger-soft);
-  border-left: 3px solid var(--danger);
-  border-radius: 6px;
-}
-.preview-fallback pre {
-  margin: 0; padding: 14px 16px;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: var(--fg);
-  background: var(--pre-bg);
-  border: 1px solid var(--border-soft);
-  border-radius: 8px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-x: auto;
-}
-
-.link-pop {
-  position: fixed; z-index: 1000; width: 300px;
-  padding: 12px;
-  display: flex; flex-direction: column; gap: 8px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border); border-radius: 9px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.18);
-  animation: popIn .12s ease-out;
-}
+.link-pop { position: fixed; z-index: 1000; width: 340px; padding: 12px; display: flex; flex-direction: column; gap: 8px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 9px; box-shadow: 0 8px 24px rgba(0,0,0,.18); animation: popIn .12s ease-out; }
 @keyframes popIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 .link-pop .link-field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--fg-muted); }
 .link-pop .link-hint { font-size: 11.5px; color: var(--fg-muted); line-height: 1.5; }
 .link-pop .link-actions { display: flex; gap: 6px; justify-content: flex-end; margin-top: 2px; }
 
-.guide-overlay {
-  position: fixed; inset: 0; z-index: 2000;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-  background: rgba(0,0,0,.45);
-  opacity: 0; visibility: hidden;
-  transition: opacity .2s, visibility .2s;
-}
+.guide-overlay { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(0,0,0,.45); opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s; }
 .guide-overlay.open { opacity: 1; visibility: visible; }
-.guide-modal {
-  display: flex; flex-direction: column;
-  width: min(980px, 100%); max-height: min(88vh, 100%);
-  background: var(--bg-elev);
-  border: 1px solid var(--border); border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,.3);
-  transform: translateY(8px) scale(.995);
-  transition: transform .2s;
-}
+.guide-modal { display: flex; flex-direction: column; width: min(980px, 100%); max-height: min(88vh, 100%); background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.3); transform: translateY(8px) scale(.995); transition: transform .2s; }
 .guide-overlay.open .guide-modal { transform: translateY(0) scale(1); }
-.guide-head {
-  flex: 0 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; padding: 12px 16px 12px 20px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-soft);
-}
+.guide-head { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg-soft); }
 .guide-head h2 { margin: 0; font-size: 15.5px; font-weight: 600; }
-.guide-head .guide-close {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px; padding: 0;
-  font-size: 14px; color: var(--fg-muted);
-  background: transparent;
-  border: 1px solid var(--border); border-radius: 7px;
-  cursor: pointer; transition: .15s;
-}
+.guide-head .guide-close { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; font-size: 14px; color: var(--fg-muted); background: transparent; border: 1px solid var(--border); border-radius: 7px; cursor: pointer; transition: .15s; }
 .guide-head .guide-close:hover { color: var(--danger); border-color: var(--danger); background: var(--danger-soft); }
-.guide-body {
-  flex: 1 1 auto; overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 20px 22px 30px;
-  min-height: 0;
-}
+.guide-body { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: 20px 22px 30px; min-height: 0; }
 .guide-body::-webkit-scrollbar { width: 10px; }
 .guide-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; border: 2px solid var(--bg-elev); }
-.guide-body::-webkit-scrollbar-track { background: transparent; }
-
-.guide-intro {
-  margin: 0 0 20px; padding: 10px 14px;
-  font-size: 13px; line-height: 1.65;
-  color: var(--fg-muted);
-  background: var(--accent-soft);
-  border-left: 3px solid var(--accent);
-  border-radius: 6px;
-}
+.guide-intro { margin: 0 0 20px; padding: 10px 14px; font-size: 13px; line-height: 1.65; color: var(--fg-muted); background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 6px; }
 .guide-section { margin-bottom: 26px; }
-.guide-section:last-child { margin-bottom: 0; }
 .guide-section h3 { margin: 0 0 12px; font-size: 14.5px; font-weight: 600; color: var(--fg); }
-.guide-item {
-  margin-bottom: 12px;
-  border: 1px solid var(--border); border-radius: 8px;
-  overflow: hidden; background: var(--bg);
-}
-.guide-item:last-child { margin-bottom: 0; }
-.guide-item-note {
-  padding: 7px 12px;
-  font-size: 12.5px; line-height: 1.55;
-  color: var(--fg-muted);
-  background: var(--bg-soft);
-  border-bottom: 1px solid var(--border-soft);
-}
-.guide-item-code {
-  margin: 0; padding: 10px 14px;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  font-size: 12.5px; line-height: 1.6;
-  color: var(--fg); background: var(--pre-bg);
-  white-space: pre; overflow-x: auto;
-  border: none; border-radius: 0;
-  border-bottom: 1px dashed var(--border-soft);
-}
-.guide-item-code::-webkit-scrollbar { height: 8px; }
-.guide-item-code::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-.guide-item-result.markdown-body {
-  max-width: none; margin: 0;
-  padding: 12px 16px;
-  font-size: 14px; line-height: 1.65;
-}
-@media (max-width: 640px) {
-  .guide-overlay { padding: 10px; }
-  .guide-modal { max-height: 92vh; border-radius: 10px; }
-  .guide-body { padding: 14px 14px 22px; }
-  .guide-item-code { font-size: 11.5px; }
-}
+.guide-item { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg); }
+.guide-item-note { padding: 7px 12px; font-size: 12.5px; line-height: 1.55; color: var(--fg-muted); background: var(--bg-soft); border-bottom: 1px solid var(--border-soft); }
+.guide-item-code { margin: 0; padding: 10px 14px; font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--fg); background: var(--pre-bg); white-space: pre; overflow-x: auto; border: none; border-bottom: 1px dashed var(--border-soft); }
+.guide-item-result.markdown-body { max-width: none; margin: 0; padding: 12px 16px; font-size: 14px; line-height: 1.65; }
 
-.toast {
-  position: fixed; left: 50%; bottom: 78px;
-  transform: translate(-50%, 12px);
-  padding: 9px 18px;
-  font-size: 13px; color: #fff;
-  background: #24292f; border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(0,0,0,.22);
-  opacity: 0; pointer-events: none;
-  transition: opacity .22s, transform .22s;
-  z-index: 999;
-  max-width: 80vw; text-align: center;
-}
+.toast { position: fixed; left: 50%; bottom: 78px; transform: translate(-50%, 12px); padding: 9px 18px; font-size: 13px; color: #fff; background: #24292f; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,.22); opacity: 0; pointer-events: none; transition: opacity .22s, transform .22s; z-index: 999; max-width: 80vw; text-align: center; }
 [data-theme="dark"] .toast { background: #3d444d; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
@@ -534,6 +337,13 @@ body {
   .markdown-body { padding: 22px 18px 60px; }
   .field { grid-template-columns: 1fr; gap: 4px; }
   .bottombar { position: sticky; bottom: 0; z-index: 10; }
+  .link-pop { width: min(340px, calc(100vw - 20px)); }
+}
+@media (max-width: 640px) {
+  .guide-overlay { padding: 10px; }
+  .guide-modal { max-height: 92vh; border-radius: 10px; }
+  .guide-body { padding: 14px 14px 22px; }
+  .guide-item-code { font-size: 11.5px; }
 }
 </style>
 </head>
@@ -548,13 +358,19 @@ body {
     </div>
     <div class="topbar-actions">
       <button class="btn-icon" id="guideBtn" title="语法速查">📖</button>
-      <button class="lang-btn" id="langToggle" title="切换语言 / Switch language">EN</button>
-      <button class="btn-icon" id="themeToggle" title="切换深色 / 浅色">🌙</button>
+      <button class="lang-btn" id="langToggle" title="切换语言">EN</button>
+      <button class="btn-icon" id="themeToggle" title="切换深色/浅色">🌙</button>
     </div>
   </header>
 
   <main class="layout">
     <section class="pane pane-editor">
+      <div class="page-bar">
+        <select class="page-select" id="pageSelect"></select>
+        <button class="btn tiny" id="btnNewPage">＋ 页面</button>
+        <button class="btn-icon" id="btnRenamePage" title="重命名">✏️</button>
+        <button class="btn-icon danger" id="btnDeletePage" title="删除页面">🗑️</button>
+      </div>
       <div class="palette" id="palette"></div>
       <div class="pane-body" id="blockList"></div>
     </section>
@@ -575,10 +391,10 @@ body {
 </div>
 
 <div class="guide-overlay" id="guideOverlay">
-  <div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+  <div class="guide-modal" role="dialog" aria-modal="true">
     <div class="guide-head">
       <h2 id="guideTitle">Markdown 语法速查</h2>
-      <button class="guide-close" id="guideClose" type="button" aria-label="Close">✕</button>
+      <button class="guide-close" id="guideClose" type="button">✕</button>
     </div>
     <div class="guide-body" id="guideBody"></div>
   </div>
@@ -586,15 +402,10 @@ body {
 
 <script>
 /* =========================================================================
- * Markdown 文档生成器 —— 稳定版
- * 核心改进：
- *   1. 完全移除 marked.use 自定义 renderer（崩溃根源）
- *   2. 三级解析兜底：正常解析 → 清理重试 → 展示源码
- *   3. restore 时 normalize 所有数据，兼容旧版本字段
- *   4. 未知组件降级为 unknown 卡片，数据不丢失
+ * Markdown 文档生成器 —— 多页面 + 双语链接 + 全组件版
  * ========================================================================= */
 
-/* ---------- 1. 工具函数 ---------- */
+/* ---------- 1. 工具 ---------- */
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -617,9 +428,7 @@ function el(tag, attrs = {}, ...children) {
 }
 
 function escapeHtml(str) {
-  return String(str ?? '').replace(/[&<>"']/g, (c) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-  }[c]));
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
 
 function input(value, onInput, placeholder = '') {
@@ -654,19 +463,13 @@ function select(value, options, onChange) {
 }
 
 function field(labelText, control) {
-  return el('div', { class: 'field' },
-    el('span', { class: 'field-label' }, labelText),
-    control
-  );
+  return el('div', { class: 'field' }, el('span', { class: 'field-label' }, labelText), control);
 }
 
 let toastTimer = null;
 function toast(message) {
   let node = $('.toast');
-  if (!node) {
-    node = el('div', { class: 'toast' });
-    document.body.append(node);
-  }
+  if (!node) { node = el('div', { class: 'toast' }); document.body.append(node); }
   node.textContent = message;
   requestAnimationFrame(() => node.classList.add('show'));
   clearTimeout(toastTimer);
@@ -678,154 +481,164 @@ function slugify(text) {
     .trim().toLowerCase()
     .replace(/<[^>]*>/g, '')
     .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+
+function slugifyAscii(text) {
+  return String(text ?? '')
+    .trim().toLowerCase()
+    .replace(/<[^>]*>/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 }
 
 /* ---------- 2. i18n ---------- */
 const I18N = {
   zh: {
-    appTitle: 'Markdown 文档生成器',
-    brandName: 'Markdown 文档生成器',
-    preview: '实时预览',
-    themeLight: '切换到浅色模式',
-    themeDark: '切换到深色模式',
-    langToggle: '切换语言 / Switch language',
-    guideBtnTitle: '语法速查',
-    guideTitle: 'Markdown 语法速查',
+    appTitle: 'Markdown 文档生成器', brandName: 'Markdown 文档生成器', preview: '实时预览',
+    themeLight: '切换到浅色模式', themeDark: '切换到深色模式', langToggle: '切换语言',
+    guideBtnTitle: '语法速查', guideTitle: 'Markdown 语法速查',
     guideIntro: '每个语法先展示源码，再展示实际渲染效果。所有示例都可以直接在左侧编辑区使用。',
-    copy: '复制 Markdown',
-    download: '下载 .md',
-    clear: '清空内容',
-    heading: '标题', paragraph: '文字', table: '表格', image: '图片',
-    code: '代码', admonition: '提示', quote: '引用', list: '列表',
-    hr: '分割线', details: '折叠',
-    unknown: '未知组件',
-    h1: '大标题', h2: '中标题', h3: '小标题', h4: '四级标题',
-    note: '💡 提示', tip: '✨ 技巧', warning: '⚠️ 警告',
-    headingPlaceholder: '输入标题文字…',
-    paragraphPlaceholder: '输入文字，支持 **粗体**、*斜体*、`行内代码`、[链接](https://…)',
-    imageUrl: '图片地址', imageUrlPlaceholder: 'https://…',
-    imageAlt: '图片描述', imageAltPlaceholder: '可选，用于无障碍 & SEO',
-    codeLangHint: '高亮语言', codePlaceholder: '在此粘贴代码…',
-    admonitionPlaceholder: '提示内容，支持 Markdown…',
-    quotePlaceholder: '引用内容，支持 Markdown…',
-    listPlaceholder: '每行一个列表项…',
-    listUnordered: '无序', listOrdered: '有序',
-    detailsSummaryPlaceholder: '折叠标题',
-    detailsBodyPlaceholder: '展开后显示的内容，支持 Markdown…',
-    hrHint: '分割线无需配置，将在预览中显示为一条水平线。',
-    tableHintPre: '单元格支持 Markdown 行内语法，例如 ',
-    tableHintMid1: ' 可插入网页链接，',
-    tableHintMid2: ' 可跳转到文档内标题。',
-    addRow: '＋ 行', addCol: '＋ 列', removeCol: '－ 列',
-    insertLink: '🔗 插入链接', deleteRow: '删除此行',
-    linkBtnTitle: '在当前选中的单元格插入链接',
-    moveUp: '上移', moveDown: '下移', delete: '删除',
-    addComponent: '添加{name}',
-    emptyTitle: '还没有任何内容',
-    emptyHint: '点击上方按钮开始编写',
-    previewEmpty: '在左侧添加组件后，这里会实时渲染 Markdown 预览',
-    previewFallbackNote: 'Markdown 渲染遇到了问题，下面是原始内容（你仍可复制或下载）。',
-    previewFallbackLib: '渲染库未加载，下面是原始内容。',
-    nothingToCopy: '还没有内容可复制',
-    copied: 'Markdown 已复制到剪贴板',
-    nothingToDownload: '还没有内容可下载',
-    downloaded: '已下载 README.md',
-    alreadyEmpty: '当前已经是空的',
-    confirmClear: '确定要清空所有内容吗？此操作不可撤销。',
-    cleared: '已清空所有内容',
-    linkText: '显示文字', linkTextPlaceholder: '显示的文字（留空则用链接地址）',
-    linkUrl: '链接地址', linkUrlPlaceholder: 'https://… 或 #标题',
-    linkHintPre: '填网页地址（https://…），或填 ',
-    linkHintPost: ' 跳转到本文档内的标题',
-    cancel: '取消', insert: '插入',
-    linkNeedUrl: '请填写链接地址',
-    linkNeedCell: '请先点击一个表格单元格',
-    admNote: '提示', admTip: '技巧', admImportant: '重要',
-    admWarning: '警告', admCaution: '注意',
-    sampleTitle: '我的文档',
-    sampleParagraph: '这是一个使用 **Markdown 文档生成器** 创建的文档：左侧编辑，右侧实时预览。',
-    sampleTip: '点击左侧上方的按钮即可添加标题、表格、代码块、提示等组件。',
-    unknownTypeHint: '此组件来自旧版本或未知来源，数据已保留但不能编辑，你可以删除它。',
-    unknownOriginalType: '原始类型',
-    unknownRawData: '原始数据',
+    copy: '复制 Markdown', download: '下载 .md', clear: '清空内容',
+    /* 组件 */
+    heading:'标题', paragraph:'文字', table:'表格', image:'图片', code:'代码',
+    admonition:'提示', quote:'引用', list:'列表', hr:'分割线', details:'折叠',
+    toc:'目录', badge:'徽章', kbd:'按键', center:'居中', video:'视频',
+    tabs:'选项卡', mermaid:'流程图', unknown:'未知组件',
+    /* 等级 */
+    h1:'大标题', h2:'中标题', h3:'小标题', h4:'四级标题',
+    note:'💡 提示', tip:'✨ 技巧', warning:'⚠️ 警告',
+    /* 占位 */
+    headingPlaceholder:'输入标题文字…',
+    paragraphPlaceholder:'输入文字，支持 **粗体**、*斜体*、`行内代码`、[链接](https://…)',
+    imageUrl:'图片地址', imageUrlPlaceholder:'https://…',
+    imageAlt:'图片描述', imageAltPlaceholder:'可选，用于无障碍 & SEO',
+    codeLangHint:'高亮语言', codePlaceholder:'在此粘贴代码…',
+    admonitionPlaceholder:'提示内容，支持 Markdown…',
+    quotePlaceholder:'引用内容，支持 Markdown…',
+    listPlaceholder:'每行一个列表项…',
+    listUnordered:'无序', listOrdered:'有序',
+    detailsSummaryPlaceholder:'折叠标题', detailsBodyPlaceholder:'展开后的内容，支持 Markdown…',
+    hrHint:'分割线无需配置，将在预览中显示为一条水平线。',
+    tableHintPre:'单元格支持 Markdown 行内语法，例如 ', tableHintMid1:' 可插入网页链接，', tableHintMid2:' 可跳转到文档内标题。',
+    tocTitleLabel:'目录标题', tocTitlePlaceholder:'目录（可选）',
+    tocHint:'目录会根据当前页面的标题自动生成。',
+    kbdKeysLabel:'按键', kbdKeysPlaceholder:'Ctrl + C', kbdHint:'用 + 分隔多个按键',
+    centerPlaceholder:'居中显示的内容，支持 Markdown…',
+    videoUrl:'视频地址', videoUrlPlaceholder:'https://…/video.mp4',
+    videoPoster:'封面图片', videoPosterPh:'可选',
+    addBadge:'＋ 徽章', addTab:'＋ 选项卡',
+    badgeLabelPh:'标签', badgeMsgPh:'内容', badgeColorPh:'颜色(如 green)',
+    tabTitlePh:'选项卡标题', tabBodyPh:'内容，支持 Markdown…',
+    badgeHint:'shields.io 风格徽章，常用于 README 顶部',
+    mermaidHint:'使用 Mermaid 语法绘制流程图、时序图等',
+    addRow:'＋ 行', addCol:'＋ 列', removeCol:'－ 列',
+    insertLink:'🔗 插入链接', deleteRow:'删除此行', linkBtnTitle:'在当前选中的单元格插入链接',
+    moveUp:'上移', moveDown:'下移', delete:'删除',
+    addComponent:'添加{name}',
+    emptyTitle:'还没有任何内容', emptyHint:'点击上方按钮开始编写',
+    previewEmpty:'在左侧添加组件后，这里会实时渲染 Markdown 预览',
+    previewFallbackNote:'Markdown 渲染遇到了问题，下面是原始内容。', previewFallbackLib:'渲染库未加载，下面是原始内容。',
+    nothingToCopy:'还没有内容可复制', copied:'Markdown 已复制到剪贴板',
+    nothingToDownload:'还没有内容可下载', downloaded:'已下载 .md 文件',
+    alreadyEmpty:'当前页面已经是空的', confirmClear:'确定要清空当前页面的所有内容吗？此操作不可撤销。',
+    cleared:'已清空当前页面的内容',
+    newPage:'新页面', renamePage:'重命名', deletePage:'删除页面',
+    newPagePrompt:'请输入新页面的标题：', newPageDefault:'新页面',
+    renamePagePrompt:'请输入新的标题：',
+    confirmDeletePage:'确定要删除这个页面吗？页面内容会一并删除。',
+    cannotDeleteLastPage:'至少要保留一个页面',
+    pageNotFound:'找不到页面', anchorNotFound:'找不到锚点',
+    pageCreated:'页面已创建', pageRenamed:'页面已重命名', pageDeleted:'页面已删除',
+    restoredPageTitle:'恢复的文档',
+    linkText:'显示文字', linkTextPlaceholder:'显示的文字（留空则用链接地址）',
+    linkUrl:'链接地址', linkUrlPlaceholder:'https://… 或 #标题 或 页面名',
+    linkHintPre:'支持外链、页内锚点 ', linkHintMid:'，或跨页面 ', linkHintPost:' 跳转',
+    linkToPage:'快速选择页面', selectPageOptional:'— 选择页面（可选）—',
+    cancel:'取消', insert:'插入',
+    linkNeedUrl:'请填写链接地址', linkNeedCell:'请先点击一个表格单元格',
+    admNote:'提示', admTip:'技巧', admImportant:'重要', admWarning:'警告', admCaution:'注意',
+    sampleTitle:'我的文档',
+    sampleParagraph:'这是一个使用 **Markdown 文档生成器** 创建的文档：左侧编辑，右侧实时预览。',
+    sampleTip:'点击上方按钮添加组件；用顶部页面栏创建多个页面，用 [其他页面](page-2) 这样的链接跳转。',
+    unknownTypeHint:'此组件来自旧版本或未知来源，数据已保留但不能编辑，可以删除。',
+    unknownOriginalType:'原始类型', unknownRawData:'原始数据',
   },
   en: {
-    appTitle: 'Markdown Document Generator',
-    brandName: 'Markdown Document Generator',
-    preview: 'Live Preview',
-    themeLight: 'Switch to light mode',
-    themeDark: 'Switch to dark mode',
-    langToggle: '切换语言 / Switch language',
-    guideBtnTitle: 'Syntax guide',
-    guideTitle: 'Markdown Syntax Cheat Sheet',
-    guideIntro: 'Each entry shows the source first, then the actual rendered result. All examples can be used directly in the editor on the left.',
-    copy: 'Copy Markdown',
-    download: 'Download .md',
-    clear: 'Clear All',
-    heading: 'Heading', paragraph: 'Text', table: 'Table', image: 'Image',
-    code: 'Code', admonition: 'Callout', quote: 'Quote', list: 'List',
-    hr: 'Divider', details: 'Details',
-    unknown: 'Unknown',
-    h1: 'Heading 1', h2: 'Heading 2', h3: 'Heading 3', h4: 'Heading 4',
-    note: '💡 Note', tip: '✨ Tip', warning: '⚠️ Warning',
-    headingPlaceholder: 'Enter heading text…',
-    paragraphPlaceholder: 'Enter text. Supports **bold**, *italic*, `code`, [link](https://…)',
-    imageUrl: 'Image URL', imageUrlPlaceholder: 'https://…',
-    imageAlt: 'Description', imageAltPlaceholder: 'Optional, for accessibility & SEO',
-    codeLangHint: 'Highlight language', codePlaceholder: 'Paste code here…',
-    admonitionPlaceholder: 'Callout content, supports Markdown…',
-    quotePlaceholder: 'Quote content, supports Markdown…',
-    listPlaceholder: 'One item per line…',
-    listUnordered: 'Bulleted', listOrdered: 'Numbered',
-    detailsSummaryPlaceholder: 'Summary',
-    detailsBodyPlaceholder: 'Content shown when expanded, supports Markdown…',
-    hrHint: 'The divider needs no configuration. It will render as a horizontal line in the preview.',
-    tableHintPre: 'Cells support inline Markdown, e.g. ',
-    tableHintMid1: ' for web links, ',
-    tableHintMid2: ' to jump to headings in this doc.',
-    addRow: '＋ Row', addCol: '＋ Col', removeCol: '－ Col',
-    insertLink: '🔗 Link', deleteRow: 'Delete this row',
-    linkBtnTitle: 'Insert link into the selected cell',
-    moveUp: 'Move up', moveDown: 'Move down', delete: 'Delete',
-    addComponent: 'Add {name}',
-    emptyTitle: 'Nothing here yet',
-    emptyHint: 'Click a button above to start',
-    previewEmpty: 'Add components on the left. Preview will appear here in real time.',
-    previewFallbackNote: 'Markdown rendering ran into a problem. The raw content is shown below (you can still copy or download it).',
-    previewFallbackLib: 'Rendering library is unavailable. The raw content is shown below.',
-    nothingToCopy: 'Nothing to copy',
-    copied: 'Markdown copied to clipboard',
-    nothingToDownload: 'Nothing to download',
-    downloaded: 'Downloaded README.md',
-    alreadyEmpty: 'Already empty',
-    confirmClear: 'Clear all content? This cannot be undone.',
-    cleared: 'All content cleared',
-    linkText: 'Text', linkTextPlaceholder: 'Display text (leave empty to use URL)',
-    linkUrl: 'URL', linkUrlPlaceholder: 'https://… or #heading',
-    linkHintPre: 'Enter a web URL (https://…), or ',
-    linkHintPost: ' to jump to a heading in this doc',
-    cancel: 'Cancel', insert: 'Insert',
-    linkNeedUrl: 'Please enter a URL',
-    linkNeedCell: 'Please click a table cell first',
-    admNote: 'Note', admTip: 'Tip', admImportant: 'Important',
-    admWarning: 'Warning', admCaution: 'Caution',
-    sampleTitle: 'My Document',
-    sampleParagraph: 'This document is built with the **Markdown Document Generator**: edit on the left, see the preview on the right in real time.',
-    sampleTip: 'Click the buttons above to add headings, tables, code blocks, callouts, and more.',
-    unknownTypeHint: 'This component came from an older version or an unknown source. Its data is preserved but cannot be edited. You can delete it.',
-    unknownOriginalType: 'Original type',
-    unknownRawData: 'Raw data',
+    appTitle:'Markdown Document Generator', brandName:'Markdown Document Generator', preview:'Live Preview',
+    themeLight:'Switch to light mode', themeDark:'Switch to dark mode', langToggle:'Switch language',
+    guideBtnTitle:'Syntax guide', guideTitle:'Markdown Syntax Cheat Sheet',
+    guideIntro:'Each entry shows the source first, then the actual rendered result. All examples work directly in the editor.',
+    copy:'Copy Markdown', download:'Download .md', clear:'Clear All',
+    heading:'Heading', paragraph:'Text', table:'Table', image:'Image', code:'Code',
+    admonition:'Callout', quote:'Quote', list:'List', hr:'Divider', details:'Details',
+    toc:'Table of Contents', badge:'Badge', kbd:'Key', center:'Center', video:'Video',
+    tabs:'Tabs', mermaid:'Diagram', unknown:'Unknown',
+    h1:'Heading 1', h2:'Heading 2', h3:'Heading 3', h4:'Heading 4',
+    note:'💡 Note', tip:'✨ Tip', warning:'⚠️ Warning',
+    headingPlaceholder:'Enter heading text…',
+    paragraphPlaceholder:'Enter text. Supports **bold**, *italic*, `code`, [link](https://…)',
+    imageUrl:'Image URL', imageUrlPlaceholder:'https://…',
+    imageAlt:'Description', imageAltPlaceholder:'Optional, for accessibility & SEO',
+    codeLangHint:'Highlight language', codePlaceholder:'Paste code here…',
+    admonitionPlaceholder:'Callout content, supports Markdown…',
+    quotePlaceholder:'Quote content, supports Markdown…',
+    listPlaceholder:'One item per line…',
+    listUnordered:'Bulleted', listOrdered:'Numbered',
+    detailsSummaryPlaceholder:'Summary', detailsBodyPlaceholder:'Content shown when expanded, supports Markdown…',
+    hrHint:'The divider needs no configuration.',
+    tableHintPre:'Cells support inline Markdown, e.g. ', tableHintMid1:' for links, ', tableHintMid2:' to jump to headings.',
+    tocTitleLabel:'TOC title', tocTitlePlaceholder:'Table of Contents (optional)',
+    tocHint:'The TOC is generated automatically from the headings on this page.',
+    kbdKeysLabel:'Keys', kbdKeysPlaceholder:'Ctrl + C', kbdHint:'Separate multiple keys with +',
+    centerPlaceholder:'Content shown centered, supports Markdown…',
+    videoUrl:'Video URL', videoUrlPlaceholder:'https://…/video.mp4',
+    videoPoster:'Poster', videoPosterPh:'Optional',
+    addBadge:'＋ Badge', addTab:'＋ Tab',
+    badgeLabelPh:'label', badgeMsgPh:'message', badgeColorPh:'color (e.g. green)',
+    tabTitlePh:'Tab title', tabBodyPh:'Content, supports Markdown…',
+    badgeHint:'shields.io style badges, great for README headers',
+    mermaidHint:'Use Mermaid syntax to draw flowcharts and sequence diagrams',
+    addRow:'＋ Row', addCol:'＋ Col', removeCol:'－ Col',
+    insertLink:'🔗 Link', deleteRow:'Delete this row', linkBtnTitle:'Insert link into the selected cell',
+    moveUp:'Move up', moveDown:'Move down', delete:'Delete',
+    addComponent:'Add {name}',
+    emptyTitle:'Nothing here yet', emptyHint:'Click a button above to start',
+    previewEmpty:'Add components on the left. Preview will appear here.',
+    previewFallbackNote:'Markdown rendering ran into a problem. Raw content is shown below.', previewFallbackLib:'Rendering library is unavailable. Raw content is shown below.',
+    nothingToCopy:'Nothing to copy', copied:'Markdown copied to clipboard',
+    nothingToDownload:'Nothing to download', downloaded:'Downloaded .md file',
+    alreadyEmpty:'This page is already empty', confirmClear:'Clear all content on this page? This cannot be undone.',
+    cleared:'Page content cleared',
+    newPage:'New page', renamePage:'Rename', deletePage:'Delete page',
+    newPagePrompt:'Enter the title of the new page:', newPageDefault:'New Page',
+    renamePagePrompt:'Enter a new title:',
+    confirmDeletePage:'Delete this page? All its content will be removed.',
+    cannotDeleteLastPage:'At least one page must be kept',
+    pageNotFound:'Page not found', anchorNotFound:'Anchor not found',
+    pageCreated:'Page created', pageRenamed:'Page renamed', pageDeleted:'Page deleted',
+    restoredPageTitle:'Restored Document',
+    linkText:'Text', linkTextPlaceholder:'Display text (leave empty to use URL)',
+    linkUrl:'URL', linkUrlPlaceholder:'https://… or #heading or page-name',
+    linkHintPre:'Supports external links, in-page anchor ', linkHintMid:', or cross-page ', linkHintPost:'',
+    linkToPage:'Quick link to page', selectPageOptional:'— Choose a page (optional) —',
+    cancel:'Cancel', insert:'Insert',
+    linkNeedUrl:'Please enter a URL', linkNeedCell:'Please click a table cell first',
+    admNote:'Note', admTip:'Tip', admImportant:'Important', admWarning:'Warning', admCaution:'Caution',
+    sampleTitle:'My Document',
+    sampleParagraph:'This document is built with the **Markdown Document Generator**: edit on the left, preview on the right.',
+    sampleTip:'Click the buttons above to add components; use the page bar at the top to create more pages and link them with [Other page](page-2).',
+    unknownTypeHint:'This component came from an older version or unknown source. Data is preserved but cannot be edited. You can delete it.',
+    unknownOriginalType:'Original type', unknownRawData:'Raw data',
   },
 };
+
 const LANG_KEY = 'md-generator:lang';
 function detectInitialLang() {
   try {
     const saved = localStorage.getItem(LANG_KEY);
     if (saved === 'zh' || saved === 'en') return saved;
-  } catch (_) { /* ignore */ }
+  } catch (_) {}
   try {
     return String(navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
   } catch (_) { return 'zh'; }
@@ -833,204 +646,251 @@ function detectInitialLang() {
 
 /* ---------- 3. 状态 ---------- */
 const state = {
-  blocks: [], seq: 0,
+  pages: [],
+  currentPageId: 0,
+  seq: 0,
+  pageSeq: 0,
   lang: detectInitialLang(),
   userEdited: false,
 };
-function t(key) {
-  return (I18N[state.lang] && I18N[state.lang][key]) ?? I18N.zh[key] ?? key;
+
+function t(key) { return (I18N[state.lang] && I18N[state.lang][key]) ?? I18N.zh[key] ?? key; }
+function saveLang() { try { localStorage.setItem(LANG_KEY, state.lang); } catch (_) {} }
+function currentPage() {
+  return state.pages.find(p => p.id === state.currentPageId) || state.pages[0] || null;
 }
-function saveLang() {
-  try { localStorage.setItem(LANG_KEY, state.lang); } catch (_) { /* ignore */ }
+function currentBlocks() {
+  const p = currentPage();
+  return p ? p.blocks : [];
 }
 
 /* ---------- 4. 语法速查数据 ---------- */
 const GUIDE_DATA = {
   zh: [
-    { section: '📌 标题', items: [
-      { note: '用 # 号的数量表示标题级别，最多 6 级。', code: '# 一级标题\n## 二级标题\n### 三级标题' },
+    { section:'📌 标题', items:[{ note:'用 # 号数量表示标题级别，最多 6 级。', code:'# 一级标题\n## 二级标题\n### 三级标题' }]},
+    { section:'✍️ 文字样式', items:[{ note:'粗体用两个星号，斜体用一个；删除线用两个波浪号；行内代码用反引号。', code:'**粗体** 和 *斜体*\n~~删除线~~ 和 `行内代码`' }]},
+    { section:'🔗 链接', items:[
+      { note:'方括号是显示文字，圆括号是地址。', code:'[访问 GitHub](https://github.com)' },
+      { note:'指向本文档标题，用 # 加标题文字。', code:'[跳到「一级标题」](#一级标题)' },
+      { note:'指向另一个页面：写页面名或英文 slug，可带 # 锚点。', code:'[去使用指南](使用指南)\n[Go to guide](guide)\n[Go to section](guide.md#安装)' }
     ]},
-    { section: '✍️ 文字样式', items: [
-      { note: '粗体用两个星号，斜体用一个星号；删除线用两个波浪号；行内代码用反引号。', code: '**粗体** 和 *斜体*\n~~删除线~~ 和 `行内代码`' },
+    { section:'🖼️ 图片', items:[{ note:'和链接类似，最前面多一个感叹号。', code:'![示例图片](https://picsum.photos/400/180)' }]},
+    { section:'☰ 列表', items:[
+      { note:'无序用减号，有序用数字加点。', code:'- 苹果\n- 香蕉\n- 橘子' },
+      { note:'任务列表：已完成用 - [x]，未完成用 - [ ]。', code:'- [x] 已完成\n- [ ] 待办' }
     ]},
-    { section: '🔗 链接', items: [
-      { note: '方括号内是显示文字，圆括号内是链接地址。', code: '[访问 GitHub](https://github.com)' },
-      { note: '链接地址以 # 开头，可以跳到文档内的标题。', code: '[跳到「一级标题」](#一级标题)' },
+    { section:'📊 表格', items:[{ note:'第一行是表头，第二行用 --- 分隔。', code:'| 名字 | 年龄 |\n| --- | --- |\n| 小明 | 18 |\n| 小红 | 20 |' }]},
+    { section:'💻 代码块', items:[{ note:'三个反引号包裹，后面写语言名启用高亮。', code:'```javascript\nconsole.log("Hello!");\n```' }]},
+    { section:'💬 引用', items:[{ note:'每行开头加 >。', code:'> 这是一段引用。\n> 可以写多行。' }]},
+    { section:'💡 提示框', items:[
+      { note:'GitHub 风格提示框：引用中写 [!NOTE]、[!TIP]、[!WARNING]。', code:'> [!TIP]\n> 这是小技巧' },
+      { note:'操作前请先备份数据。', code:'> [!WARNING]\n> 操作前请先备份' }
     ]},
-    { section: '🖼️ 图片', items: [
-      { note: '和链接类似，最前面多一个感叹号。方括号里是图片描述。', code: '![示例图片](https://picsum.photos/400/180)' },
-    ]},
-    { section: '☰ 列表', items: [
-      { note: '无序列表用减号，有序列表用数字加点。', code: '- 苹果\n- 香蕉\n- 橘子' },
-      { note: '任务列表：已完成用 - [x]，未完成用 - [ ]。', code: '- [x] 已完成\n- [ ] 待办' },
-    ]},
-    { section: '📊 表格', items: [
-      { note: '第一行是表头，第二行用 --- 分隔，之后每行是数据。', code: '| 名字 | 年龄 |\n| --- | --- |\n| 小明 | 18 |\n| 小红 | 20 |' },
-      { note: '单元格内也可以写链接，例如 [官网](https://example.com)。', code: '| 网站 | 地址 |\n| --- | --- |\n| GitHub | [github.com](https://github.com) |' },
-    ]},
-    { section: '💻 代码块', items: [
-      { note: '用三个反引号包裹，反引号后面写语言名可以启用语法高亮。', code: '```javascript\nconsole.log("Hello, Markdown!");\n```' },
-    ]},
-    { section: '💬 引用', items: [
-      { note: '在每行开头加 > 号即可。', code: '> 这是一段引用。\n> 可以写多行。' },
-    ]},
-    { section: '💡 提示框', items: [
-      { note: 'GitHub 风格的提示框：在引用中写上 [!NOTE]、[!TIP]、[!WARNING]。', code: '> [!TIP]\n> 这是一个小技巧' },
-      { note: '三种常用类型：NOTE（提示）、TIP（技巧）、WARNING（警告）。', code: '> [!WARNING]\n> 操作前请先备份数据' },
-    ]},
-    { section: '📋 折叠', items: [
-      { note: '使用 HTML 的 details 和 summary 标签，适合放可选阅读的内容。', code: '<details>\n<summary>点击展开</summary>\n\n这里是隐藏的内容，展开后才会显示。\n\n</details>' },
-    ]},
-    { section: '➖ 分割线', items: [
-      { note: '三个或更多的减号独占一行。', code: '---' },
-    ]},
+    { section:'📋 折叠', items:[{ note:'使用 details / summary 标签。', code:'<details>\n<summary>点击展开</summary>\n\n隐藏内容\n\n</details>' }]},
+    { section:'➖ 分割线', items:[{ note:'三个或以上减号独占一行。', code:'---' }]},
+    { section:'📑 目录', items:[{ note:'目录根据本页面标题自动生成。', code:'- [一级标题](#一级标题)\n  - [二级标题](#二级标题)' }]},
+    { section:'🏷️ 徽章', items:[{ note:'shields.io 风格徽章，多个徽章可用空格分隔。', code:'![build](https://img.shields.io/badge/build-passing-green) ![license](https://img.shields.io/badge/license-MIT-blue)' }]},
+    { section:'⌨️ 按键', items:[{ note:'用 <kbd> 标签包裹按键名。', code:'按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 复制' }]},
+    { section:'🎬 视频', items:[{ note:'使用 HTML5 video 标签。', code:'<video src="https://example.com/video.mp4" controls></video>' }]},
+    { section:'📂 选项卡', items:[{ note:'GitHub 不支持原生 Tabs，用多个 details 实现。', code:'<details>\n<summary>选项 1</summary>\n\n内容 1\n\n</details>\n\n<details>\n<summary>选项 2</summary>\n\n内容 2\n\n</details>' }]},
+    { section:'🔀 流程图', items:[{ note:'GitHub 原生支持 Mermaid。代码块语言写 mermaid 即可。', code:'```mermaid\ngraph TD\n  A[开始] --> B[结束]\n```' }]},
   ],
   en: [
-    { section: '📌 Headings', items: [
-      { note: 'The number of # marks the heading level. Up to 6 levels.', code: '# Heading 1\n## Heading 2\n### Heading 3' },
+    { section:'📌 Headings', items:[{ note:'The number of # marks the heading level.', code:'# Heading 1\n## Heading 2\n### Heading 3' }]},
+    { section:'✍️ Text Styles', items:[{ note:'Bold uses two asterisks, italic one.', code:'**Bold** and *Italic*\n~~Strikethrough~~ and `Inline code`' }]},
+    { section:'🔗 Links', items:[
+      { note:'Display text in brackets, URL in parentheses.', code:'[Visit GitHub](https://github.com)' },
+      { note:'Jump to a heading in this doc with #.', code:'[Jump to "Heading 1"](#heading-1)' },
+      { note:'Link to another page with its name or slug.', code:'[Go to guide](guide)\n[Go to section](guide.md#install)' }
     ]},
-    { section: '✍️ Text Styles', items: [
-      { note: 'Bold uses two asterisks, italic one. Strikethrough uses two tildes. Inline code uses backticks.', code: '**Bold** and *Italic*\n~~Strikethrough~~ and `Inline code`' },
+    { section:'🖼️ Images', items:[{ note:'Like a link, but with leading !.', code:'![Example](https://picsum.photos/400/180)' }]},
+    { section:'☰ Lists', items:[
+      { note:'Bulleted use dashes, numbered use 1. 2. 3.', code:'- Apple\n- Banana\n- Orange' },
+      { note:'Task lists: - [x] for done.', code:'- [x] Done\n- [ ] Todo' }
     ]},
-    { section: '🔗 Links', items: [
-      { note: 'Display text goes in brackets, the URL goes in parentheses.', code: '[Visit GitHub](https://github.com)' },
-      { note: 'A URL starting with # jumps to a heading in this document.', code: '[Jump to "Heading 1"](#heading-1)' },
+    { section:'📊 Tables', items:[{ note:'Header row, then --- separator, then data.', code:'| Name | Age |\n| --- | --- |\n| Alice | 18 |\n| Bob | 20 |' }]},
+    { section:'💻 Code Blocks', items:[{ note:'Triple backticks with language name.', code:'```javascript\nconsole.log("Hello!");\n```' }]},
+    { section:'💬 Quotes', items:[{ note:'Start each line with >.', code:'> A quote.\n> Multiple lines.' }]},
+    { section:'💡 Callouts', items:[
+      { note:'GitHub-style callouts: [!NOTE], [!TIP], [!WARNING].', code:'> [!TIP]\n> Handy tip' },
+      { note:'Back up your data first.', code:'> [!WARNING]\n> Back up first' }
     ]},
-    { section: '🖼️ Images', items: [
-      { note: 'Like a link, but with a leading exclamation mark. The brackets hold the alt text.', code: '![Example image](https://picsum.photos/400/180)' },
-    ]},
-    { section: '☰ Lists', items: [
-      { note: 'Bulleted lists use dashes, numbered lists use "1. 2. 3.".', code: '- Apple\n- Banana\n- Orange' },
-      { note: 'Task lists: use - [x] for done, - [ ] for todo.', code: '- [x] Done\n- [ ] Todo' },
-    ]},
-    { section: '📊 Tables', items: [
-      { note: 'The first row is the header, the second row uses --- as a separator, then data rows follow.', code: '| Name | Age |\n| --- | --- |\n| Alice | 18 |\n| Bob | 20 |' },
-      { note: 'Cells can contain links too, e.g. [website](https://example.com).', code: '| Site | URL |\n| --- | --- |\n| GitHub | [github.com](https://github.com) |' },
-    ]},
-    { section: '💻 Code Blocks', items: [
-      { note: 'Wrap with triple backticks. Put the language name right after the opening fence to enable highlighting.', code: '```javascript\nconsole.log("Hello, Markdown!");\n```' },
-    ]},
-    { section: '💬 Quotes', items: [
-      { note: 'Start each line with >.', code: '> This is a quote.\n> It can span multiple lines.' },
-    ]},
-    { section: '💡 Callouts', items: [
-      { note: 'GitHub-style callouts: put [!NOTE], [!TIP] or [!WARNING] inside a quote.', code: '> [!TIP]\n> This is a handy tip' },
-      { note: 'Three common types: NOTE, TIP, WARNING.', code: '> [!WARNING]\n> Please back up your data first' },
-    ]},
-    { section: '📋 Details', items: [
-      { note: 'Use the HTML details and summary tags. Great for optional reading.', code: '<details>\n<summary>Click to expand</summary>\n\nThe hidden content appears after expansion.\n\n</details>' },
-    ]},
-    { section: '➖ Divider', items: [
-      { note: 'Three or more dashes on their own line.', code: '---' },
-    ]},
+    { section:'📋 Details', items:[{ note:'Use details / summary tags.', code:'<details>\n<summary>Click</summary>\n\nHidden\n\n</details>' }]},
+    { section:'➖ Divider', items:[{ note:'Three or more dashes.', code:'---' }]},
+    { section:'📑 TOC', items:[{ note:'Generated from headings on this page.', code:'- [Heading 1](#heading-1)\n  - [Heading 2](#heading-2)' }]},
+    { section:'🏷️ Badges', items:[{ note:'shields.io style badges.', code:'![build](https://img.shields.io/badge/build-passing-green) ![license](https://img.shields.io/badge/license-MIT-blue)' }]},
+    { section:'⌨️ Key', items:[{ note:'Wrap keys with <kbd>.', code:'Press <kbd>Ctrl</kbd> + <kbd>C</kbd>' }]},
+    { section:'🎬 Video', items:[{ note:'Use HTML5 video.', code:'<video src="https://example.com/video.mp4" controls></video>' }]},
+    { section:'📂 Tabs', items:[{ note:'No native tabs; use multiple details.', code:'<details>\n<summary>Option 1</summary>\n\nContent 1\n\n</details>\n\n<details>\n<summary>Option 2</summary>\n\nContent 2\n\n</details>' }]},
+    { section:'🔀 Diagram', items:[{ note:'GitHub supports Mermaid natively.', code:'```mermaid\ngraph TD\n  A[Start] --> B[End]\n```' }]},
   ],
 };
 
-/* ---------- 5. 链接浮层 ---------- */
-let currentPopover = null;
-function closeLinkPopover() {
-  if (!currentPopover) return;
-  currentPopover.remove();
-  currentPopover = null;
-  document.removeEventListener('mousedown', onDocMouseDown, true);
-  document.removeEventListener('keydown', onDocKeyDown, true);
-}
-function onDocMouseDown(e) {
-  if (!currentPopover) return;
-  if (currentPopover.contains(e.target)) return;
-  if (e.target.closest && e.target.closest('.link-trigger')) return;
-  closeLinkPopover();
-}
-function onDocKeyDown(e) {
-  if (e.key === 'Escape') closeLinkPopover();
-}
-function openLinkPopover(anchorBtn, onInsert) {
-  if (currentPopover) closeLinkPopover();
-  let presetText = '';
-  const activeEl = document.activeElement;
-  if (activeEl && activeEl.classList && activeEl.classList.contains('te-cell')) {
-    const s = activeEl.selectionStart ?? 0;
-    const e = activeEl.selectionEnd ?? 0;
-    if (s !== e) presetText = activeEl.value.slice(s, e);
-  }
-  const textInput = el('input', {
-    type: 'text', class: 'input',
-    placeholder: t('linkTextPlaceholder'), value: presetText,
-  });
-  const urlInput = el('input', {
-    type: 'text', class: 'input',
-    placeholder: t('linkUrlPlaceholder'),
-  });
-  const pop = el('div', { class: 'link-pop' },
-    el('label', { class: 'link-field' }, t('linkText'), textInput),
-    el('label', { class: 'link-field' }, t('linkUrl'), urlInput),
-    el('div', { class: 'link-hint' }, t('linkHintPre'), el('code', {}, '#heading'), t('linkHintPost')),
-    el('div', { class: 'link-actions' },
-      el('button', { class: 'btn tiny', type: 'button', onClick: closeLinkPopover }, t('cancel')),
-      el('button', {
-        class: 'btn tiny primary', type: 'button',
-        onClick: () => {
-          const text = textInput.value.trim();
-          const url  = urlInput.value.trim();
-          if (!url) { toast(t('linkNeedUrl')); urlInput.focus(); return; }
-          if (onInsert(text, url)) closeLinkPopover();
-        },
-      }, t('insert'))
-    )
-  );
-  document.body.append(pop);
-  currentPopover = pop;
-  const rect = anchorBtn.getBoundingClientRect();
-  const popRect = pop.getBoundingClientRect();
-  let left = rect.left;
-  let top = rect.bottom + 6;
-  if (left + popRect.width > window.innerWidth - 8) left = window.innerWidth - popRect.width - 8;
-  if (top + popRect.height > window.innerHeight - 8) top = rect.top - popRect.height - 6;
-  if (left < 8) left = 8;
-  if (top < 8) top = 8;
-  pop.style.left = left + 'px';
-  pop.style.top = top + 'px';
-  textInput.focus();
-  textInput.select();
-  setTimeout(() => {
-    document.addEventListener('mousedown', onDocMouseDown, true);
-    document.addEventListener('keydown', onDocKeyDown, true);
-  }, 0);
-  [textInput, urlInput].forEach((inp) => {
-    inp.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        pop.querySelector('.link-actions .primary').click();
-      }
-    });
-  });
-}
-function insertLinkIntoCell(inputEl, text, url) {
-  const s = inputEl.selectionStart ?? inputEl.value.length;
-  const e = inputEl.selectionEnd ?? inputEl.value.length;
-  const selected = inputEl.value.slice(s, e);
-  const display = text || selected || url;
-  const linkMd = `[${display}](${url})`;
-  inputEl.value = inputEl.value.slice(0, s) + linkMd + inputEl.value.slice(e);
-  inputEl.dispatchEvent(new Event('input', { bubbles: true }));
-  inputEl.focus();
-  const pos = s + linkMd.length;
-  inputEl.setSelectionRange(pos, pos);
+/* ---------- 5. 页面 & 链接辅助 ---------- */
+function normalizePage(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const id = Number(raw.id) || ++state.pageSeq;
+  const title = String(raw.title || '').trim() || t('newPageDefault');
+  const slug = String(raw.slug || '').trim() || slugifyAscii(title) || ('page-' + id);
+  const blocksRaw = Array.isArray(raw.blocks) ? raw.blocks : [];
+  const blocks = blocksRaw.map(normalizeBlock).filter(Boolean);
+  return { id, title, slug, blocks };
 }
 
-/* ---------- 6. 组件注册表 ---------- */
+function resolvePageByRef(ref) {
+  if (!ref) return null;
+  const clean = String(ref).replace(/\.md$/i, '').replace(/^\/+/,'').trim();
+  if (!clean) return null;
+  /* 依次匹配 slug → title → slugify(title) → slugifyAscii(title) */
+  let page = state.pages.find(p => p.slug === clean);
+  if (page) return page;
+  page = state.pages.find(p => p.title === ref || p.title === clean);
+  if (page) return page;
+  page = state.pages.find(p => slugify(p.title) === clean);
+  if (page) return page;
+  page = state.pages.find(p => slugifyAscii(p.title) === clean);
+  return page || null;
+}
+
+function scrollToAnchor(anchor) {
+  if (!anchor) return;
+  const decoded = decodeURIComponent(String(anchor));
+  const container = $('.pane-preview .pane-body');
+  if (!container) return;
+
+  let target = previewEl.querySelector('#' + cssEscape(decoded));
+  if (!target) target = previewEl.querySelector('#' + cssEscape(slugify(decoded)));
+  if (!target) {
+    /* 模糊匹配标题 */
+    const headings = previewEl.querySelectorAll('h1,h2,h3,h4,h5,h6');
+    for (const h of headings) {
+      const text = h.textContent || '';
+      const s1 = slugify(text), s2 = slugifyAscii(text);
+      if (s1 === decoded || s1 === slugify(decoded) || s2 === decoded || s2 === slugify(decoded)) {
+        target = h;
+        break;
+      }
+    }
+  }
+  if (target) {
+    const top = target.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop - 8;
+    container.scrollTo({ top, behavior: 'smooth' });
+    target.style.backgroundColor = 'var(--accent-soft)';
+    setTimeout(() => { target.style.backgroundColor = ''; }, 1400);
+  } else {
+    toast(t('anchorNotFound') + ': ' + decoded);
+  }
+}
+
+function cssEscape(str) {
+  try { return window.CSS && CSS.escape ? CSS.escape(str) : String(str).replace(/[^a-zA-Z0-9_-]/g, c => '\\' + c); }
+  catch (_) { return String(str).replace(/[^a-zA-Z0-9_-]/g, c => '\\' + c); }
+}
+
+function switchPage(pageId, anchor) {
+  if (!state.pages.some(p => p.id === pageId)) return;
+  state.currentPageId = pageId;
+  try { localStorage.setItem('md-generator:currentPageId', String(pageId)); } catch (_) {}
+  renderPageBar();
+  renderBlockList();
+  renderPreview();
+  if (anchor) setTimeout(() => scrollToAnchor(anchor), 120);
+}
+
+/* ---------- 6. 数据 normalize ---------- */
+function normalizeData(type, raw) {
+  const def = COMPONENTS[type];
+  const base = def.create();
+  const src = (raw && typeof raw === 'object') ? raw : {};
+  const merged = Object.assign({}, base, src);
+
+  ['text','code','url','alt','summary','body','items','lang','keys','poster'].forEach(k => {
+    if (k in merged && merged[k] != null && typeof merged[k] !== 'string') merged[k] = String(merged[k]);
+  });
+
+  if (type === 'heading') {
+    const lv = Number(merged.level);
+    merged.level = [1,2,3,4].includes(lv) ? lv : 1;
+    if (typeof merged.text !== 'string') merged.text = '';
+  } else if (type === 'table') {
+    if (!Array.isArray(merged.header)) merged.header = base.header.slice();
+    if (!Array.isArray(merged.rows))   merged.rows   = base.rows.slice();
+    merged.header = merged.header.map(h => String(h ?? ''));
+    merged.rows = merged.rows.map(r => Array.isArray(r) ? r.map(c => String(c ?? '')) : []);
+    const cols = merged.header.length;
+    merged.rows = merged.rows.map(r => {
+      const out = r.slice(0, cols);
+      while (out.length < cols) out.push('');
+      return out;
+    });
+    if (!merged.header.length) merged.header = base.header.slice();
+  } else if (type === 'admonition') {
+    if (!['note','tip','warning','important','caution'].includes(merged.kind)) merged.kind = 'note';
+    if (typeof merged.text !== 'string') merged.text = '';
+  } else if (type === 'toc') {
+    if (typeof merged.title !== 'string') merged.title = '';
+  } else if (type === 'badge') {
+    if (!Array.isArray(merged.items) || !merged.items.length) merged.items = base.items.slice();
+    merged.items = merged.items.map(it => ({
+      label: String((it && it.label) ?? ''),
+      message: String((it && it.message) ?? ''),
+      color: String((it && it.color) ?? 'green'),
+    }));
+  } else if (type === 'tabs') {
+    if (!Array.isArray(merged.items) || !merged.items.length) merged.items = base.items.slice();
+    merged.items = merged.items.map(it => ({
+      title: String((it && it.title) ?? ''),
+      body: String((it && it.body) ?? ''),
+    }));
+  } else if (type === 'center') {
+    if (typeof merged.text !== 'string') merged.text = '';
+  } else if (type === 'video') {
+    if (typeof merged.url !== 'string') merged.url = '';
+    if (typeof merged.poster !== 'string') merged.poster = '';
+  } else if (type === 'kbd') {
+    if (typeof merged.keys !== 'string') merged.keys = '';
+  } else if (type === 'mermaid') {
+    if (typeof merged.code !== 'string') merged.code = base.code || '';
+  } else if (type === 'paragraph' || type === 'quote') {
+    if (typeof merged.text !== 'string') merged.text = '';
+  } else if (type === 'list') {
+    merged.ordered = !!merged.ordered;
+    if (typeof merged.items !== 'string') merged.items = '';
+  } else if (type === 'details') {
+    if (typeof merged.summary !== 'string') merged.summary = '';
+    if (typeof merged.body    !== 'string') merged.body    = '';
+  }
+  return merged;
+}
+
+function normalizeBlock(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const type = String(raw.type || '');
+  let id = Number(raw.id);
+  if (!Number.isFinite(id) || id <= 0) id = ++state.seq;
+  else state.seq = Math.max(state.seq, id);
+
+  if (COMPONENTS[type] && type !== 'unknown') {
+    return { id, type, data: normalizeData(type, raw.data) };
+  }
+  if (!raw.data && !type) return null;
+  return { id, type: 'unknown', data: { originalType: type || '(none)', rawData: raw.data ?? null } };
+}
+
+/* ---------- 7. 组件注册表 ---------- */
 const COMPONENTS = {};
 function defineComponent(def) { COMPONENTS[def.type] = def; return def; }
 
+/* 7.1 标题 */
 defineComponent({
-  type: 'heading', icon: '📌',
+  type:'heading', icon:'📌',
   create: () => ({ level: 1, text: '' }),
   editor(block, ctx) {
     const d = block.data;
     return el('div', { class: 'row' },
-      select(d.level, [['1', t('h1')], ['2', t('h2')], ['3', t('h3')], ['4', t('h4')]],
-        (v) => ctx.update({ level: Number(v) })),
-      input(d.text, (v) => ctx.update({ text: v }), t('headingPlaceholder'))
+      select(d.level, [['1',t('h1')],['2',t('h2')],['3',t('h3')],['4',t('h4')]],
+        v => ctx.update({ level: Number(v) })),
+      input(d.text, v => ctx.update({ text: v }), t('headingPlaceholder'))
     );
   },
   toMarkdown(b) {
@@ -1039,18 +899,20 @@ defineComponent({
   },
 });
 
+/* 7.2 文字 */
 defineComponent({
-  type: 'paragraph', icon: '📝',
+  type:'paragraph', icon:'📝',
   create: () => ({ text: '' }),
   editor(block, ctx) {
-    return textarea(block.data.text, (v) => ctx.update({ text: v }), t('paragraphPlaceholder'), 3);
+    return textarea(block.data.text, v => ctx.update({ text: v }), t('paragraphPlaceholder'), 3);
   },
   toMarkdown(b) { return (b.data.text || '').trim(); },
 });
 
+/* 7.3 表格 */
 defineComponent({
-  type: 'table', icon: '📊',
-  create: () => ({ header: [t('table') + ' 1', t('table') + ' 2'], rows: [['', ''], ['', '']] }),
+  type:'table', icon:'📊',
+  create: () => ({ header: ['列 1','列 2'], rows: [['',''],['','']] }),
   editor(block, ctx) {
     const d = block.data;
     const cols = Math.max(d.header.length, 1);
@@ -1058,91 +920,76 @@ defineComponent({
     let activeCell = null;
     function makeCellInput(value, onInputFn, placeholder) {
       const inp = el('input', {
-        type: 'text', class: 'te-cell',
-        value: value ?? '', placeholder,
+        type:'text', class:'te-cell', value: value ?? '', placeholder,
         onInput: (e) => { onInputFn(e.target.value); ctx.touch(); },
       });
       inp.addEventListener('focus', () => { activeCell = inp; });
       return inp;
     }
-    const table = el('table', { class: 'te-table' });
+    const table = el('table', { class:'te-table' });
     const thead = el('thead');
     const headRow = el('tr');
     d.header.forEach((h, ci) => {
-      headRow.append(el('th', {}, makeCellInput(h, (v) => { d.header[ci] = v; }, `C${ci + 1}`)));
+      headRow.append(el('th', {}, makeCellInput(h, v => { d.header[ci] = v; }, `C${ci+1}`)));
     });
-    headRow.append(el('th', { class: 'te-row-del' }));
-    thead.append(headRow);
-    table.append(thead);
+    headRow.append(el('th', { class:'te-row-del' }));
+    thead.append(headRow); table.append(thead);
     const tbody = el('tbody');
     d.rows.forEach((row, ri) => {
       const tr = el('tr');
       row.forEach((cell, ci) => {
-        tr.append(el('td', {}, makeCellInput(cell, (v) => { d.rows[ri][ci] = v; }, '')));
+        tr.append(el('td', {}, makeCellInput(cell, v => { d.rows[ri][ci] = v; }, '')));
       });
-      tr.append(el('td', { class: 'te-row-del' },
+      tr.append(el('td', { class:'te-row-del' },
         el('button', {
-          class: 'btn-icon danger', type: 'button', title: t('deleteRow'),
-          onClick: () => { d.rows.splice(ri, 1); ctx.rerender(); },
+          class:'btn-icon danger', type:'button', title:t('deleteRow'),
+          onClick: () => { d.rows.splice(ri,1); ctx.rerender(); },
         }, '✕')
       ));
       tbody.append(tr);
     });
     table.append(tbody);
     wrap.append(table);
-    wrap.append(el('div', { class: 'te-toolbar' },
-      el('button', { class: 'btn tiny', type: 'button',
-        onClick: () => { d.rows.push(new Array(cols).fill('')); ctx.rerender(); },
-      }, t('addRow')),
-      el('button', { class: 'btn tiny', type: 'button',
-        onClick: () => {
-          d.header.push(`${t('table')} ${d.header.length + 1}`);
-          d.rows.forEach((r) => r.push(''));
-          ctx.rerender();
-        },
-      }, t('addCol')),
-      el('button', { class: 'btn tiny', type: 'button', disabled: cols <= 1,
-        onClick: () => {
-          if (d.header.length <= 1) return;
-          d.header.pop();
-          d.rows.forEach((r) => r.pop());
-          ctx.rerender();
-        },
-      }, t('removeCol')),
+    wrap.append(el('div', { class:'te-toolbar' },
+      el('button', { class:'btn tiny', type:'button', onClick: () => { d.rows.push(new Array(cols).fill('')); ctx.rerender(); } }, t('addRow')),
+      el('button', { class:'btn tiny', type:'button', onClick: () => { d.header.push(`列 ${d.header.length+1}`); d.rows.forEach(r => r.push('')); ctx.rerender(); } }, t('addCol')),
+      el('button', { class:'btn tiny', type:'button', disabled: cols <= 1, onClick: () => { if (d.header.length <= 1) return; d.header.pop(); d.rows.forEach(r => r.pop()); ctx.rerender(); } }, t('removeCol')),
       el('button', {
-        class: 'btn tiny link-trigger', type: 'button', title: t('linkBtnTitle'),
-        onMouseDown: (e) => e.preventDefault(),
-        onClick: (e) => openLinkPopover(e.currentTarget, (text, url) => {
+        class:'btn tiny link-trigger', type:'button', title:t('linkBtnTitle'),
+        onMouseDown: e => e.preventDefault(),
+        onClick: e => openLinkPopover(e.currentTarget, (text, url) => {
           if (!activeCell) { toast(t('linkNeedCell')); return false; }
           insertLinkIntoCell(activeCell, text, url);
           return true;
         }),
       }, t('insertLink'))
     ));
-    wrap.append(el('div', { class: 'te-hint' },
-      t('tableHintPre'), el('code', {}, '[text](https://…)'), t('tableHintMid1'),
-      el('code', {}, '[text](#heading)'), t('tableHintMid2')
+    wrap.append(el('div', { class:'te-hint' },
+      t('tableHintPre'), el('code', {}, '[text](https://…)'),
+      t('tableHintMid1'), el('code', {}, '[text](#heading)'),
+      t('tableHintMid2')
     ));
     return wrap;
   },
   toMarkdown(b) {
     const { header, rows } = b.data;
     if (!Array.isArray(header) || !header.length) return '';
-    const esc = (s) => String(s ?? '').replace(/\|/g, '\\|');
-    const line = (arr) => `| ${arr.map(esc).join(' | ')} |`;
+    const esc = s => String(s ?? '').replace(/\|/g, '\\|');
+    const line = arr => `| ${arr.map(esc).join(' | ')} |`;
     const sep = `| ${header.map(() => '---').join(' | ')} |`;
     return [line(header), sep, ...rows.map(line)].join('\n');
   },
 });
 
+/* 7.4 图片 */
 defineComponent({
-  type: 'image', icon: '🖼️',
-  create: () => ({ url: '', alt: '' }),
+  type:'image', icon:'🖼️',
+  create: () => ({ url:'', alt:'' }),
   editor(block, ctx) {
     const d = block.data;
-    return el('div', { class: 'stack' },
-      field(t('imageUrl'), input(d.url, (v) => ctx.update({ url: v }), t('imageUrlPlaceholder'))),
-      field(t('imageAlt'), input(d.alt, (v) => ctx.update({ alt: v }), t('imageAltPlaceholder')))
+    return el('div', { class:'stack' },
+      field(t('imageUrl'), input(d.url, v => ctx.update({ url: v }), t('imageUrlPlaceholder'))),
+      field(t('imageAlt'), input(d.alt, v => ctx.update({ alt: v }), t('imageAltPlaceholder')))
     );
   },
   toMarkdown(b) {
@@ -1151,34 +998,25 @@ defineComponent({
   },
 });
 
+/* 7.5 代码 */
 const CODE_LANGUAGES = [
-  ['javascript', 'JavaScript'], ['typescript', 'TypeScript'],
-  ['python', 'Python'],         ['html', 'HTML'],
-  ['css', 'CSS'],               ['json', 'JSON'],
-  ['bash', 'Bash'],             ['shell', 'Shell'],
-  ['java', 'Java'],             ['go', 'Go'],
-  ['rust', 'Rust'],             ['php', 'PHP'],
-  ['sql', 'SQL'],               ['yaml', 'YAML'],
-  ['xml', 'XML'],               ['markdown', 'Markdown'],
-  ['plaintext', 'Plain text'],  ['vue', 'Vue'],
-  ['jsx', 'JSX'],               ['c', 'C'],
-  ['cpp', 'C++'],               ['csharp', 'C#'],
-  ['ruby', 'Ruby'],             ['swift', 'Swift'],
-  ['kotlin', 'Kotlin'],         ['scss', 'SCSS'],
-  ['dockerfile', 'Dockerfile'], ['powershell', 'PowerShell'],
+  ['javascript','JavaScript'],['typescript','TypeScript'],['python','Python'],['html','HTML'],
+  ['css','CSS'],['json','JSON'],['bash','Bash'],['shell','Shell'],['java','Java'],['go','Go'],
+  ['rust','Rust'],['php','PHP'],['sql','SQL'],['yaml','YAML'],['xml','XML'],['markdown','Markdown'],
+  ['plaintext','Plain text'],['vue','Vue'],['jsx','JSX'],['c','C'],['cpp','C++'],['csharp','C#'],
+  ['ruby','Ruby'],['swift','Swift'],['kotlin','Kotlin'],['scss','SCSS'],['dockerfile','Dockerfile'],['powershell','PowerShell'],
 ];
-
 defineComponent({
-  type: 'code', icon: '💻',
-  create: () => ({ lang: 'javascript', code: '' }),
+  type:'code', icon:'💻',
+  create: () => ({ lang:'javascript', code:'' }),
   editor(block, ctx) {
     const d = block.data;
-    return el('div', { class: 'stack' },
-      el('div', { class: 'row' },
-        select(d.lang, CODE_LANGUAGES, (v) => ctx.update({ lang: v })),
-        el('span', { class: 'hint' }, t('codeLangHint'))
+    return el('div', { class:'stack' },
+      el('div', { class:'row' },
+        select(d.lang, CODE_LANGUAGES, v => ctx.update({ lang: v })),
+        el('span', { class:'hint' }, t('codeLangHint'))
       ),
-      textarea(d.code, (v) => ctx.update({ code: v }), t('codePlaceholder'), 6)
+      textarea(d.code, v => ctx.update({ code: v }), t('codePlaceholder'), 6)
     );
   },
   toMarkdown(b) {
@@ -1188,15 +1026,16 @@ defineComponent({
   },
 });
 
+/* 7.6 提示框 */
 defineComponent({
-  type: 'admonition', icon: '💡',
-  create: () => ({ kind: 'note', text: '' }),
+  type:'admonition', icon:'💡',
+  create: () => ({ kind:'note', text:'' }),
   editor(block, ctx) {
     const d = block.data;
-    return el('div', { class: 'stack' },
-      select(d.kind, [['note', t('note')], ['tip', t('tip')], ['warning', t('warning')]],
-        (v) => ctx.update({ kind: v })),
-      textarea(d.text, (v) => ctx.update({ text: v }), t('admonitionPlaceholder'), 3)
+    return el('div', { class:'stack' },
+      select(d.kind, [['note',t('note')],['tip',t('tip')],['warning',t('warning')]],
+        v => ctx.update({ kind: v })),
+      textarea(d.text, v => ctx.update({ text: v }), t('admonitionPlaceholder'), 3)
     );
   },
   toMarkdown(b) {
@@ -1212,178 +1051,355 @@ defineComponent({
   },
 });
 
+/* 7.7 引用 */
 defineComponent({
-  type: 'quote', icon: '💬',
-  create: () => ({ text: '' }),
+  type:'quote', icon:'💬',
+  create: () => ({ text:'' }),
   editor(block, ctx) {
-    return textarea(block.data.text, (v) => ctx.update({ text: v }), t('quotePlaceholder'), 3);
+    return textarea(block.data.text, v => ctx.update({ text: v }), t('quotePlaceholder'), 3);
   },
   toMarkdown(b) {
-    const lines = (b.data.text || '').split('\n');
-    return lines.map((l) => (l ? `> ${l}` : '>')).join('\n');
+    return (b.data.text || '').split('\n').map(l => l ? `> ${l}` : '>').join('\n');
   },
 });
 
+/* 7.8 列表 */
 defineComponent({
-  type: 'list', icon: '☰',
-  create: () => ({ ordered: false, items: '' }),
+  type:'list', icon:'☰',
+  create: () => ({ ordered:false, items:'' }),
   editor(block, ctx) {
     const d = block.data;
     const btnU = el('button', { class: 'seg-btn' + (d.ordered ? '' : ' active'), type: 'button' }, t('listUnordered'));
     const btnO = el('button', { class: 'seg-btn' + (d.ordered ? ' active' : ''), type: 'button' }, t('listOrdered'));
-    const setMode = (ordered) => {
-      d.ordered = ordered;
-      btnU.classList.toggle('active', !ordered);
-      btnO.classList.toggle('active', ordered);
-      ctx.touch();
-    };
+    const setMode = o => { d.ordered = o; btnU.classList.toggle('active', !o); btnO.classList.toggle('active', o); ctx.touch(); };
     btnU.addEventListener('click', () => setMode(false));
     btnO.addEventListener('click', () => setMode(true));
-    return el('div', { class: 'stack' },
-      el('div', { class: 'seg' }, btnU, btnO),
-      textarea(d.items, (v) => ctx.update({ items: v }), t('listPlaceholder'), 4)
+    return el('div', { class:'stack' },
+      el('div', { class:'seg' }, btnU, btnO),
+      textarea(d.items, v => ctx.update({ items: v }), t('listPlaceholder'), 4)
     );
   },
   toMarkdown(b) {
-    const items = (b.data.items || '').split('\n').filter((l) => l.trim() !== '');
+    const items = (b.data.items || '').split('\n').filter(l => l.trim() !== '');
     if (!items.length) return '';
-    return items.map((it, i) => (b.data.ordered ? `${i + 1}. ${it}` : `- ${it}`)).join('\n');
+    return items.map((it, i) => b.data.ordered ? `${i+1}. ${it}` : `- ${it}`).join('\n');
   },
 });
 
+/* 7.9 分割线 */
 defineComponent({
-  type: 'hr', icon: '➖',
+  type:'hr', icon:'➖',
   create: () => ({}),
-  editor() { return el('div', { class: 'hint' }, t('hrHint')); },
+  editor() { return el('div', { class:'hint' }, t('hrHint')); },
   toMarkdown: () => '---',
 });
 
+/* 7.10 折叠 */
 defineComponent({
-  type: 'details', icon: '📋',
-  create: () => ({ summary: '', body: '' }),
+  type:'details', icon:'📋',
+  create: () => ({ summary:'', body:'' }),
   editor(block, ctx) {
     const d = block.data;
-    return el('div', { class: 'stack' },
-      input(d.summary, (v) => ctx.update({ summary: v }), t('detailsSummaryPlaceholder')),
-      textarea(d.body, (v) => ctx.update({ body: v }), t('detailsBodyPlaceholder'), 4)
+    return el('div', { class:'stack' },
+      input(d.summary, v => ctx.update({ summary: v }), t('detailsSummaryPlaceholder')),
+      textarea(d.body, v => ctx.update({ body: v }), t('detailsBodyPlaceholder'), 4)
     );
   },
   toMarkdown(b) {
-    const { summary, body } = b.data;
-    return ['<details>', `<summary>${summary || t('details')}</summary>`, '', (body || '').trim(), '', '</details>'].join('\n');
+    return ['<details>', `<summary>${b.data.summary || t('details')}</summary>`, '', (b.data.body || '').trim(), '', '</details>'].join('\n');
   },
 });
 
-/* ★ 未知组件降级：数据不丢失，允许用户查看和删除 */
+/* 7.11 目录 */
 defineComponent({
-  type: 'unknown', icon: '❓',
-  create: () => ({ originalType: '', rawData: null }),
+  type:'toc', icon:'📑',
+  create: () => ({ title: '' }),
+  editor(block, ctx) {
+    return el('div', { class:'stack' },
+      field(t('tocTitleLabel'), input(block.data.title, v => ctx.update({ title: v }), t('tocTitlePlaceholder'))),
+      el('div', { class:'hint' }, t('tocHint'))
+    );
+  },
+  toMarkdown(b) {
+    const page = currentPage();
+    if (!page) return '';
+    const headings = page.blocks.filter(bl => bl.type === 'heading');
+    if (!headings.length) return '';
+    const lines = [];
+    if (b.data.title) lines.push(`**${b.data.title}**`, '');
+    headings.forEach(h => {
+      const text = (h.data.text || '').trim() || '标题';
+      const anchor = slugify(text);
+      const indent = '  '.repeat(Math.max(0, (h.data.level || 1) - 1));
+      lines.push(`${indent}- [${text}](#${anchor})`);
+    });
+    return lines.join('\n');
+  },
+});
+
+/* 7.12 徽章 */
+function shieldUrl(label, message, color) {
+  const enc = (s) => String(s || '').replace(/-/g, '--').replace(/_/g, '__').replace(/\s/g, '_');
+  return `https://img.shields.io/badge/${enc(label)}-${enc(message)}-${enc(color || 'green')}`;
+}
+defineComponent({
+  type:'badge', icon:'🏷️',
+  create: () => ({ items: [{ label:'build', message:'passing', color:'green' }] }),
+  editor(block, ctx) {
+    const d = block.data;
+    const wrap = el('div', { class:'stack' });
+    wrap.append(el('div', { class:'hint' }, t('badgeHint')));
+    d.items.forEach((item, i) => {
+      wrap.append(el('div', { class:'sub-item' },
+        el('div', { class:'sub-item-head' },
+          input(item.label, v => { d.items[i].label = v; ctx.touch(); }, t('badgeLabelPh')),
+          input(item.message, v => { d.items[i].message = v; ctx.touch(); }, t('badgeMsgPh')),
+          input(item.color, v => { d.items[i].color = v; ctx.touch(); }, t('badgeColorPh')),
+          el('button', {
+            class:'btn-icon danger', type:'button', title:t('delete'),
+            onClick: () => { d.items.splice(i,1); ctx.rerender(); },
+          }, '✕')
+        )
+      ));
+    });
+    wrap.append(el('button', {
+      class:'btn tiny', type:'button',
+      onClick: () => { d.items.push({ label:'', message:'', color:'blue' }); ctx.rerender(); },
+    }, t('addBadge')));
+    return wrap;
+  },
+  toMarkdown(b) {
+    return b.data.items.map(it =>
+      `![${it.label || 'badge'}](${shieldUrl(it.label, it.message, it.color)})`
+    ).join(' ');
+  },
+});
+
+/* 7.13 按键 */
+defineComponent({
+  type:'kbd', icon:'⌨️',
+  create: () => ({ keys: 'Ctrl + C' }),
+  editor(block, ctx) {
+    return el('div', { class:'stack' },
+      field(t('kbdKeysLabel'), input(block.data.keys, v => ctx.update({ keys: v }), t('kbdKeysPlaceholder'))),
+      el('div', { class:'hint' }, t('kbdHint'))
+    );
+  },
+  toMarkdown(b) {
+    const parts = String(b.data.keys || '').split('+').map(s => s.trim()).filter(Boolean);
+    return parts.map(k => `<kbd>${k}</kbd>`).join(' + ');
+  },
+});
+
+/* 7.14 居中 */
+defineComponent({
+  type:'center', icon:'↔️',
+  create: () => ({ text: '' }),
+  editor(block, ctx) {
+    return textarea(block.data.text, v => ctx.update({ text: v }), t('centerPlaceholder'), 3);
+  },
+  toMarkdown(b) {
+    return `<div align="center">\n\n${(b.data.text || '').trim()}\n\n</div>`;
+  },
+});
+
+/* 7.15 视频 */
+defineComponent({
+  type:'video', icon:'🎬',
+  create: () => ({ url:'', poster:'' }),
+  editor(block, ctx) {
+    const d = block.data;
+    return el('div', { class:'stack' },
+      field(t('videoUrl'), input(d.url, v => ctx.update({ url: v }), t('videoUrlPlaceholder'))),
+      field(t('videoPoster'), input(d.poster, v => ctx.update({ poster: v }), t('videoPosterPh')))
+    );
+  },
+  toMarkdown(b) {
+    const poster = b.data.poster ? ` poster="${b.data.poster}"` : '';
+    return `<video src="${b.data.url || ''}"${poster} controls></video>`;
+  },
+});
+
+/* 7.16 选项卡 */
+defineComponent({
+  type:'tabs', icon:'📂',
+  create: () => ({ items: [{ title:'选项 1', body:'' }] }),
+  editor(block, ctx) {
+    const d = block.data;
+    const wrap = el('div', { class:'stack' });
+    d.items.forEach((item, i) => {
+      wrap.append(el('div', { class:'sub-item' },
+        el('div', { class:'sub-item-head' },
+          input(item.title, v => { d.items[i].title = v; ctx.touch(); }, t('tabTitlePh')),
+          el('button', {
+            class:'btn-icon danger', type:'button', title:t('delete'),
+            onClick: () => { d.items.splice(i,1); ctx.rerender(); },
+          }, '✕')
+        ),
+        textarea(item.body, v => { d.items[i].body = v; ctx.touch(); }, t('tabBodyPh'), 3)
+      ));
+    });
+    wrap.append(el('button', {
+      class:'btn tiny', type:'button',
+      onClick: () => { d.items.push({ title: `选项 ${d.items.length+1}`, body: '' }); ctx.rerender(); },
+    }, t('addTab')));
+    return wrap;
+  },
+  toMarkdown(b) {
+    return b.data.items.map(it =>
+      `<details>\n<summary>${it.title || 'Tab'}</summary>\n\n${(it.body || '').trim()}\n\n</details>`
+    ).join('\n\n');
+  },
+});
+
+/* 7.17 流程图 */
+defineComponent({
+  type:'mermaid', icon:'🔀',
+  create: () => ({ code:'graph TD\n  A[开始] --> B{判断}\n  B -->|是| C[结束]\n  B -->|否| D[继续]' }),
+  editor(block, ctx) {
+    return el('div', { class:'stack' },
+      el('div', { class:'hint' }, t('mermaidHint')),
+      textarea(block.data.code, v => ctx.update({ code: v }), 'graph TD\n  A --> B', 8)
+    );
+  },
+  toMarkdown(b) { return '```mermaid\n' + (b.data.code || '') + '\n```'; },
+});
+
+/* 7.18 未知组件 */
+defineComponent({
+  type:'unknown', icon:'❓',
+  create: () => ({ originalType:'', rawData: null }),
   editor(block) {
     const d = block.data;
     let rawStr = '';
     try { rawStr = JSON.stringify(d.rawData, null, 2); }
     catch (_) { rawStr = String(d.rawData); }
     if (!rawStr) rawStr = '(empty)';
-    return el('div', { class: 'stack' },
-      el('div', { class: 'hint' }, t('unknownTypeHint')),
-      field(t('unknownOriginalType'), el('div', { class: 'hint' }, d.originalType || '(none)')),
+    return el('div', { class:'stack' },
+      el('div', { class:'hint' }, t('unknownTypeHint')),
+      field(t('unknownOriginalType'), el('div', { class:'hint' }, d.originalType || '(none)')),
       field(t('unknownRawData'), el('pre', {
-        class: 'input',
-        style: 'max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-all;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;',
+        class:'input',
+        style:'max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-all;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;',
       }, rawStr))
     );
   },
-  toMarkdown() { return ''; },
+  toMarkdown: () => '',
 });
 
+/* ---------- 8. 工具栏顺序 ---------- */
 const TOOLBAR = [
-  'heading', 'paragraph', 'table', 'image', 'code',
-  'admonition', 'quote', 'list', 'hr', 'details',
+  'heading','paragraph','table','image','code',
+  'admonition','quote','list','hr','details',
+  'toc','badge','kbd','center','video','tabs','mermaid',
 ];
 
-/* ---------- 7. 数据 normalize（兼容旧内容） ---------- */
-function normalizeData(type, raw) {
-  const def = COMPONENTS[type];
-  const base = def.create();
-  const src  = (raw && typeof raw === 'object') ? raw : {};
-  const merged = Object.assign({}, base, src);
+/* ---------- 9. 链接浮层 ---------- */
+let currentPopover = null;
+function closeLinkPopover() {
+  if (!currentPopover) return;
+  currentPopover.remove();
+  currentPopover = null;
+  document.removeEventListener('mousedown', onDocMouseDown, true);
+  document.removeEventListener('keydown', onDocKeyDown, true);
+}
+function onDocMouseDown(e) {
+  if (!currentPopover) return;
+  if (currentPopover.contains(e.target)) return;
+  if (e.target.closest && e.target.closest('.link-trigger')) return;
+  closeLinkPopover();
+}
+function onDocKeyDown(e) { if (e.key === 'Escape') closeLinkPopover(); }
 
-  /* 通用：确保特定字段是字符串 */
-  ['text', 'code', 'url', 'alt', 'summary', 'body', 'items', 'lang'].forEach((k) => {
-    if (k in merged && merged[k] != null && typeof merged[k] !== 'string') {
-      merged[k] = String(merged[k]);
-    }
+function openLinkPopover(anchorBtn, onInsert) {
+  if (currentPopover) closeLinkPopover();
+  let presetText = '';
+  const activeEl = document.activeElement;
+  if (activeEl && activeEl.classList && activeEl.classList.contains('te-cell')) {
+    const s = activeEl.selectionStart ?? 0;
+    const e = activeEl.selectionEnd ?? 0;
+    if (s !== e) presetText = activeEl.value.slice(s, e);
+  }
+  const textInput = el('input', { type:'text', class:'input', placeholder: t('linkTextPlaceholder'), value: presetText });
+  const urlInput  = el('input', { type:'text', class:'input', placeholder: t('linkUrlPlaceholder') });
+
+  /* 页面快速选择 */
+  const pageSelect = el('select', { class:'input select' });
+  pageSelect.append(el('option', { value:'' }, t('selectPageOptional')));
+  state.pages.forEach(p => {
+    if (p.id === state.currentPageId) return;
+    pageSelect.append(el('option', { value: p.slug }, `${p.title}  (${p.slug})`));
+  });
+  pageSelect.addEventListener('change', () => {
+    const v = pageSelect.value;
+    if (v) urlInput.value = v;
   });
 
-  /* 类型特定 normalize */
-  if (type === 'heading') {
-    const lv = Number(merged.level);
-    merged.level = [1, 2, 3, 4].includes(lv) ? lv : 1;
-    if (typeof merged.text !== 'string') merged.text = '';
-  } else if (type === 'table') {
-    if (!Array.isArray(merged.header)) merged.header = base.header.slice();
-    if (!Array.isArray(merged.rows))   merged.rows   = base.rows.slice();
-    merged.header = merged.header.map((h) => String(h ?? ''));
-    merged.rows = merged.rows.map((r) => Array.isArray(r) ? r.map((c) => String(c ?? '')) : []);
-    const cols = merged.header.length;
-    merged.rows = merged.rows.map((r) => {
-      const out = r.slice(0, cols);
-      while (out.length < cols) out.push('');
-      return out;
+  const pop = el('div', { class:'link-pop' },
+    el('label', { class:'link-field' }, t('linkText'), textInput),
+    el('label', { class:'link-field' }, t('linkUrl'), urlInput),
+    el('label', { class:'link-field' }, t('linkToPage'), pageSelect),
+    el('div', { class:'link-hint' },
+      t('linkHintPre'), el('code', {}, '#heading'),
+      t('linkHintMid'), el('code', {}, 'page-slug'),
+      t('linkHintPost')
+    ),
+    el('div', { class:'link-actions' },
+      el('button', { class:'btn tiny', type:'button', onClick: closeLinkPopover }, t('cancel')),
+      el('button', {
+        class:'btn tiny primary', type:'button',
+        onClick: () => {
+          const text = textInput.value.trim();
+          const url = urlInput.value.trim();
+          if (!url) { toast(t('linkNeedUrl')); urlInput.focus(); return; }
+          if (onInsert(text, url)) closeLinkPopover();
+        },
+      }, t('insert'))
+    )
+  );
+
+  document.body.append(pop);
+  currentPopover = pop;
+
+  const rect = anchorBtn.getBoundingClientRect();
+  const popRect = pop.getBoundingClientRect();
+  let left = rect.left, top = rect.bottom + 6;
+  if (left + popRect.width > window.innerWidth - 8) left = window.innerWidth - popRect.width - 8;
+  if (top + popRect.height > window.innerHeight - 8) top = rect.top - popRect.height - 6;
+  if (left < 8) left = 8;
+  if (top < 8) top = 8;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+
+  textInput.focus();
+  textInput.select();
+
+  setTimeout(() => {
+    document.addEventListener('mousedown', onDocMouseDown, true);
+    document.addEventListener('keydown', onDocKeyDown, true);
+  }, 0);
+
+  [textInput, urlInput].forEach(inp => {
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); pop.querySelector('.link-actions .primary').click(); }
     });
-    if (!merged.header.length) merged.header = base.header.slice();
-  } else if (type === 'admonition') {
-    if (!['note', 'tip', 'warning', 'important', 'caution'].includes(merged.kind)) {
-      merged.kind = 'note';
-    }
-    if (typeof merged.text !== 'string') merged.text = '';
-  } else if (type === 'image') {
-    if (typeof merged.url !== 'string') merged.url = '';
-    if (typeof merged.alt !== 'string') merged.alt = '';
-  } else if (type === 'code') {
-    if (typeof merged.lang !== 'string' || !merged.lang) merged.lang = 'plaintext';
-    if (typeof merged.code !== 'string') merged.code = '';
-  } else if (type === 'paragraph' || type === 'quote') {
-    if (typeof merged.text !== 'string') merged.text = '';
-  } else if (type === 'list') {
-    merged.ordered = !!merged.ordered;
-    if (typeof merged.items !== 'string') merged.items = '';
-  } else if (type === 'details') {
-    if (typeof merged.summary !== 'string') merged.summary = '';
-    if (typeof merged.body    !== 'string') merged.body    = '';
-  } else if (type === 'hr') {
-    /* 无需 normalize */
-  }
-
-  return merged;
+  });
 }
 
-function normalizeBlock(raw) {
-  if (!raw || typeof raw !== 'object') return null;
-  const type = String(raw.type || '');
-  let id = Number(raw.id);
-  if (!Number.isFinite(id) || id <= 0) id = ++state.seq;
-  else state.seq = Math.max(state.seq, id);
-
-  /* 已知类型：合并默认值 + 类型特定 normalize */
-  if (COMPONENTS[type] && type !== 'unknown') {
-    return { id, type, data: normalizeData(type, raw.data) };
-  }
-
-  /* 未知类型：如果连 raw.data 都没有意义就丢弃 */
-  if (!raw.data && !type) return null;
-
-  return {
-    id,
-    type: 'unknown',
-    data: {
-      originalType: type || '(none)',
-      rawData: raw.data ?? null,
-    },
-  };
+function insertLinkIntoCell(inputEl, text, url) {
+  const s = inputEl.selectionStart ?? inputEl.value.length;
+  const e = inputEl.selectionEnd   ?? inputEl.value.length;
+  const selected = inputEl.value.slice(s, e);
+  const display = text || selected || url;
+  const linkMd = `[${display}](${url})`;
+  inputEl.value = inputEl.value.slice(0, s) + linkMd + inputEl.value.slice(e);
+  inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+  inputEl.focus();
+  const pos = s + linkMd.length;
+  inputEl.setSelectionRange(pos, pos);
 }
 
-/* ---------- 8. 状态渲染 ---------- */
+/* ---------- 10. 渲染 ---------- */
 let previewTimer = null;
 const previewEl   = $('#preview');
 const blockListEl = $('#blockList');
@@ -1391,49 +1407,93 @@ const paletteEl   = $('#palette');
 
 function schedulePreview() {
   clearTimeout(previewTimer);
-  previewTimer = setTimeout(() => { renderPreview(); persist(); }, 100);
+  previewTimer = setTimeout(() => { renderPreview(); persistAll(); }, 100);
 }
-const STORAGE_KEY = 'md-generator:blocks';
+
+const PAGES_KEY = 'md-generator:pages';
+const CURRENT_PAGE_KEY = 'md-generator:currentPageId';
 const THEME_KEY = 'md-generator:theme';
-function persist() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.blocks)); } catch (_) { /* ignore */ }
+
+function persistAll() {
+  try {
+    localStorage.setItem(PAGES_KEY, JSON.stringify(state.pages));
+    localStorage.setItem(CURRENT_PAGE_KEY, String(state.currentPageId));
+  } catch (_) {}
 }
 
-function restore() {
+function loadFromStorage() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return false;
-    const data = JSON.parse(raw);
-    if (!Array.isArray(data)) return false;
+    const pagesRaw = localStorage.getItem(PAGES_KEY);
+    if (pagesRaw) {
+      const data = JSON.parse(pagesRaw);
+      if (Array.isArray(data) && data.length) {
+        state.pages = [];
+        state.pageSeq = 0;
+        state.seq = 0;
+        data.forEach(raw => {
+          const p = normalizePage(raw);
+          if (p) {
+            state.pages.push(p);
+            state.pageSeq = Math.max(state.pageSeq, p.id);
+          }
+        });
+        if (state.pages.length) {
+          const savedCur = Number(localStorage.getItem(CURRENT_PAGE_KEY));
+          if (state.pages.some(p => p.id === savedCur)) state.currentPageId = savedCur;
+          else state.currentPageId = state.pages[0].id;
+          return true;
+        }
+      }
+    }
 
-    state.blocks = [];
-    state.seq = 0;
-    data.forEach((rawBlock) => {
-      const normalized = normalizeBlock(rawBlock);
-      if (normalized) state.blocks.push(normalized);
-    });
-    return state.blocks.length > 0;
-  } catch (e) {
-    console.warn('restore failed:', e);
-    return false;
-  }
+    /* 迁移旧版单页数据 */
+    const oldRaw = localStorage.getItem('md-generator:blocks');
+    if (oldRaw) {
+      const oldBlocks = JSON.parse(oldRaw);
+      if (Array.isArray(oldBlocks) && oldBlocks.length) {
+        const page = {
+          id: 1,
+          title: t('restoredPageTitle'),
+          slug: 'restored-page',
+          blocks: oldBlocks.map(normalizeBlock).filter(Boolean),
+        };
+        state.pages = [page];
+        state.pageSeq = 1;
+        state.seq = page.blocks.reduce((m, b) => Math.max(m, b.id), 0);
+        state.currentPageId = 1;
+        localStorage.removeItem('md-generator:blocks');
+        return true;
+      }
+    }
+  } catch (e) { console.warn('load failed:', e); }
+  return false;
+}
+
+function renderPageBar() {
+  const sel = $('#pageSelect');
+  if (!sel) return;
+  sel.innerHTML = '';
+  state.pages.forEach(p => {
+    const opt = el('option', { value: p.id }, p.title || 'Untitled');
+    if (p.id === state.currentPageId) opt.selected = true;
+    sel.append(opt);
+  });
 }
 
 function renderBlockList() {
   blockListEl.innerHTML = '';
-  if (state.blocks.length === 0) {
+  const blocks = currentBlocks();
+  if (blocks.length === 0) {
     blockListEl.append(
-      el('div', { class: 'empty' },
-        el('div', { class: 'empty-icon' }, '📝'),
+      el('div', { class:'empty' },
+        el('div', { class:'empty-icon' }, '📝'),
         el('p', {}, t('emptyTitle')),
-        el('p', { class: 'muted' }, t('emptyHint'))
+        el('p', { class:'muted' }, t('emptyHint'))
       )
     );
     return;
   }
-  state.blocks.forEach((block, index) => {
-    blockListEl.append(renderBlockCard(block, index));
-  });
+  blocks.forEach((block, index) => blockListEl.append(renderBlockCard(block, index)));
   $$('textarea', blockListEl).forEach(autoGrow);
 }
 
@@ -1445,88 +1505,92 @@ function renderBlockCard(block, index) {
     touch() { state.userEdited = true; schedulePreview(); },
     rerender() { state.userEdited = true; renderBlockList(); schedulePreview(); },
   };
-  return el('div', { class: 'card' + (isUnknown ? ' card-unknown' : ''), 'data-id': block.id },
-    el('div', { class: 'card-head' },
-      el('span', { class: 'card-badge' }, def.icon),
-      el('span', { class: 'card-title' }, t(def.type)),
-      el('div', { class: 'card-actions' },
-        isUnknown ? null : el('button', { class: 'btn-icon', type: 'button', title: t('moveUp'), onClick: () => moveBlock(index, -1) }, '↑'),
-        isUnknown ? null : el('button', { class: 'btn-icon', type: 'button', title: t('moveDown'), onClick: () => moveBlock(index, 1) }, '↓'),
-        el('button', { class: 'btn-icon danger', type: 'button', title: t('delete'), onClick: () => removeBlock(index) }, '✕')
+  return el('div', { class:'card' + (isUnknown ? ' card-unknown' : ''), 'data-id': block.id },
+    el('div', { class:'card-head' },
+      el('span', { class:'card-badge' }, def.icon),
+      el('span', { class:'card-title' }, t(def.type)),
+      el('div', { class:'card-actions' },
+        isUnknown ? null : el('button', { class:'btn-icon', type:'button', title:t('moveUp'), onClick: () => moveBlock(index, -1) }, '↑'),
+        isUnknown ? null : el('button', { class:'btn-icon', type:'button', title:t('moveDown'), onClick: () => moveBlock(index, 1) }, '↓'),
+        el('button', { class:'btn-icon danger', type:'button', title:t('delete'), onClick: () => removeBlock(index) }, '✕')
       )
     ),
-    el('div', { class: 'card-body' }, def.editor(block, ctx))
+    el('div', { class:'card-body' }, def.editor(block, ctx))
   );
 }
 
 function addBlock(type) {
   const def = COMPONENTS[type];
   if (!def) return;
+  const page = currentPage();
+  if (!page) return;
   const block = { id: ++state.seq, type, data: def.create() };
-  state.blocks.push(block);
+  page.blocks.push(block);
   state.userEdited = true;
   renderBlockList();
   schedulePreview();
   requestAnimationFrame(() => {
     const card = blockListEl.querySelector(`.card[data-id="${block.id}"]`);
     if (!card) return;
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    card.scrollIntoView({ behavior:'smooth', block:'nearest' });
     const firstInput = card.querySelector('input, textarea, select');
     if (firstInput) firstInput.focus();
   });
 }
+
 function removeBlock(index) {
-  state.blocks.splice(index, 1);
-  state.userEdited = true;
-  renderBlockList();
-  schedulePreview();
-}
-function moveBlock(index, delta) {
-  const target = index + delta;
-  if (target < 0 || target >= state.blocks.length) return;
-  const [block] = state.blocks.splice(index, 1);
-  state.blocks.splice(target, 0, block);
+  const page = currentPage();
+  if (!page) return;
+  page.blocks.splice(index, 1);
   state.userEdited = true;
   renderBlockList();
   schedulePreview();
 }
 
-/* ---------- 9. Markdown 生成（加固） ---------- */
+function moveBlock(index, delta) {
+  const page = currentPage();
+  if (!page) return;
+  const target = index + delta;
+  if (target < 0 || target >= page.blocks.length) return;
+  const [block] = page.blocks.splice(index, 1);
+  page.blocks.splice(target, 0, block);
+  state.userEdited = true;
+  renderBlockList();
+  schedulePreview();
+}
+
+/* ---------- 11. Markdown 生成 ---------- */
 function buildMarkdown() {
+  const page = currentPage();
+  if (!page) return '';
   const parts = [];
-  state.blocks.forEach((block) => {
+  page.blocks.forEach(block => {
     const def = COMPONENTS[block.type];
     if (!def || typeof def.toMarkdown !== 'function') return;
     let out;
-    try {
-      out = def.toMarkdown(block);
-    } catch (err) {
-      console.warn('toMarkdown failed:', block.type, err);
-      return;
-    }
+    try { out = def.toMarkdown(block); }
+    catch (err) { console.warn('toMarkdown failed:', block.type, err); return; }
     if (out == null) return;
-    if (typeof out !== 'string') out = String(out);
-    out = out.trim();
+    out = String(out).trim();
     if (out) parts.push(out);
   });
   return parts.join('\n\n');
 }
 
-/* ---------- 10. 预览渲染（三级兜底） ---------- */
+/* ---------- 12. 预览渲染（三级兜底） ---------- */
 function admonitionMeta() {
   return {
-    note:      { icon: '💡', label: t('admNote') },
-    tip:       { icon: '✨', label: t('admTip') },
-    important: { icon: '📌', label: t('admImportant') },
-    warning:   { icon: '⚠️', label: t('admWarning') },
-    caution:   { icon: '🛑', label: t('admCaution') },
+    note:{ icon:'💡', label:t('admNote') },
+    tip:{ icon:'✨', label:t('admTip') },
+    important:{ icon:'📌', label:t('admImportant') },
+    warning:{ icon:'⚠️', label:t('admWarning') },
+    caution:{ icon:'🛑', label:t('admCaution') },
   };
 }
 const ALERT_RE = /\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i;
 
 function stripLeadingText(root, prefixLength) {
-  let remaining = prefixLength;
-  let skipping = true;
+  let remaining = prefixLength, skipping = true;
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let node;
   while (remaining > 0 && (node = walker.nextNode())) {
@@ -1546,7 +1610,7 @@ function stripLeadingText(root, prefixLength) {
 
 function transformAlerts(container) {
   const meta = admonitionMeta();
-  Array.from(container.querySelectorAll('blockquote')).forEach((bq) => {
+  Array.from(container.querySelectorAll('blockquote')).forEach(bq => {
     const firstP = bq.querySelector('p');
     if (!firstP) return;
     const textContent = firstP.textContent || '';
@@ -1559,20 +1623,18 @@ function transformAlerts(container) {
     const m = meta[kind] || meta.note;
     stripLeadingText(firstP, idx + match[0].length);
     if (!firstP.textContent.trim() && firstP.children.length === 0) firstP.remove();
-    const body = el('div', { class: 'admonition-body' });
+    const body = el('div', { class:'admonition-body' });
     while (bq.firstChild) body.append(bq.firstChild);
-    const titleEl = el('div', { class: 'admonition-title' },
-      el('span', {}, m.icon),
-      el('span', {}, m.label)
+    const titleEl = el('div', { class:'admonition-title' },
+      el('span', {}, m.icon), el('span', {}, m.label)
     );
-    const wrap = el('div', { class: `admonition ${kind}` }, titleEl, body);
+    const wrap = el('div', { class:`admonition ${kind}` }, titleEl, body);
     bq.replaceWith(wrap);
   });
 }
 
-/* 后处理：为标题补 id（不再依赖 marked 的自定义 renderer） */
 function addHeadingIds(container) {
-  container.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((h) => {
+  container.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(h => {
     if (h.id) return;
     const id = slugify(h.textContent || '');
     if (id) h.id = id;
@@ -1581,26 +1643,80 @@ function addHeadingIds(container) {
 
 function highlightCode(container) {
   if (typeof hljs === 'undefined') return;
-  container.querySelectorAll('pre code').forEach((block) => {
-    try { hljs.highlightElement(block); } catch (_) { /* ignore */ }
+  container.querySelectorAll('pre code:not(.language-mermaid)').forEach(block => {
+    try { hljs.highlightElement(block); } catch (_) {}
   });
 }
+
 function decorateLinks(container) {
-  container.querySelectorAll('a[href]').forEach((a) => {
+  container.querySelectorAll('a[href]').forEach(a => {
     const href = a.getAttribute('href') || '';
-    if (/^https?:\/\//i.test(href)) {
+    if (/^https?:\/\//i.test(href) || /^mailto:/i.test(href)) {
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'noopener noreferrer');
+      return;
+    }
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (href.startsWith('#')) {
+        scrollToAnchor(href.slice(1));
+        return;
+      }
+      let pageRef = href, anchor = '';
+      const hashIdx = href.indexOf('#');
+      if (hashIdx >= 0) { pageRef = href.slice(0, hashIdx); anchor = href.slice(hashIdx + 1); }
+      pageRef = pageRef.replace(/\.md$/i, '');
+      const targetPage = resolvePageByRef(pageRef);
+      if (!targetPage) { toast(t('pageNotFound') + ': ' + pageRef); return; }
+      if (targetPage.id === state.currentPageId) {
+        if (anchor) scrollToAnchor(anchor);
+        return;
+      }
+      switchPage(targetPage.id, anchor);
+    });
+  });
+}
+
+/* Mermaid 渲染 */
+function renderMermaidBlocks(container) {
+  if (typeof window.mermaid === 'undefined') return;
+  const blocks = container.querySelectorAll('pre code.language-mermaid');
+  if (!blocks.length) return;
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  try {
+    window.mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? 'dark' : 'default',
+      securityLevel: 'loose',
+    });
+  } catch (_) {}
+
+  blocks.forEach(async (codeEl) => {
+    const code = codeEl.textContent || '';
+    const preEl = codeEl.closest('pre');
+    if (!preEl) return;
+    const id = 'mmd-' + Math.random().toString(36).slice(2, 10);
+    try {
+      const { svg } = await window.mermaid.render(id, code);
+      if (!preEl.isConnected) return;
+      const wrap = el('div', { class:'mermaid-rendered', html: svg });
+      preEl.replaceWith(wrap);
+    } catch (err) {
+      console.warn('mermaid render failed:', err);
+      if (!preEl.isConnected) return;
+      const errEl = el('div', {
+        class:'hint',
+        style:'color:var(--danger);font-size:12px;padding:4px 0;',
+      }, '⚠️ Mermaid: ' + (err.message || 'render failed'));
+      preEl.parentNode.insertBefore(errEl, preEl.nextSibling);
     }
   });
 }
 
-/* 三级解析兜底：永远返回 HTML 字符串，不会抛异常 */
 function safeParse(md) {
   if (typeof md !== 'string') md = String(md ?? '');
   if (!md.trim()) return '';
-
-  /* 渲染库不可用 */
   if (typeof marked === 'undefined' || typeof marked.parse !== 'function') {
     return {
       html: `<div class="preview-fallback">
@@ -1610,35 +1726,21 @@ function safeParse(md) {
       ok: false,
     };
   }
-
-  /* 尝试 1：正常解析 */
   try {
     const html = marked.parse(md, { gfm: true, breaks: false });
     if (typeof html === 'string' && html.length) return { html, ok: true };
-  } catch (e1) {
-    console.warn('[safeParse] attempt 1 failed:', e1);
-  }
-
-  /* 尝试 2：清理控制字符后重试 */
+  } catch (e1) { console.warn('[safeParse] attempt 1 failed:', e1); }
   try {
     const cleaned = md.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
     const html = marked.parse(cleaned, { gfm: true, breaks: false });
     if (typeof html === 'string' && html.length) return { html, ok: true };
-  } catch (e2) {
-    console.warn('[safeParse] attempt 2 failed:', e2);
-  }
-
-  /* 尝试 3：老式 API（marked v4 / 兼容） */
+  } catch (e2) { console.warn('[safeParse] attempt 2 failed:', e2); }
   try {
     if (typeof marked === 'function') {
       const html = marked(md);
       if (typeof html === 'string' && html.length) return { html, ok: true };
     }
-  } catch (e3) {
-    console.warn('[safeParse] attempt 3 failed:', e3);
-  }
-
-  /* 兜底：显示源码 */
+  } catch (e3) { console.warn('[safeParse] attempt 3 failed:', e3); }
   return {
     html: `<div class="preview-fallback">
              <div class="fallback-note">${escapeHtml(t('previewFallbackNote'))}</div>
@@ -1654,39 +1756,35 @@ function renderPreview() {
     previewEl.innerHTML = `<div class="preview-empty">${escapeHtml(t('previewEmpty'))}</div>`;
     return;
   }
-
   const { html, ok } = safeParse(md);
-
   if (!ok) {
-    /* 解析彻底失败：直接显示 fallback HTML，跳过 DOM 后处理 */
     previewEl.innerHTML = html;
     return;
   }
-
   previewEl.innerHTML = html;
   addHeadingIds(previewEl);
   transformAlerts(previewEl);
   highlightCode(previewEl);
   decorateLinks(previewEl);
+  renderMermaidBlocks(previewEl);
 }
 
-/* ---------- 11. 语法速查 Modal ---------- */
+/* ---------- 13. 语法速查 ---------- */
 let guideOverlayEl = null;
-
 function buildGuide() {
   const body = $('#guideBody');
   if (!body) return;
   body.innerHTML = '';
-  body.append(el('p', { class: 'guide-intro' }, t('guideIntro')));
+  body.append(el('p', { class:'guide-intro' }, t('guideIntro')));
   const data = GUIDE_DATA[state.lang] || GUIDE_DATA.zh;
-  data.forEach((section) => {
-    const secEl = el('section', { class: 'guide-section' });
+  data.forEach(section => {
+    const secEl = el('section', { class:'guide-section' });
     secEl.append(el('h3', {}, section.section));
-    section.items.forEach((item) => {
-      const itemEl = el('div', { class: 'guide-item' });
-      if (item.note) itemEl.append(el('div', { class: 'guide-item-note' }, item.note));
-      itemEl.append(el('pre', { class: 'guide-item-code' }, item.code));
-      const resultEl = el('div', { class: 'markdown-body guide-item-result' });
+    section.items.forEach(item => {
+      const itemEl = el('div', { class:'guide-item' });
+      if (item.note) itemEl.append(el('div', { class:'guide-item-note' }, item.note));
+      itemEl.append(el('pre', { class:'guide-item-code' }, item.code));
+      const resultEl = el('div', { class:'markdown-body guide-item-result' });
       const { html, ok } = safeParse(item.code);
       if (ok) {
         resultEl.innerHTML = html;
@@ -1695,9 +1793,8 @@ function buildGuide() {
           transformAlerts(resultEl);
           highlightCode(resultEl);
           decorateLinks(resultEl);
-        } catch (e) {
-          console.warn('guide post-process failed:', e);
-        }
+          renderMermaidBlocks(resultEl);
+        } catch (e) { console.warn(e); }
       } else {
         resultEl.textContent = item.code;
       }
@@ -1707,7 +1804,6 @@ function buildGuide() {
     body.append(secEl);
   });
 }
-
 function openGuide() {
   if (!guideOverlayEl) guideOverlayEl = $('#guideOverlay');
   if (!guideOverlayEl) return;
@@ -1729,16 +1825,14 @@ function isGuideOpen() {
   return !!guideOverlayEl && guideOverlayEl.classList.contains('open');
 }
 
-/* ---------- 12. 底部操作 ---------- */
+/* ---------- 14. 底部操作 ---------- */
 async function copyMarkdown() {
   const md = buildMarkdown();
   if (!md.trim()) { toast(t('nothingToCopy')); return; }
   try {
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(md);
-    } else {
-      throw new Error('clipboard unavailable');
-    }
+    } else { throw new Error('clipboard'); }
   } catch (_) {
     const ta = document.createElement('textarea');
     ta.value = md;
@@ -1748,7 +1842,7 @@ async function copyMarkdown() {
     document.body.append(ta);
     ta.focus();
     ta.select();
-    try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+    try { document.execCommand('copy'); } catch (e) {}
     ta.remove();
   }
   toast(t('copied'));
@@ -1757,11 +1851,13 @@ async function copyMarkdown() {
 function downloadMarkdown() {
   const md = buildMarkdown();
   if (!md.trim()) { toast(t('nothingToDownload')); return; }
-  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const page = currentPage();
+  const base = (page && (page.slug || slugifyAscii(page.title) || ('page-' + page.id))) || 'README';
+  const blob = new Blob([md], { type:'text/markdown;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'README.md';
+  a.download = base + '.md';
   document.body.append(a);
   a.click();
   a.remove();
@@ -1770,17 +1866,19 @@ function downloadMarkdown() {
 }
 
 function clearAll() {
-  if (!state.blocks.length) { toast(t('alreadyEmpty')); return; }
+  const page = currentPage();
+  if (!page) return;
+  if (!page.blocks.length) { toast(t('alreadyEmpty')); return; }
   if (!window.confirm(t('confirmClear'))) return;
-  state.blocks = [];
-  state.userEdited = false;
-  try { localStorage.removeItem(STORAGE_KEY); } catch (_) { /* ignore */ }
+  page.blocks = [];
+  state.userEdited = true;
   renderBlockList();
   renderPreview();
+  persistAll();
   toast(t('cleared'));
 }
 
-/* ---------- 13. 主题 ---------- */
+/* ---------- 15. 主题 & 语言 ---------- */
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   const btn = $('#themeToggle');
@@ -1788,17 +1886,16 @@ function applyTheme(theme) {
     btn.textContent = theme === 'dark' ? '☀️' : '🌙';
     btn.title = theme === 'dark' ? t('themeLight') : t('themeDark');
   }
-  try { localStorage.setItem(THEME_KEY, theme); } catch (_) { /* ignore */ }
+  try { localStorage.setItem(THEME_KEY, theme); } catch (_) {}
 }
 function initTheme() {
   let saved = null;
-  try { saved = localStorage.getItem(THEME_KEY); } catch (_) { /* ignore */ }
+  try { saved = localStorage.getItem(THEME_KEY); } catch (_) {}
   let prefersDark = false;
-  try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (_) { /* ignore */ }
+  try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (_) {}
   applyTheme(saved || (prefersDark ? 'dark' : 'light'));
 }
 
-/* ---------- 14. 语言切换 ---------- */
 function updateChromeText() {
   document.documentElement.setAttribute('lang', state.lang === 'zh' ? 'zh-CN' : 'en');
   document.title = t('appTitle');
@@ -1816,16 +1913,23 @@ function updateChromeText() {
     const cur = document.documentElement.getAttribute('data-theme');
     themeBtn.title = cur === 'dark' ? t('themeLight') : t('themeDark');
   }
+  const newPageBtn = $('#btnNewPage'); if (newPageBtn) newPageBtn.textContent = '＋ ' + t('newPage');
+  const renameBtn = $('#btnRenamePage'); if (renameBtn) renameBtn.title = t('renamePage');
+  const delBtn = $('#btnDeletePage'); if (delBtn) delBtn.title = t('deletePage');
 }
+
 function applyLanguage() {
   saveLang();
   updateChromeText();
   if (!state.userEdited) {
-    state.blocks = [];
+    state.pages = [];
     state.seq = 0;
+    state.pageSeq = 0;
     seedDefault();
+    state.currentPageId = state.pages[0].id;
   }
   renderPalette();
+  renderPageBar();
   renderBlockList();
   renderPreview();
   if (isGuideOpen()) buildGuide();
@@ -1835,30 +1939,39 @@ function toggleLanguage() {
   applyLanguage();
 }
 
-/* ---------- 15. 初始化 ---------- */
+/* ---------- 16. 初始化 ---------- */
 function seedDefault() {
-  const push = (type, data) => {
-    const def = COMPONENTS[type];
-    state.blocks.push({ id: ++state.seq, type, data: Object.assign(def.create(), data) });
+  const page1 = {
+    id: ++state.pageSeq,
+    title: t('sampleTitle'),
+    slug: 'my-document',
+    blocks: [],
   };
-  push('heading', { level: 1, text: t('sampleTitle') });
-  push('paragraph', { text: t('sampleParagraph') });
-  push('admonition', { kind: 'tip', text: t('sampleTip') });
-  push('code', { lang: 'javascript', code: "console.log('Hello, Markdown!');" });
+  const pushBlock = (page, type, data) => {
+    const def = COMPONENTS[type];
+    page.blocks.push({ id: ++state.seq, type, data: Object.assign(def.create(), data) });
+  };
+  pushBlock(page1, 'heading', { level: 1, text: t('sampleTitle') });
+  pushBlock(page1, 'paragraph', { text: t('sampleParagraph') });
+  pushBlock(page1, 'admonition', { kind:'tip', text: t('sampleTip') });
+  pushBlock(page1, 'code', { lang:'javascript', code: "console.log('Hello, Markdown!');" });
+
+  state.pages = [page1];
+  state.currentPageId = page1.id;
 }
 
 function renderPalette() {
   paletteEl.innerHTML = '';
-  TOOLBAR.forEach((type) => {
+  TOOLBAR.forEach(type => {
     const def = COMPONENTS[type];
     if (!def) return;
     paletteEl.append(
       el('button', {
-        class: 'pal-btn', type: 'button',
+        class:'pal-btn', type:'button',
         title: t('addComponent').replace('{name}', t(def.type)),
         onClick: () => addBlock(type),
       },
-        el('span', { class: 'ico' }, def.icon),
+        el('span', { class:'ico' }, def.icon),
         t(def.type)
       )
     );
@@ -1869,22 +1982,98 @@ function bindEvents() {
   $('#themeToggle').addEventListener('click', () => {
     const cur = document.documentElement.getAttribute('data-theme');
     applyTheme(cur === 'dark' ? 'light' : 'dark');
+    /* Mermaid 主题需要重新渲染 */
+    renderPreview();
   });
   $('#langToggle').addEventListener('click', toggleLanguage);
+
   const guideBtn = $('#guideBtn');
   if (guideBtn) guideBtn.addEventListener('click', openGuide);
   const guideCloseBtn = $('#guideClose');
   if (guideCloseBtn) guideCloseBtn.addEventListener('click', closeGuide);
   const overlay = $('#guideOverlay');
   if (overlay) {
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeGuide();
-    });
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeGuide(); });
   }
+
   $('#btnCopy').addEventListener('click', copyMarkdown);
   $('#btnDownload').addEventListener('click', downloadMarkdown);
   $('#btnClear').addEventListener('click', clearAll);
-  window.addEventListener('keydown', (e) => {
+
+  /* 页面栏 */
+  const pageSelect = $('#pageSelect');
+  if (pageSelect) {
+    pageSelect.addEventListener('change', () => {
+      const pid = Number(pageSelect.value);
+      if (pid) switchPage(pid);
+    });
+  }
+
+  const newPageBtn = $('#btnNewPage');
+  if (newPageBtn) {
+    newPageBtn.addEventListener('click', () => {
+      const title = window.prompt(t('newPagePrompt'), t('newPageDefault'));
+      if (!title) return;
+      const ascii = slugifyAscii(title);
+      let slug = ascii || ('page-' + (state.pageSeq + 1));
+      /* 避免 slug 冲突 */
+      let n = 1;
+      const base = slug;
+      while (state.pages.some(p => p.slug === slug)) { slug = base + '-' + (++n); }
+      const page = { id: ++state.pageSeq, title: title.trim(), slug, blocks: [] };
+      state.pages.push(page);
+      state.currentPageId = page.id;
+      state.userEdited = true;
+      persistAll();
+      renderPageBar();
+      renderBlockList();
+      renderPreview();
+      toast(t('pageCreated'));
+    });
+  }
+
+  const renameBtn = $('#btnRenamePage');
+  if (renameBtn) {
+    renameBtn.addEventListener('click', () => {
+      const page = currentPage();
+      if (!page) return;
+      const newTitle = window.prompt(t('renamePagePrompt'), page.title);
+      if (!newTitle || !newTitle.trim()) return;
+      page.title = newTitle.trim();
+      /* 同时更新 slug(如果新的 title 能生成) */
+      const ascii = slugifyAscii(page.title);
+      if (ascii) {
+        let slug = ascii, n = 1;
+        while (state.pages.some(p => p.id !== page.id && p.slug === slug)) { slug = ascii + '-' + (++n); }
+        page.slug = slug;
+      }
+      state.userEdited = true;
+      persistAll();
+      renderPageBar();
+      toast(t('pageRenamed'));
+    });
+  }
+
+  const deleteBtn = $('#btnDeletePage');
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', () => {
+      if (state.pages.length <= 1) { toast(t('cannotDeleteLastPage')); return; }
+      const page = currentPage();
+      if (!page) return;
+      if (!window.confirm(t('confirmDeletePage'))) return;
+      const idx = state.pages.findIndex(p => p.id === page.id);
+      state.pages.splice(idx, 1);
+      state.currentPageId = state.pages[Math.min(idx, state.pages.length - 1)].id;
+      state.userEdited = true;
+      persistAll();
+      renderPageBar();
+      renderBlockList();
+      renderPreview();
+      toast(t('pageDeleted'));
+    });
+  }
+
+  window.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
       e.preventDefault();
       downloadMarkdown();
@@ -1896,16 +2085,18 @@ function bindEvents() {
 
 function init() {
   if (typeof hljs !== 'undefined') {
-    try { hljs.configure({ ignoreUnescapedHTML: true }); } catch (_) { /* ignore */ }
+    try { hljs.configure({ ignoreUnescapedHTML: true }); } catch (_) {}
   }
-  /* 不再配置任何 marked renderer —— 使用 marked 默认配置 + 后处理 */
   updateChromeText();
-  const hasSaved = restore();
+  const hasSaved = loadFromStorage();
   if (hasSaved) state.userEdited = true;
   else seedDefault();
+
   renderPalette();
+  renderPageBar();
   renderBlockList();
   renderPreview();
+
   bindEvents();
   initTheme();
 }
