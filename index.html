@@ -10,191 +10,114 @@
 
 <style>
 /* =========================================================
- *  1. 设计变量（浅色 / 深色）
+ *  1. 设计变量
  * =======================================================*/
 :root {
-  --bg:            #ffffff;
-  --bg-soft:       #f6f8fa;
-  --bg-elev:       #ffffff;
-  --fg:            #1f2328;
-  --fg-muted:      #59636e;
-  --border:        #d1d9e0;
-  --border-soft:   #e5e9ee;
-  --accent:        #0969da;
-  --accent-soft:   rgba(9, 105, 218, .09);
-  --code-bg:       rgba(129, 139, 152, .12);
-  --pre-bg:        #f6f8fa;
-  --danger:        #cf222e;
-  --danger-soft:   rgba(207, 34, 46, .09);
-  --shadow:        0 1px 3px rgba(0, 0, 0, .06);
-
-  --hl-comment:  #6e7781;
-  --hl-keyword:  #cf222e;
-  --hl-string:   #0a3069;
-  --hl-number:   #0550ae;
-  --hl-function: #8250df;
-  --hl-attr:     #953800;
-  --hl-builtin:  #0550ae;
-  --hl-meta:     #6e7781;
-
-  --adm-note:      #0969da;  --adm-note-bg:      #ddf4ff;
-  --adm-tip:       #1a7f37;  --adm-tip-bg:       #dafbe1;
-  --adm-important: #8250df;  --adm-important-bg: #f5f0ff;
-  --adm-warning:   #9a6700;  --adm-warning-bg:   #fff8c5;
-  --adm-caution:   #cf222e;  --adm-caution-bg:   #ffebe9;
+  --bg:#fff; --bg-soft:#f6f8fa; --bg-elev:#fff;
+  --fg:#1f2328; --fg-muted:#59636e;
+  --border:#d1d9e0; --border-soft:#e5e9ee;
+  --accent:#0969da; --accent-soft:rgba(9,105,218,.09);
+  --code-bg:rgba(129,139,152,.12); --pre-bg:#f6f8fa;
+  --danger:#cf222e; --danger-soft:rgba(207,34,46,.09);
+  --shadow:0 1px 3px rgba(0,0,0,.06);
+  --hl-comment:#6e7781; --hl-keyword:#cf222e; --hl-string:#0a3069;
+  --hl-number:#0550ae; --hl-function:#8250df; --hl-attr:#953800;
+  --hl-builtin:#0550ae; --hl-meta:#6e7781;
+  --adm-note:#0969da; --adm-note-bg:#ddf4ff;
+  --adm-tip:#1a7f37; --adm-tip-bg:#dafbe1;
+  --adm-important:#8250df; --adm-important-bg:#f5f0ff;
+  --adm-warning:#9a6700; --adm-warning-bg:#fff8c5;
+  --adm-caution:#cf222e; --adm-caution-bg:#ffebe9;
 }
-
 [data-theme="dark"] {
-  --bg:            #0d1117;
-  --bg-soft:       #151b23;
-  --bg-elev:       #0d1117;
-  --fg:            #e6edf3;
-  --fg-muted:      #9198a1;
-  --border:        #3d444d;
-  --border-soft:   #2a313a;
-  --accent:        #4493f8;
-  --accent-soft:   rgba(68, 147, 248, .12);
-  --code-bg:       rgba(101, 108, 118, .25);
-  --pre-bg:        #151b23;
-  --danger:        #f85149;
-  --danger-soft:   rgba(248, 81, 73, .12);
-  --shadow:        0 1px 3px rgba(0, 0, 0, .4);
-
-  --hl-comment:  #8b949e;
-  --hl-keyword:  #ff7b72;
-  --hl-string:   #a5d6ff;
-  --hl-number:   #79c0ff;
-  --hl-function: #d2a8ff;
-  --hl-attr:     #ffa657;
-  --hl-builtin:  #79c0ff;
-  --hl-meta:     #8b949e;
-
-  --adm-note:      #4493f8;  --adm-note-bg:      rgba(56, 139, 253, .10);
-  --adm-tip:       #3fb950;  --adm-tip-bg:       rgba(63, 185, 80, .10);
-  --adm-important: #ab7df8;  --adm-important-bg: rgba(171, 125, 248, .10);
-  --adm-warning:   #d29922;  --adm-warning-bg:   rgba(210, 153, 34, .10);
-  --adm-caution:   #f85149;  --adm-caution-bg:   rgba(248, 81, 73, .10);
+  --bg:#0d1117; --bg-soft:#151b23; --bg-elev:#0d1117;
+  --fg:#e6edf3; --fg-muted:#9198a1;
+  --border:#3d444d; --border-soft:#2a313a;
+  --accent:#4493f8; --accent-soft:rgba(68,147,248,.12);
+  --code-bg:rgba(101,108,118,.25); --pre-bg:#151b23;
+  --danger:#f85149; --danger-soft:rgba(248,81,73,.12);
+  --shadow:0 1px 3px rgba(0,0,0,.4);
+  --hl-comment:#8b949e; --hl-keyword:#ff7b72; --hl-string:#a5d6ff;
+  --hl-number:#79c0ff; --hl-function:#d2a8ff; --hl-attr:#ffa657;
+  --hl-builtin:#79c0ff; --hl-meta:#8b949e;
+  --adm-note:#4493f8; --adm-note-bg:rgba(56,139,253,.10);
+  --adm-tip:#3fb950; --adm-tip-bg:rgba(63,185,80,.10);
+  --adm-important:#ab7df8; --adm-important-bg:rgba(171,125,248,.10);
+  --adm-warning:#d29922; --adm-warning-bg:rgba(210,153,34,.10);
+  --adm-caution:#f85149; --adm-caution-bg:rgba(248,81,73,.10);
 }
 
 /* =========================================================
  *  2. 基础布局
  * =======================================================*/
 * { box-sizing: border-box; }
-
 html, body { height: 100%; margin: 0; }
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
                Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 14px;
-  background: var(--bg);
-  color: var(--fg);
+  background: var(--bg); color: var(--fg);
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
-
 .app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
 
-/* ---------- 顶栏 ---------- */
 .topbar {
-  flex: 0 0 auto;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex: 0 0 auto; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
   padding: 0 16px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-elev);
 }
-
 .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
-
 .brand-mark {
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  flex: 0 0 auto; width: 28px; height: 28px;
   border-radius: 7px;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: -.5px;
+  background: var(--accent); color: #fff;
+  font-weight: 700; font-size: 13px; letter-spacing: -.5px;
 }
-
 .brand-name {
-  font-weight: 600;
-  font-size: 14.5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 600; font-size: 14.5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-
 .topbar-actions { display: flex; gap: 6px; align-items: center; }
 
 .lang-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 34px;
-  height: 26px;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 34px; height: 26px;
   padding: 0 8px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--fg-muted);
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: .15s;
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  color: var(--fg-muted); background: transparent;
+  border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; transition: .15s;
 }
-.lang-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
+.lang-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 
-/* ---------- 主区域 ---------- */
 .layout { flex: 1 1 auto; display: flex; min-height: 0; }
-
 .pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
 .pane-editor  { flex: 0 0 46%; border-right: 1px solid var(--border); }
 .pane-preview { flex: 1 1 0; background: var(--bg); }
 
 .pane-head {
   flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 9px 14px;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 9px 14px;
+  font-size: 11.5px; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase;
   color: var(--fg-muted);
   background: var(--bg-soft);
   border-bottom: 1px solid var(--border);
 }
-
 .pane-body { flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; min-height: 0; }
 .pane-preview .pane-body { scroll-behavior: smooth; }
-
 .pane-body::-webkit-scrollbar { width: 10px; height: 10px; }
-.pane-body::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 6px;
-  border: 2px solid var(--bg);
-}
+.pane-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; border: 2px solid var(--bg); }
 .pane-body::-webkit-scrollbar-track { background: transparent; }
 
-/* ---------- 底栏 ---------- */
 .bottombar {
   flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   padding: 11px 16px;
   border-top: 1px solid var(--border);
   background: var(--bg-elev);
@@ -205,282 +128,154 @@ body {
  *  3. 通用控件
  * =======================================================*/
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 7px 14px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--fg);
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  cursor: pointer;
-  transition: background .15s, border-color .15s, color .15s;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px; padding: 7px 14px;
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--fg); background: var(--bg-elev);
+  border: 1px solid var(--border); border-radius: 7px;
+  cursor: pointer; transition: background .15s, border-color .15s, color .15s;
   white-space: nowrap;
 }
-.btn:hover  { background: var(--bg-soft); border-color: var(--fg-muted); }
+.btn:hover { background: var(--bg-soft); border-color: var(--fg-muted); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
-
-.btn.primary {
-  color: #fff;
-  background: var(--accent);
-  border-color: transparent;
-}
+.btn.primary { color: #fff; background: var(--accent); border-color: transparent; }
 .btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
-
 .btn.danger { color: var(--danger); border-color: var(--border); }
 .btn.danger:hover { background: var(--danger-soft); border-color: var(--danger); }
-
 .btn.tiny { padding: 4px 9px; font-size: 12px; border-radius: 6px; }
 
 .btn-icon {
-  display: grid;
-  place-items: center;
-  width: 26px; height: 26px;
-  padding: 0;
-  font-size: 13px;
-  color: var(--fg-muted);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: .15s;
+  display: grid; place-items: center;
+  width: 26px; height: 26px; padding: 0;
+  font-size: 13px; color: var(--fg-muted);
+  background: transparent; border: 1px solid transparent; border-radius: 6px;
+  cursor: pointer; transition: .15s;
 }
 .btn-icon:hover { color: var(--fg); background: var(--bg-elev); border-color: var(--border); }
 .btn-icon.danger:hover { color: var(--danger); background: var(--danger-soft); border-color: var(--danger); }
 
 .input {
-  width: 100%;
-  padding: 6px 9px;
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--fg);
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  outline: none;
-  transition: border-color .15s, box-shadow .15s;
+  width: 100%; padding: 6px 9px;
+  font-family: inherit; font-size: 13px;
+  color: var(--fg); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px;
+  outline: none; transition: border-color .15s, box-shadow .15s;
 }
 .input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .input::placeholder { color: var(--fg-muted); opacity: .7; }
-
-.textarea {
-  resize: none;
-  min-height: 62px;
-  line-height: 1.6;
-  overflow: hidden;
-}
-
+.textarea { resize: none; min-height: 62px; line-height: 1.6; overflow: hidden; }
 .select { cursor: pointer; }
 
 .stack { display: flex; flex-direction: column; gap: 8px; }
 .row   { display: flex; gap: 8px; align-items: center; }
 .row > .select { flex: 0 0 120px; }
-
-.field {
-  display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-}
+.field { display: grid; grid-template-columns: 76px minmax(0,1fr); align-items: center; gap: 8px; }
 .field-label { font-size: 12px; color: var(--fg-muted); }
-
 .hint { font-size: 12px; color: var(--fg-muted); }
 
-/* 分段控件 */
-.seg {
-  display: inline-flex;
-  padding: 2px;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  align-self: flex-start;
-}
+.seg { display: inline-flex; padding: 2px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 7px; align-self: flex-start; }
 .seg-btn {
-  padding: 4px 12px;
-  font-family: inherit;
-  font-size: 12.5px;
-  color: var(--fg-muted);
-  background: transparent;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: .15s;
+  padding: 4px 12px; font-family: inherit; font-size: 12.5px;
+  color: var(--fg-muted); background: transparent;
+  border: none; border-radius: 5px; cursor: pointer; transition: .15s;
 }
 .seg-btn.active { color: var(--fg); background: var(--bg-elev); box-shadow: var(--shadow); }
 
 /* =========================================================
- *  4. 组件面板（Palette）
+ *  4. Palette
  * =======================================================*/
 .palette {
   flex: 0 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: flex; flex-wrap: wrap; gap: 6px;
   padding: 10px 12px;
   background: var(--bg-soft);
   border-bottom: 1px solid var(--border);
 }
-
 .pal-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px;
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--fg);
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  cursor: pointer;
-  transition: .15s;
-  white-space: nowrap;
+  font-family: inherit; font-size: 13px;
+  color: var(--fg); background: var(--bg-elev);
+  border: 1px solid var(--border); border-radius: 7px;
+  cursor: pointer; transition: .15s; white-space: nowrap;
 }
-.pal-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
+.pal-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .pal-btn .ico { font-size: 14px; line-height: 1; }
 
 /* =========================================================
- *  5. 编辑卡片
+ *  5. 卡片
  * =======================================================*/
 .card {
   margin: 10px 12px;
   background: var(--bg-elev);
   border: 1px solid var(--border);
-  border-radius: 9px;
-  overflow: hidden;
+  border-radius: 9px; overflow: hidden;
   transition: border-color .15s, box-shadow .15s;
 }
 .card:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-
 .card-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 8px;
   padding: 5px 6px 5px 10px;
   background: var(--bg-soft);
   border-bottom: 1px solid var(--border-soft);
 }
-
 .card-badge {
-  display: grid;
-  place-items: center;
-  min-width: 20px; height: 20px;
-  padding: 0 4px;
-  font-size: 12px;
-  line-height: 1;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border-radius: 5px;
+  display: grid; place-items: center;
+  min-width: 20px; height: 20px; padding: 0 4px;
+  font-size: 12px; line-height: 1;
+  color: var(--accent); background: var(--accent-soft); border-radius: 5px;
 }
-
 .card-title { flex: 1 1 auto; font-size: 12.5px; font-weight: 600; color: var(--fg-muted); }
 .card-actions { display: flex; gap: 2px; }
 .card-body { padding: 10px; }
 
-/* 空状态 */
 .empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 60px 20px;
-  color: var(--fg-muted);
-  text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; padding: 60px 20px;
+  color: var(--fg-muted); text-align: center;
 }
 .empty-icon { font-size: 32px; opacity: .55; margin-bottom: 6px; }
 .empty p { margin: 0; font-size: 13.5px; }
 .empty .muted { font-size: 12.5px; opacity: .75; }
 
 /* =========================================================
- *  6. 表格编辑器
+ *  6. 表格
  * =======================================================*/
 .table-editor { overflow-x: auto; margin: 0 -2px; }
-
-.te-table {
-  width: 100%;
-  min-width: 260px;
-  border-collapse: collapse;
-  font-size: 13px;
-  table-layout: auto;
-}
-.te-table th,
-.te-table td {
-  border: 1px solid var(--border);
-  padding: 0;
-  vertical-align: middle;
-}
+.te-table { width: 100%; min-width: 260px; border-collapse: collapse; font-size: 13px; table-layout: auto; }
+.te-table th, .te-table td { border: 1px solid var(--border); padding: 0; vertical-align: middle; }
 .te-table th { background: var(--bg-soft); }
-
 .te-cell {
-  display: block;
-  width: 100%;
-  min-width: 60px;
-  border: none;
-  outline: none;
-  padding: 7px 10px;
-  background: transparent;
-  font: inherit;
-  color: var(--fg);
-  border-radius: 0;
+  display: block; width: 100%; min-width: 60px;
+  border: none; outline: none; padding: 7px 10px;
+  background: transparent; font: inherit; color: var(--fg); border-radius: 0;
 }
 .te-cell:focus { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
 .te-cell::placeholder { color: var(--fg-muted); opacity: .6; }
 .te-table th .te-cell { font-weight: 600; }
-
-.te-row-del {
-  width: 38px;
-  text-align: center;
-  background: var(--bg-soft);
-}
+.te-row-del { width: 38px; text-align: center; background: var(--bg-soft); }
 .te-row-del .btn-icon { display: inline-flex; margin: 2px; }
-
-.te-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.te-hint {
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--fg-muted);
-  line-height: 1.5;
-}
+.te-toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.te-hint { margin-top: 6px; font-size: 12px; color: var(--fg-muted); line-height: 1.5; }
 .te-hint code {
   padding: 1px 5px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 11.5px;
-  background: var(--code-bg);
-  border-radius: 4px;
+  background: var(--code-bg); border-radius: 4px;
 }
 
 /* =========================================================
- *  7. Markdown 预览
+ *  7. 预览
  * =======================================================*/
 .markdown-body {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 900px; margin: 0 auto;
   padding: 28px 34px 100px;
-  font-size: 15px;
-  line-height: 1.72;
-  color: var(--fg);
-  word-wrap: break-word;
+  font-size: 15px; line-height: 1.72;
+  color: var(--fg); word-wrap: break-word;
 }
-
 .markdown-body > *:first-child { margin-top: 0 !important; }
 .markdown-body > *:last-child  { margin-bottom: 0 !important; }
-
 .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3,
@@ -488,372 +283,218 @@ body {
 .markdown-body h5,
 .markdown-body h6 {
   margin: 1.6em 0 .65em;
-  font-weight: 600;
-  line-height: 1.3;
+  font-weight: 600; line-height: 1.3;
   scroll-margin-top: 12px;
 }
-
-.markdown-body h1 { font-size: 2em;    padding-bottom: .3em; border-bottom: 1px solid var(--border); }
-.markdown-body h2 { font-size: 1.5em;  padding-bottom: .3em; border-bottom: 1px solid var(--border); }
+.markdown-body h1 { font-size: 2em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
+.markdown-body h2 { font-size: 1.5em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
 .markdown-body h3 { font-size: 1.25em; }
 .markdown-body h4 { font-size: 1em; }
-
 .markdown-body p { margin: 0 0 1em; }
-
 .markdown-body a { color: var(--accent); text-decoration: none; }
 .markdown-body a:hover { text-decoration: underline; }
-
 .markdown-body img {
-  max-width: 100%;
-  border-radius: 8px;
-  border: 1px solid var(--border-soft);
-  background: var(--bg-soft);
+  max-width: 100%; border-radius: 8px;
+  border: 1px solid var(--border-soft); background: var(--bg-soft);
 }
-
 .markdown-body ul,
 .markdown-body ol { margin: 0 0 1em; padding-left: 1.9em; }
 .markdown-body li { margin: .3em 0; }
 .markdown-body li > p { margin: .3em 0; }
-
 .markdown-body hr {
-  height: 1px;
-  margin: 2em 0;
-  padding: 0;
-  border: 0;
-  background: var(--border);
+  height: 1px; margin: 2em 0; padding: 0; border: 0; background: var(--border);
 }
-
 .markdown-body blockquote {
-  margin: 1em 0;
-  padding: 0 1em;
+  margin: 1em 0; padding: 0 1em;
   color: var(--fg-muted);
   border-left: .25em solid var(--border);
 }
 .markdown-body blockquote > :first-child { margin-top: 0; }
 .markdown-body blockquote > :last-child  { margin-bottom: 0; }
 
-/* 表格 */
 .markdown-body table {
-  display: block;
-  width: max-content;
-  max-width: 100%;
-  margin: 1em 0;
-  overflow: auto;
-  border-collapse: collapse;
-  border-spacing: 0;
+  display: block; width: max-content; max-width: 100%;
+  margin: 1em 0; overflow: auto;
+  border-collapse: collapse; border-spacing: 0;
   font-size: 14px;
 }
-.markdown-body th,
-.markdown-body td {
-  padding: 7px 13px;
-  border: 1px solid var(--border);
-}
+.markdown-body th, .markdown-body td { padding: 7px 13px; border: 1px solid var(--border); }
 .markdown-body th { font-weight: 600; background: var(--bg-soft); }
 .markdown-body tbody tr:nth-child(2n) td { background: var(--bg-soft); }
 
-/* 行内代码 & 代码块 */
 .markdown-body code {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-               "Liberation Mono", monospace;
-  font-size: .86em;
-  padding: .18em .4em;
-  background: var(--code-bg);
-  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .86em; padding: .18em .4em;
+  background: var(--code-bg); border-radius: 6px;
 }
 .markdown-body pre {
-  margin: 1em 0;
-  padding: 14px 16px;
-  overflow: auto;
-  background: var(--pre-bg);
-  border: 1px solid var(--border-soft);
-  border-radius: 8px;
+  margin: 1em 0; padding: 14px 16px;
+  overflow: auto; background: var(--pre-bg);
+  border: 1px solid var(--border-soft); border-radius: 8px;
   line-height: 1.6;
 }
-.markdown-body pre code {
-  padding: 0;
-  font-size: 13px;
-  background: transparent;
-  border-radius: 0;
-}
+.markdown-body pre code { padding: 0; font-size: 13px; background: transparent; border-radius: 0; }
 
-/* highlight.js token 配色 */
-.hljs-comment, .hljs-quote               { color: var(--hl-comment); font-style: italic; }
+.hljs-comment, .hljs-quote { color: var(--hl-comment); font-style: italic; }
 .hljs-keyword, .hljs-selector-tag,
-.hljs-literal, .hljs-type, .hljs-doctag  { color: var(--hl-keyword); }
+.hljs-literal, .hljs-type, .hljs-doctag { color: var(--hl-keyword); }
 .hljs-string, .hljs-regexp, .hljs-addition { color: var(--hl-string); }
-.hljs-number, .hljs-symbol,
-.hljs-bullet, .hljs-link                 { color: var(--hl-number); }
-.hljs-title, .hljs-section, .hljs-name,
-.hljs-title.function_                    { color: var(--hl-function); }
+.hljs-number, .hljs-symbol, .hljs-bullet, .hljs-link { color: var(--hl-number); }
+.hljs-title, .hljs-section, .hljs-name, .hljs-title.function_ { color: var(--hl-function); }
 .hljs-attr, .hljs-attribute, .hljs-variable,
-.hljs-template-variable, .hljs-property  { color: var(--hl-attr); }
+.hljs-template-variable, .hljs-property { color: var(--hl-attr); }
 .hljs-built_in, .hljs-class .hljs-title { color: var(--hl-builtin); }
-.hljs-meta                               { color: var(--hl-meta); }
+.hljs-meta { color: var(--hl-meta); }
 .hljs-emphasis { font-style: italic; }
-.hljs-strong   { font-weight: 700; }
+.hljs-strong { font-weight: 700; }
 
-/* 提示框 */
 .admonition {
-  margin: 1em 0;
-  padding: 10px 16px 12px;
+  margin: 1em 0; padding: 10px 16px 12px;
   border-left: 4px solid var(--adm-color);
   border-radius: 7px;
-  background: var(--adm-bg);
-  color: var(--fg);
+  background: var(--adm-bg); color: var(--fg);
 }
 .admonition-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: flex; align-items: center; gap: 6px;
   margin-bottom: 5px;
-  font-weight: 600;
-  font-size: 14.5px;
+  font-weight: 600; font-size: 14.5px;
   color: var(--adm-color);
 }
 .admonition-body > :first-child { margin-top: 0; }
-.admonition-body > :last-child  { margin-bottom: 0; }
-
+.admonition-body > :last-child { margin-bottom: 0; }
 .admonition.note      { --adm-color: var(--adm-note);      --adm-bg: var(--adm-note-bg); }
 .admonition.tip       { --adm-color: var(--adm-tip);       --adm-bg: var(--adm-tip-bg); }
 .admonition.important { --adm-color: var(--adm-important); --adm-bg: var(--adm-important-bg); }
 .admonition.warning   { --adm-color: var(--adm-warning);   --adm-bg: var(--adm-warning-bg); }
 .admonition.caution   { --adm-color: var(--adm-caution);   --adm-bg: var(--adm-caution-bg); }
 
-/* 折叠 */
 .markdown-body details {
-  margin: 1em 0;
-  padding: 10px 16px;
+  margin: 1em 0; padding: 10px 16px;
   background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: 1px solid var(--border); border-radius: 8px;
 }
-.markdown-body summary {
-  font-weight: 600;
-  cursor: pointer;
-  user-select: none;
-  list-style: none;
-}
+.markdown-body summary { font-weight: 600; cursor: pointer; user-select: none; list-style: none; }
 .markdown-body summary::-webkit-details-marker { display: none; }
 .markdown-body summary::before {
-  content: "▸";
-  display: inline-block;
-  margin-right: 6px;
-  color: var(--fg-muted);
-  transition: transform .18s;
+  content: "▸"; display: inline-block; margin-right: 6px;
+  color: var(--fg-muted); transition: transform .18s;
 }
 .markdown-body details[open] > summary::before { transform: rotate(90deg); }
 .markdown-body details[open] > summary { margin-bottom: 8px; }
 
-/* 预览空状态 */
 .preview-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 55vh;
-  padding: 40px;
-  font-size: 14px;
-  color: var(--fg-muted);
-  text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 55vh; padding: 40px;
+  font-size: 14px; color: var(--fg-muted); text-align: center;
 }
 
 /* =========================================================
- *  8. 链接插入浮层
+ *  8. 链接浮层
  * =======================================================*/
 .link-pop {
-  position: fixed;
-  z-index: 1000;
-  width: 300px;
+  position: fixed; z-index: 1000; width: 300px;
   padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: flex; flex-direction: column; gap: 8px;
   background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  border: 1px solid var(--border); border-radius: 9px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
   animation: popIn .12s ease-out;
 }
-
-@keyframes popIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.link-pop .link-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 12px;
-  color: var(--fg-muted);
-}
-
-.link-pop .link-hint {
-  font-size: 11.5px;
-  color: var(--fg-muted);
-  line-height: 1.5;
-}
-
-.link-pop .link-actions {
-  display: flex;
-  gap: 6px;
-  justify-content: flex-end;
-  margin-top: 2px;
-}
+@keyframes popIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.link-pop .link-field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--fg-muted); }
+.link-pop .link-hint { font-size: 11.5px; color: var(--fg-muted); line-height: 1.5; }
+.link-pop .link-actions { display: flex; gap: 6px; justify-content: flex-end; margin-top: 2px; }
 
 /* =========================================================
- *  9. 语法速查 Modal
+ *  9. 语法速查
  * =======================================================*/
 .guide-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
   padding: 24px;
-  background: rgba(0, 0, 0, .45);
-  opacity: 0;
-  visibility: hidden;
+  background: rgba(0,0,0,.45);
+  opacity: 0; visibility: hidden;
   transition: opacity .2s, visibility .2s;
 }
 .guide-overlay.open { opacity: 1; visibility: visible; }
-
 .guide-modal {
-  display: flex;
-  flex-direction: column;
-  width: min(980px, 100%);
-  max-height: min(88vh, 100%);
+  display: flex; flex-direction: column;
+  width: min(980px, 100%); max-height: min(88vh, 100%);
   background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  border: 1px solid var(--border); border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
   transform: translateY(8px) scale(.995);
   transition: transform .2s;
 }
 .guide-overlay.open .guide-modal { transform: translateY(0) scale(1); }
-
 .guide-head {
   flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 16px 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 16px 12px 20px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-soft);
 }
-.guide-head h2 {
-  margin: 0;
-  font-size: 15.5px;
-  font-weight: 600;
-  letter-spacing: .01em;
-}
+.guide-head h2 { margin: 0; font-size: 15.5px; font-weight: 600; }
 .guide-head .guide-close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  font-size: 14px;
-  color: var(--fg-muted);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; padding: 0;
+  font-size: 14px; color: var(--fg-muted);
   background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  cursor: pointer;
-  transition: .15s;
+  border: 1px solid var(--border); border-radius: 7px;
+  cursor: pointer; transition: .15s;
 }
-.guide-head .guide-close:hover {
-  color: var(--danger);
-  border-color: var(--danger);
-  background: var(--danger-soft);
-}
-
+.guide-head .guide-close:hover { color: var(--danger); border-color: var(--danger); background: var(--danger-soft); }
 .guide-body {
-  flex: 1 1 auto;
-  overflow-y: auto;
+  flex: 1 1 auto; overflow-y: auto;
   overscroll-behavior: contain;
   padding: 20px 22px 30px;
   min-height: 0;
 }
 .guide-body::-webkit-scrollbar { width: 10px; }
-.guide-body::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 6px;
-  border: 2px solid var(--bg-elev);
-}
+.guide-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; border: 2px solid var(--bg-elev); }
 .guide-body::-webkit-scrollbar-track { background: transparent; }
 
 .guide-intro {
-  margin: 0 0 20px;
-  padding: 10px 14px;
-  font-size: 13px;
-  line-height: 1.65;
+  margin: 0 0 20px; padding: 10px 14px;
+  font-size: 13px; line-height: 1.65;
   color: var(--fg-muted);
   background: var(--accent-soft);
   border-left: 3px solid var(--accent);
   border-radius: 6px;
 }
-
 .guide-section { margin-bottom: 26px; }
 .guide-section:last-child { margin-bottom: 0; }
-
-.guide-section h3 {
-  margin: 0 0 12px;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--fg);
-}
-
+.guide-section h3 { margin: 0 0 12px; font-size: 14.5px; font-weight: 600; color: var(--fg); }
 .guide-item {
   margin-bottom: 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--bg);
+  border: 1px solid var(--border); border-radius: 8px;
+  overflow: hidden; background: var(--bg);
 }
 .guide-item:last-child { margin-bottom: 0; }
-
 .guide-item-note {
   padding: 7px 12px;
-  font-size: 12.5px;
-  line-height: 1.55;
+  font-size: 12.5px; line-height: 1.55;
   color: var(--fg-muted);
   background: var(--bg-soft);
   border-bottom: 1px solid var(--border-soft);
 }
-
 .guide-item-code {
-  margin: 0;
-  padding: 10px 14px;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-               "Liberation Mono", monospace;
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: var(--fg);
-  background: var(--pre-bg);
-  white-space: pre;
-  overflow-x: auto;
-  border: none;
-  border-radius: 0;
+  margin: 0; padding: 10px 14px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 12.5px; line-height: 1.6;
+  color: var(--fg); background: var(--pre-bg);
+  white-space: pre; overflow-x: auto;
+  border: none; border-radius: 0;
   border-bottom: 1px dashed var(--border-soft);
 }
 .guide-item-code::-webkit-scrollbar { height: 8px; }
-.guide-item-code::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
-
+.guide-item-code::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 .guide-item-result.markdown-body {
-  max-width: none;
-  margin: 0;
+  max-width: none; margin: 0;
   padding: 12px 16px;
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: 14px; line-height: 1.65;
 }
-
-/* 移动端 */
 @media (max-width: 640px) {
   .guide-overlay { padding: 10px; }
   .guide-modal { max-height: 92vh; border-radius: 10px; }
@@ -865,22 +506,16 @@ body {
  *  10. Toast
  * =======================================================*/
 .toast {
-  position: fixed;
-  left: 50%;
-  bottom: 78px;
+  position: fixed; left: 50%; bottom: 78px;
   transform: translate(-50%, 12px);
   padding: 9px 18px;
-  font-size: 13px;
-  color: #fff;
-  background: #24292f;
-  border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .22);
-  opacity: 0;
-  pointer-events: none;
+  font-size: 13px; color: #fff;
+  background: #24292f; border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.22);
+  opacity: 0; pointer-events: none;
   transition: opacity .22s, transform .22s;
   z-index: 999;
-  max-width: 80vw;
-  text-align: center;
+  max-width: 80vw; text-align: center;
 }
 [data-theme="dark"] .toast { background: #3d444d; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
@@ -905,7 +540,6 @@ body {
 <body>
 <div class="app">
 
-  <!-- 顶栏 -->
   <header class="topbar">
     <div class="brand">
       <span class="brand-mark">M↓</span>
@@ -918,7 +552,6 @@ body {
     </div>
   </header>
 
-  <!-- 主区域 -->
   <main class="layout">
     <section class="pane pane-editor">
       <div class="palette" id="palette"></div>
@@ -926,16 +559,11 @@ body {
     </section>
 
     <section class="pane pane-preview">
-      <div class="pane-head">
-        <span id="previewLabel">实时预览</span>
-      </div>
-      <div class="pane-body">
-        <article class="markdown-body" id="preview"></article>
-      </div>
+      <div class="pane-head"><span id="previewLabel">实时预览</span></div>
+      <div class="pane-body"><article class="markdown-body" id="preview"></article></div>
     </section>
   </main>
 
-  <!-- 底栏 -->
   <footer class="bottombar">
     <button class="btn primary" id="btnCopy">复制 Markdown</button>
     <button class="btn" id="btnDownload">下载 .md</button>
@@ -945,7 +573,6 @@ body {
 
 </div>
 
-<!-- 语法速查 Modal -->
 <div class="guide-overlay" id="guideOverlay">
   <div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
     <div class="guide-head">
@@ -958,13 +585,10 @@ body {
 
 <script>
 /* =========================================================================
- *  Markdown 文档生成器（双语 + 语法速查）
+ * Markdown 文档生成器（双语 + 语法速查）—— 修复版
  * ========================================================================= */
 
-/* =========================================================================
- * 1. 工具函数
- * ========================================================================= */
-
+/* ---------- 1. 工具函数 ---------- */
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -985,29 +609,23 @@ function el(tag, attrs = {}, ...children) {
   }
   return node;
 }
-
 function input(value, onInput, placeholder = '') {
   return el('input', {
-    type: 'text',
-    class: 'input',
-    value: value ?? '',
-    placeholder,
+    type: 'text', class: 'input',
+    value: value ?? '', placeholder,
     onInput: (e) => onInput(e.target.value),
   });
 }
-
 function textarea(value, onInput, placeholder = '', rows = 3) {
   const ta = el('textarea', { class: 'input textarea', placeholder, rows });
   ta.value = value ?? '';
   ta.addEventListener('input', () => { onInput(ta.value); autoGrow(ta); });
   return ta;
 }
-
 function autoGrow(ta) {
   ta.style.height = 'auto';
   ta.style.height = Math.max(ta.scrollHeight, 62) + 'px';
 }
-
 function select(value, options, onChange) {
   const sel = el('select', { class: 'input select' });
   for (const [val, label] of options) {
@@ -1018,14 +636,12 @@ function select(value, options, onChange) {
   sel.addEventListener('change', () => onChange(sel.value));
   return sel;
 }
-
 function field(labelText, control) {
   return el('div', { class: 'field' },
     el('span', { class: 'field-label' }, labelText),
     control
   );
 }
-
 let toastTimer = null;
 function toast(message) {
   let node = $('.toast');
@@ -1038,11 +654,9 @@ function toast(message) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => node.classList.remove('show'), 1900);
 }
-
 function slugify(text) {
   return String(text ?? '')
-    .trim()
-    .toLowerCase()
+    .trim().toLowerCase()
     .replace(/<[^>]*>/g, '')
     .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')
     .replace(/\s+/g, '-')
@@ -1050,84 +664,50 @@ function slugify(text) {
     .replace(/^-|-$/g, '');
 }
 
-/* =========================================================================
- * 2. 国际化（i18n）
- * ========================================================================= */
-
+/* ---------- 2. i18n ---------- */
 const I18N = {
   zh: {
     appTitle: 'Markdown 文档生成器',
     brandName: 'Markdown 文档生成器',
     preview: '实时预览',
-
     themeLight: '切换到浅色模式',
     themeDark: '切换到深色模式',
     langToggle: '切换语言 / Switch language',
     guideBtnTitle: '语法速查',
     guideTitle: 'Markdown 语法速查',
     guideIntro: '每个语法先展示源码，再展示实际渲染效果。所有示例都可以直接在左侧编辑区使用。',
-
     copy: '复制 Markdown',
     download: '下载 .md',
     clear: '清空内容',
-
-    heading: '标题',
-    paragraph: '文字',
-    table: '表格',
-    image: '图片',
-    code: '代码',
-    admonition: '提示',
-    quote: '引用',
-    list: '列表',
-    hr: '分割线',
-    details: '折叠',
-
-    h1: '大标题',
-    h2: '中标题',
-    h3: '小标题',
-    h4: '四级标题',
-
-    note: '💡 提示',
-    tip: '✨ 技巧',
-    warning: '⚠️ 警告',
-
+    heading: '标题', paragraph: '文字', table: '表格', image: '图片',
+    code: '代码', admonition: '提示', quote: '引用', list: '列表',
+    hr: '分割线', details: '折叠',
+    h1: '大标题', h2: '中标题', h3: '小标题', h4: '四级标题',
+    note: '💡 提示', tip: '✨ 技巧', warning: '⚠️ 警告',
     headingPlaceholder: '输入标题文字…',
     paragraphPlaceholder: '输入文字，支持 **粗体**、*斜体*、`行内代码`、[链接](https://…)',
-    imageUrl: '图片地址',
-    imageUrlPlaceholder: 'https://…',
-    imageAlt: '图片描述',
-    imageAltPlaceholder: '可选，用于无障碍 & SEO',
-    codeLangHint: '高亮语言',
-    codePlaceholder: '在此粘贴代码…',
+    imageUrl: '图片地址', imageUrlPlaceholder: 'https://…',
+    imageAlt: '图片描述', imageAltPlaceholder: '可选，用于无障碍 & SEO',
+    codeLangHint: '高亮语言', codePlaceholder: '在此粘贴代码…',
     admonitionPlaceholder: '提示内容，支持 Markdown…',
     quotePlaceholder: '引用内容，支持 Markdown…',
     listPlaceholder: '每行一个列表项…',
-    listUnordered: '无序',
-    listOrdered: '有序',
+    listUnordered: '无序', listOrdered: '有序',
     detailsSummaryPlaceholder: '折叠标题',
     detailsBodyPlaceholder: '展开后显示的内容，支持 Markdown…',
     hrHint: '分割线无需配置，将在预览中显示为一条水平线。',
     tableHintPre: '单元格支持 Markdown 行内语法，例如 ',
     tableHintMid1: ' 可插入网页链接，',
     tableHintMid2: ' 可跳转到文档内标题。',
-
-    addRow: '＋ 行',
-    addCol: '＋ 列',
-    removeCol: '－ 列',
-    insertLink: '🔗 插入链接',
-    deleteRow: '删除此行',
+    addRow: '＋ 行', addCol: '＋ 列', removeCol: '－ 列',
+    insertLink: '🔗 插入链接', deleteRow: '删除此行',
     linkBtnTitle: '在当前选中的单元格插入链接',
-
-    moveUp: '上移',
-    moveDown: '下移',
-    delete: '删除',
+    moveUp: '上移', moveDown: '下移', delete: '删除',
     addComponent: '添加{name}',
-
     emptyTitle: '还没有任何内容',
     emptyHint: '点击上方按钮开始编写',
     previewEmpty: '在左侧添加组件后，这里会实时渲染 Markdown 预览',
     previewError: 'Markdown 解析失败，请检查内容',
-
     nothingToCopy: '还没有内容可复制',
     copied: 'Markdown 已复制到剪贴板',
     nothingToDownload: '还没有内容可下载',
@@ -1135,102 +715,61 @@ const I18N = {
     alreadyEmpty: '当前已经是空的',
     confirmClear: '确定要清空所有内容吗？此操作不可撤销。',
     cleared: '已清空所有内容',
-
-    linkText: '显示文字',
-    linkTextPlaceholder: '显示的文字（留空则用链接地址）',
-    linkUrl: '链接地址',
-    linkUrlPlaceholder: 'https://… 或 #标题',
+    linkText: '显示文字', linkTextPlaceholder: '显示的文字（留空则用链接地址）',
+    linkUrl: '链接地址', linkUrlPlaceholder: 'https://… 或 #标题',
     linkHintPre: '填网页地址（https://…），或填 ',
     linkHintPost: ' 跳转到本文档内的标题',
-    cancel: '取消',
-    insert: '插入',
+    cancel: '取消', insert: '插入',
     linkNeedUrl: '请填写链接地址',
     linkNeedCell: '请先点击一个表格单元格',
-
-    admNote: '提示',
-    admTip: '技巧',
-    admImportant: '重要',
-    admWarning: '警告',
-    admCaution: '注意',
-
+    admNote: '提示', admTip: '技巧', admImportant: '重要',
+    admWarning: '警告', admCaution: '注意',
     sampleTitle: '我的文档',
     sampleParagraph: '这是一个使用 **Markdown 文档生成器** 创建的文档：左侧编辑，右侧实时预览。',
     sampleTip: '点击左侧上方的按钮即可添加标题、表格、代码块、提示等组件。',
   },
-
   en: {
     appTitle: 'Markdown Document Generator',
     brandName: 'Markdown Document Generator',
     preview: 'Live Preview',
-
     themeLight: 'Switch to light mode',
     themeDark: 'Switch to dark mode',
     langToggle: '切换语言 / Switch language',
     guideBtnTitle: 'Syntax guide',
     guideTitle: 'Markdown Syntax Cheat Sheet',
     guideIntro: 'Each entry shows the source first, then the actual rendered result. All examples can be used directly in the editor on the left.',
-
     copy: 'Copy Markdown',
     download: 'Download .md',
     clear: 'Clear All',
-
-    heading: 'Heading',
-    paragraph: 'Text',
-    table: 'Table',
-    image: 'Image',
-    code: 'Code',
-    admonition: 'Callout',
-    quote: 'Quote',
-    list: 'List',
-    hr: 'Divider',
-    details: 'Details',
-
-    h1: 'Heading 1',
-    h2: 'Heading 2',
-    h3: 'Heading 3',
-    h4: 'Heading 4',
-
-    note: '💡 Note',
-    tip: '✨ Tip',
-    warning: '⚠️ Warning',
-
+    heading: 'Heading', paragraph: 'Text', table: 'Table', image: 'Image',
+    code: 'Code', admonition: 'Callout', quote: 'Quote', list: 'List',
+    hr: 'Divider', details: 'Details',
+    h1: 'Heading 1', h2: 'Heading 2', h3: 'Heading 3', h4: 'Heading 4',
+    note: '💡 Note', tip: '✨ Tip', warning: '⚠️ Warning',
     headingPlaceholder: 'Enter heading text…',
     paragraphPlaceholder: 'Enter text. Supports **bold**, *italic*, `code`, [link](https://…)',
-    imageUrl: 'Image URL',
-    imageUrlPlaceholder: 'https://…',
-    imageAlt: 'Description',
-    imageAltPlaceholder: 'Optional, for accessibility & SEO',
-    codeLangHint: 'Highlight language',
-    codePlaceholder: 'Paste code here…',
+    imageUrl: 'Image URL', imageUrlPlaceholder: 'https://…',
+    imageAlt: 'Description', imageAltPlaceholder: 'Optional, for accessibility & SEO',
+    codeLangHint: 'Highlight language', codePlaceholder: 'Paste code here…',
     admonitionPlaceholder: 'Callout content, supports Markdown…',
     quotePlaceholder: 'Quote content, supports Markdown…',
     listPlaceholder: 'One item per line…',
-    listUnordered: 'Bulleted',
-    listOrdered: 'Numbered',
+    listUnordered: 'Bulleted', listOrdered: 'Numbered',
     detailsSummaryPlaceholder: 'Summary',
     detailsBodyPlaceholder: 'Content shown when expanded, supports Markdown…',
     hrHint: 'The divider needs no configuration. It will render as a horizontal line in the preview.',
     tableHintPre: 'Cells support inline Markdown, e.g. ',
     tableHintMid1: ' for web links, ',
     tableHintMid2: ' to jump to headings in this doc.',
-
-    addRow: '＋ Row',
-    addCol: '＋ Col',
-    removeCol: '－ Col',
-    insertLink: '🔗 Link',
-    deleteRow: 'Delete this row',
+    addRow: '＋ Row', addCol: '＋ Col', removeCol: '－ Col',
+    insertLink: '🔗 Link', deleteRow: 'Delete this row',
     linkBtnTitle: 'Insert link into the selected cell',
-
-    moveUp: 'Move up',
-    moveDown: 'Move down',
-    delete: 'Delete',
+    moveUp: 'Move up', moveDown: 'Move down', delete: 'Delete',
     addComponent: 'Add {name}',
-
     emptyTitle: 'Nothing here yet',
     emptyHint: 'Click a button above to start',
     previewEmpty: 'Add components on the left. Preview will appear here in real time.',
     previewError: 'Failed to parse Markdown, please check the content.',
-
     nothingToCopy: 'Nothing to copy',
     copied: 'Markdown copied to clipboard',
     nothingToDownload: 'Nothing to download',
@@ -1238,32 +777,21 @@ const I18N = {
     alreadyEmpty: 'Already empty',
     confirmClear: 'Clear all content? This cannot be undone.',
     cleared: 'All content cleared',
-
-    linkText: 'Text',
-    linkTextPlaceholder: 'Display text (leave empty to use URL)',
-    linkUrl: 'URL',
-    linkUrlPlaceholder: 'https://… or #heading',
+    linkText: 'Text', linkTextPlaceholder: 'Display text (leave empty to use URL)',
+    linkUrl: 'URL', linkUrlPlaceholder: 'https://… or #heading',
     linkHintPre: 'Enter a web URL (https://…), or ',
     linkHintPost: ' to jump to a heading in this doc',
-    cancel: 'Cancel',
-    insert: 'Insert',
+    cancel: 'Cancel', insert: 'Insert',
     linkNeedUrl: 'Please enter a URL',
     linkNeedCell: 'Please click a table cell first',
-
-    admNote: 'Note',
-    admTip: 'Tip',
-    admImportant: 'Important',
-    admWarning: 'Warning',
-    admCaution: 'Caution',
-
+    admNote: 'Note', admTip: 'Tip', admImportant: 'Important',
+    admWarning: 'Warning', admCaution: 'Caution',
     sampleTitle: 'My Document',
     sampleParagraph: 'This document is built with the **Markdown Document Generator**: edit on the left, see the preview on the right in real time.',
     sampleTip: 'Click the buttons above to add headings, tables, code blocks, callouts, and more.',
   },
 };
-
 const LANG_KEY = 'md-generator:lang';
-
 function detectInitialLang() {
   try {
     const saved = localStorage.getItem(LANG_KEY);
@@ -1274,275 +802,104 @@ function detectInitialLang() {
   } catch (_) { return 'zh'; }
 }
 
-/* =========================================================================
- * 3. 状态
- * ========================================================================= */
-
+/* ---------- 3. 状态 ---------- */
 const state = {
-  blocks: [],
-  seq: 0,
+  blocks: [], seq: 0,
   lang: detectInitialLang(),
   userEdited: false,
 };
-
 function t(key) {
   return (I18N[state.lang] && I18N[state.lang][key])
-      ?? I18N.zh[key]
-      ?? key;
+      ?? I18N.zh[key] ?? key;
 }
-
 function saveLang() {
   try { localStorage.setItem(LANG_KEY, state.lang); } catch (_) { /* ignore */ }
 }
 
-/* =========================================================================
- * 4. 语法速查数据
- * ========================================================================= */
-
+/* ---------- 4. 语法速查数据 ---------- */
 const GUIDE_DATA = {
   zh: [
-    {
-      section: '📌 标题',
-      items: [
-        {
-          note: '用 # 号的数量表示标题级别，最多 6 级。',
-          code: '# 一级标题\n## 二级标题\n### 三级标题',
-        },
-      ],
-    },
-    {
-      section: '✍️ 文字样式',
-      items: [
-        {
-          note: '粗体用两个星号，斜体用一个星号；删除线用两个波浪号；行内代码用反引号。',
-          code: '**粗体** 和 *斜体*\n~~删除线~~ 和 `行内代码`',
-        },
-      ],
-    },
-    {
-      section: '🔗 链接',
-      items: [
-        {
-          note: '方括号内是显示文字，圆括号内是链接地址。',
-          code: '[访问 GitHub](https://github.com)',
-        },
-        {
-          note: '链接地址以 # 开头，可以跳到文档内的标题。',
-          code: '[跳到「一级标题」](#一级标题)',
-        },
-      ],
-    },
-    {
-      section: '🖼️ 图片',
-      items: [
-        {
-          note: '和链接类似，最前面多一个感叹号。方括号里是图片描述。',
-          code: '![示例图片](https://picsum.photos/400/180)',
-        },
-      ],
-    },
-    {
-      section: '☰ 列表',
-      items: [
-        {
-          note: '无序列表用减号，有序列表用数字加点。',
-          code: '- 苹果\n- 香蕉\n- 橘子',
-        },
-        {
-          note: '任务列表：已完成用 - [x]，未完成用 - [ ]。',
-          code: '- [x] 已完成\n- [ ] 待办',
-        },
-      ],
-    },
-    {
-      section: '📊 表格',
-      items: [
-        {
-          note: '第一行是表头，第二行用 --- 分隔，之后每行是数据。',
-          code: '| 名字 | 年龄 |\n| --- | --- |\n| 小明 | 18 |\n| 小红 | 20 |',
-        },
-        {
-          note: '单元格内也可以写链接，例如 [官网](https://example.com)。',
-          code: '| 网站 | 地址 |\n| --- | --- |\n| GitHub | [github.com](https://github.com) |',
-        },
-      ],
-    },
-    {
-      section: '💻 代码块',
-      items: [
-        {
-          note: '用三个反引号包裹，反引号后面写语言名可以启用语法高亮。',
-          code: '```javascript\nconsole.log("Hello, Markdown!");\n```',
-        },
-      ],
-    },
-    {
-      section: '💬 引用',
-      items: [
-        {
-          note: '在每行开头加 > 号即可。',
-          code: '> 这是一段引用。\n> 可以写多行。',
-        },
-      ],
-    },
-    {
-      section: '💡 提示框',
-      items: [
-        {
-          note: 'GitHub 风格的提示框：在引用中写上 [!NOTE]、[!TIP]、[!WARNING]。',
-          code: '> [!TIP]\n> 这是一个小技巧',
-        },
-        {
-          note: '三种常用类型：NOTE（提示）、TIP（技巧）、WARNING（警告）。',
-          code: '> [!WARNING]\n> 操作前请先备份数据',
-        },
-      ],
-    },
-    {
-      section: '📋 折叠',
-      items: [
-        {
-          note: '使用 HTML 的 details 和 summary 标签，适合放可选阅读的内容。',
-          code: '<details>\n<summary>点击展开</summary>\n\n这里是隐藏的内容，展开后才会显示。\n\n</details>',
-        },
-      ],
-    },
-    {
-      section: '➖ 分割线',
-      items: [
-        {
-          note: '三个或更多的减号独占一行。',
-          code: '---',
-        },
-      ],
-    },
+    { section: '📌 标题', items: [
+      { note: '用 # 号的数量表示标题级别，最多 6 级。', code: '# 一级标题\n## 二级标题\n### 三级标题' },
+    ]},
+    { section: '✍️ 文字样式', items: [
+      { note: '粗体用两个星号，斜体用一个星号；删除线用两个波浪号；行内代码用反引号。', code: '**粗体** 和 *斜体*\n~~删除线~~ 和 `行内代码`' },
+    ]},
+    { section: '🔗 链接', items: [
+      { note: '方括号内是显示文字，圆括号内是链接地址。', code: '[访问 GitHub](https://github.com)' },
+      { note: '链接地址以 # 开头，可以跳到文档内的标题。', code: '[跳到「一级标题」](#一级标题)' },
+    ]},
+    { section: '🖼️ 图片', items: [
+      { note: '和链接类似，最前面多一个感叹号。方括号里是图片描述。', code: '![示例图片](https://picsum.photos/400/180)' },
+    ]},
+    { section: '☰ 列表', items: [
+      { note: '无序列表用减号，有序列表用数字加点。', code: '- 苹果\n- 香蕉\n- 橘子' },
+      { note: '任务列表：已完成用 - [x]，未完成用 - [ ]。', code: '- [x] 已完成\n- [ ] 待办' },
+    ]},
+    { section: '📊 表格', items: [
+      { note: '第一行是表头，第二行用 --- 分隔，之后每行是数据。', code: '| 名字 | 年龄 |\n| --- | --- |\n| 小明 | 18 |\n| 小红 | 20 |' },
+      { note: '单元格内也可以写链接，例如 [官网](https://example.com)。', code: '| 网站 | 地址 |\n| --- | --- |\n| GitHub | [github.com](https://github.com) |' },
+    ]},
+    { section: '💻 代码块', items: [
+      { note: '用三个反引号包裹，反引号后面写语言名可以启用语法高亮。', code: '```javascript\nconsole.log("Hello, Markdown!");\n```' },
+    ]},
+    { section: '💬 引用', items: [
+      { note: '在每行开头加 > 号即可。', code: '> 这是一段引用。\n> 可以写多行。' },
+    ]},
+    { section: '💡 提示框', items: [
+      { note: 'GitHub 风格的提示框：在引用中写上 [!NOTE]、[!TIP]、[!WARNING]。', code: '> [!TIP]\n> 这是一个小技巧' },
+      { note: '三种常用类型：NOTE（提示）、TIP（技巧）、WARNING（警告）。', code: '> [!WARNING]\n> 操作前请先备份数据' },
+    ]},
+    { section: '📋 折叠', items: [
+      { note: '使用 HTML 的 details 和 summary 标签，适合放可选阅读的内容。', code: '<details>\n<summary>点击展开</summary>\n\n这里是隐藏的内容，展开后才会显示。\n\n</details>' },
+    ]},
+    { section: '➖ 分割线', items: [
+      { note: '三个或更多的减号独占一行。', code: '---' },
+    ]},
   ],
-
   en: [
-    {
-      section: '📌 Headings',
-      items: [
-        {
-          note: 'The number of # marks the heading level. Up to 6 levels.',
-          code: '# Heading 1\n## Heading 2\n### Heading 3',
-        },
-      ],
-    },
-    {
-      section: '✍️ Text Styles',
-      items: [
-        {
-          note: 'Bold uses two asterisks, italic one. Strikethrough uses two tildes. Inline code uses backticks.',
-          code: '**Bold** and *Italic*\n~~Strikethrough~~ and `Inline code`',
-        },
-      ],
-    },
-    {
-      section: '🔗 Links',
-      items: [
-        {
-          note: 'Display text goes in brackets, the URL goes in parentheses.',
-          code: '[Visit GitHub](https://github.com)',
-        },
-        {
-          note: 'A URL starting with # jumps to a heading in this document.',
-          code: '[Jump to "Heading 1"](#heading-1)',
-        },
-      ],
-    },
-    {
-      section: '🖼️ Images',
-      items: [
-        {
-          note: 'Like a link, but with a leading exclamation mark. The brackets hold the alt text.',
-          code: '![Example image](https://picsum.photos/400/180)',
-        },
-      ],
-    },
-    {
-      section: '☰ Lists',
-      items: [
-        {
-          note: 'Bulleted lists use dashes, numbered lists use "1. 2. 3.".',
-          code: '- Apple\n- Banana\n- Orange',
-        },
-        {
-          note: 'Task lists: use - [x] for done, - [ ] for todo.',
-          code: '- [x] Done\n- [ ] Todo',
-        },
-      ],
-    },
-    {
-      section: '📊 Tables',
-      items: [
-        {
-          note: 'The first row is the header, the second row uses --- as a separator, then data rows follow.',
-          code: '| Name | Age |\n| --- | --- |\n| Alice | 18 |\n| Bob | 20 |',
-        },
-        {
-          note: 'Cells can contain links too, e.g. [website](https://example.com).',
-          code: '| Site | URL |\n| --- | --- |\n| GitHub | [github.com](https://github.com) |',
-        },
-      ],
-    },
-    {
-      section: '💻 Code Blocks',
-      items: [
-        {
-          note: 'Wrap with triple backticks. Put the language name right after the opening fence to enable highlighting.',
-          code: '```javascript\nconsole.log("Hello, Markdown!");\n```',
-        },
-      ],
-    },
-    {
-      section: '💬 Quotes',
-      items: [
-        {
-          note: 'Start each line with >.',
-          code: '> This is a quote.\n> It can span multiple lines.',
-        },
-      ],
-    },
-    {
-      section: '💡 Callouts',
-      items: [
-        {
-          note: 'GitHub-style callouts: put [!NOTE], [!TIP] or [!WARNING] inside a quote.',
-          code: '> [!TIP]\n> This is a handy tip',
-        },
-        {
-          note: 'Three common types: NOTE, TIP, WARNING.',
-          code: '> [!WARNING]\n> Please back up your data first',
-        },
-      ],
-    },
-    {
-      section: '📋 Details',
-      items: [
-        {
-          note: 'Use the HTML details and summary tags. Great for optional reading.',
-          code: '<details>\n<summary>Click to expand</summary>\n\nThe hidden content appears after expansion.\n\n</details>',
-        },
-      ],
-    },
-    {
-      section: '➖ Divider',
-      items: [
-        {
-          note: 'Three or more dashes on their own line.',
-          code: '---',
-        },
-      ],
-    },
+    { section: '📌 Headings', items: [
+      { note: 'The number of # marks the heading level. Up to 6 levels.', code: '# Heading 1\n## Heading 2\n### Heading 3' },
+    ]},
+    { section: '✍️ Text Styles', items: [
+      { note: 'Bold uses two asterisks, italic one. Strikethrough uses two tildes. Inline code uses backticks.', code: '**Bold** and *Italic*\n~~Strikethrough~~ and `Inline code`' },
+    ]},
+    { section: '🔗 Links', items: [
+      { note: 'Display text goes in brackets, the URL goes in parentheses.', code: '[Visit GitHub](https://github.com)' },
+      { note: 'A URL starting with # jumps to a heading in this document.', code: '[Jump to "Heading 1"](#heading-1)' },
+    ]},
+    { section: '🖼️ Images', items: [
+      { note: 'Like a link, but with a leading exclamation mark. The brackets hold the alt text.', code: '![Example image](https://picsum.photos/400/180)' },
+    ]},
+    { section: '☰ Lists', items: [
+      { note: 'Bulleted lists use dashes, numbered lists use "1. 2. 3.".', code: '- Apple\n- Banana\n- Orange' },
+      { note: 'Task lists: use - [x] for done, - [ ] for todo.', code: '- [x] Done\n- [ ] Todo' },
+    ]},
+    { section: '📊 Tables', items: [
+      { note: 'The first row is the header, the second row uses --- as a separator, then data rows follow.', code: '| Name | Age |\n| --- | --- |\n| Alice | 18 |\n| Bob | 20 |' },
+      { note: 'Cells can contain links too, e.g. [website](https://example.com).', code: '| Site | URL |\n| --- | --- |\n| GitHub | [github.com](https://github.com) |' },
+    ]},
+    { section: '💻 Code Blocks', items: [
+      { note: 'Wrap with triple backticks. Put the language name right after the opening fence to enable highlighting.', code: '```javascript\nconsole.log("Hello, Markdown!");\n```' },
+    ]},
+    { section: '💬 Quotes', items: [
+      { note: 'Start each line with >.', code: '> This is a quote.\n> It can span multiple lines.' },
+    ]},
+    { section: '💡 Callouts', items: [
+      { note: 'GitHub-style callouts: put [!NOTE], [!TIP] or [!WARNING] inside a quote.', code: '> [!TIP]\n> This is a handy tip' },
+      { note: 'Three common types: NOTE, TIP, WARNING.', code: '> [!WARNING]\n> Please back up your data first' },
+    ]},
+    { section: '📋 Details', items: [
+      { note: 'Use the HTML details and summary tags. Great for optional reading.', code: '<details>\n<summary>Click to expand</summary>\n\nThe hidden content appears after expansion.\n\n</details>' },
+    ]},
+    { section: '➖ Divider', items: [
+      { note: 'Three or more dashes on their own line.', code: '---' },
+    ]},
   ],
 };
 
-/* =========================================================================
- * 5. 链接插入浮层
- * ========================================================================= */
-
+/* ---------- 5. 链接浮层 ---------- */
 let currentPopover = null;
-
 function closeLinkPopover() {
   if (!currentPopover) return;
   currentPopover.remove();
@@ -1550,21 +907,17 @@ function closeLinkPopover() {
   document.removeEventListener('mousedown', onDocMouseDown, true);
   document.removeEventListener('keydown', onDocKeyDown, true);
 }
-
 function onDocMouseDown(e) {
   if (!currentPopover) return;
   if (currentPopover.contains(e.target)) return;
   if (e.target.closest && e.target.closest('.link-trigger')) return;
   closeLinkPopover();
 }
-
 function onDocKeyDown(e) {
   if (e.key === 'Escape') closeLinkPopover();
 }
-
 function openLinkPopover(anchorBtn, onInsert) {
   if (currentPopover) closeLinkPopover();
-
   let presetText = '';
   const activeEl = document.activeElement;
   if (activeEl && activeEl.classList && activeEl.classList.contains('te-cell')) {
@@ -1572,27 +925,18 @@ function openLinkPopover(anchorBtn, onInsert) {
     const e = activeEl.selectionEnd ?? 0;
     if (s !== e) presetText = activeEl.value.slice(s, e);
   }
-
   const textInput = el('input', {
-    type: 'text',
-    class: 'input',
-    placeholder: t('linkTextPlaceholder'),
-    value: presetText,
+    type: 'text', class: 'input',
+    placeholder: t('linkTextPlaceholder'), value: presetText,
   });
   const urlInput = el('input', {
-    type: 'text',
-    class: 'input',
+    type: 'text', class: 'input',
     placeholder: t('linkUrlPlaceholder'),
   });
-
   const pop = el('div', { class: 'link-pop' },
     el('label', { class: 'link-field' }, t('linkText'), textInput),
     el('label', { class: 'link-field' }, t('linkUrl'), urlInput),
-    el('div', { class: 'link-hint' },
-      t('linkHintPre'),
-      el('code', {}, '#heading'),
-      t('linkHintPost')
-    ),
+    el('div', { class: 'link-hint' }, t('linkHintPre'), el('code', {}, '#heading'), t('linkHintPost')),
     el('div', { class: 'link-actions' },
       el('button', { class: 'btn tiny', type: 'button', onClick: closeLinkPopover }, t('cancel')),
       el('button', {
@@ -1606,31 +950,24 @@ function openLinkPopover(anchorBtn, onInsert) {
       }, t('insert'))
     )
   );
-
   document.body.append(pop);
   currentPopover = pop;
-
-  const rect    = anchorBtn.getBoundingClientRect();
+  const rect = anchorBtn.getBoundingClientRect();
   const popRect = pop.getBoundingClientRect();
   let left = rect.left;
-  let top  = rect.bottom + 6;
-  if (left + popRect.width > window.innerWidth - 8)
-    left = window.innerWidth - popRect.width - 8;
-  if (top + popRect.height > window.innerHeight - 8)
-    top = rect.top - popRect.height - 6;
+  let top = rect.bottom + 6;
+  if (left + popRect.width > window.innerWidth - 8) left = window.innerWidth - popRect.width - 8;
+  if (top + popRect.height > window.innerHeight - 8) top = rect.top - popRect.height - 6;
   if (left < 8) left = 8;
-  if (top < 8)  top  = 8;
+  if (top < 8) top = 8;
   pop.style.left = left + 'px';
-  pop.style.top  = top  + 'px';
-
+  pop.style.top = top + 'px';
   textInput.focus();
   textInput.select();
-
   setTimeout(() => {
     document.addEventListener('mousedown', onDocMouseDown, true);
     document.addEventListener('keydown', onDocKeyDown, true);
   }, 0);
-
   [textInput, urlInput].forEach((inp) => {
     inp.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -1640,44 +977,31 @@ function openLinkPopover(anchorBtn, onInsert) {
     });
   });
 }
-
 function insertLinkIntoCell(inputEl, text, url) {
   const s = inputEl.selectionStart ?? inputEl.value.length;
-  const e = inputEl.selectionEnd   ?? inputEl.value.length;
+  const e = inputEl.selectionEnd ?? inputEl.value.length;
   const selected = inputEl.value.slice(s, e);
-  const display  = text || selected || url;
-  const linkMd   = `[${display}](${url})`;
-  inputEl.value  = inputEl.value.slice(0, s) + linkMd + inputEl.value.slice(e);
+  const display = text || selected || url;
+  const linkMd = `[${display}](${url})`;
+  inputEl.value = inputEl.value.slice(0, s) + linkMd + inputEl.value.slice(e);
   inputEl.dispatchEvent(new Event('input', { bubbles: true }));
   inputEl.focus();
   const pos = s + linkMd.length;
   inputEl.setSelectionRange(pos, pos);
 }
 
-/* =========================================================================
- * 6. 组件注册表
- * ========================================================================= */
-
+/* ---------- 6. 组件注册表 ---------- */
 const COMPONENTS = {};
-
-function defineComponent(def) {
-  COMPONENTS[def.type] = def;
-  return def;
-}
+function defineComponent(def) { COMPONENTS[def.type] = def; return def; }
 
 defineComponent({
-  type: 'heading',
-  icon: '📌',
+  type: 'heading', icon: '📌',
   create: () => ({ level: 1, text: '' }),
   editor(block, ctx) {
     const d = block.data;
     return el('div', { class: 'row' },
-      select(d.level, [
-        ['1', t('h1')],
-        ['2', t('h2')],
-        ['3', t('h3')],
-        ['4', t('h4')],
-      ], (v) => ctx.update({ level: Number(v) })),
+      select(d.level, [['1', t('h1')], ['2', t('h2')], ['3', t('h3')], ['4', t('h4')]],
+        (v) => ctx.update({ level: Number(v) })),
       input(d.text, (v) => ctx.update({ text: v }), t('headingPlaceholder'))
     );
   },
@@ -1688,68 +1012,49 @@ defineComponent({
 });
 
 defineComponent({
-  type: 'paragraph',
-  icon: '📝',
+  type: 'paragraph', icon: '📝',
   create: () => ({ text: '' }),
   editor(block, ctx) {
-    return textarea(block.data.text, (v) => ctx.update({ text: v }),
-      t('paragraphPlaceholder'), 3);
+    return textarea(block.data.text, (v) => ctx.update({ text: v }), t('paragraphPlaceholder'), 3);
   },
   toMarkdown(b) { return (b.data.text || '').trim(); },
 });
 
 defineComponent({
-  type: 'table',
-  icon: '📊',
-  create: () => ({
-    header: [t('table') + ' 1', t('table') + ' 2'],
-    rows: [['', ''], ['', '']],
-  }),
+  type: 'table', icon: '📊',
+  create: () => ({ header: [t('table') + ' 1', t('table') + ' 2'], rows: [['', ''], ['', '']] }),
   editor(block, ctx) {
     const d = block.data;
     const cols = Math.max(d.header.length, 1);
     const wrap = el('div', { class: 'table-editor' });
-
     let activeCell = null;
-
     function makeCellInput(value, onInputFn, placeholder) {
       const inp = el('input', {
-        type: 'text',
-        class: 'te-cell',
-        value: value ?? '',
-        placeholder,
+        type: 'text', class: 'te-cell',
+        value: value ?? '', placeholder,
         onInput: (e) => { onInputFn(e.target.value); ctx.touch(); },
       });
       inp.addEventListener('focus', () => { activeCell = inp; });
       return inp;
     }
-
     const table = el('table', { class: 'te-table' });
-
     const thead = el('thead');
     const headRow = el('tr');
     d.header.forEach((h, ci) => {
-      headRow.append(el('th', {},
-        makeCellInput(h, (v) => { d.header[ci] = v; }, `C${ci + 1}`)
-      ));
+      headRow.append(el('th', {}, makeCellInput(h, (v) => { d.header[ci] = v; }, `C${ci + 1}`)));
     });
     headRow.append(el('th', { class: 'te-row-del' }));
     thead.append(headRow);
     table.append(thead);
-
     const tbody = el('tbody');
     d.rows.forEach((row, ri) => {
       const tr = el('tr');
       row.forEach((cell, ci) => {
-        tr.append(el('td', {},
-          makeCellInput(cell, (v) => { d.rows[ri][ci] = v; }, '')
-        ));
+        tr.append(el('td', {}, makeCellInput(cell, (v) => { d.rows[ri][ci] = v; }, '')));
       });
       tr.append(el('td', { class: 'te-row-del' },
         el('button', {
-          class: 'btn-icon danger',
-          type: 'button',
-          title: t('deleteRow'),
+          class: 'btn-icon danger', type: 'button', title: t('deleteRow'),
           onClick: () => { d.rows.splice(ri, 1); ctx.rerender(); },
         }, '✕')
       ));
@@ -1757,23 +1062,18 @@ defineComponent({
     });
     table.append(tbody);
     wrap.append(table);
-
     wrap.append(el('div', { class: 'te-toolbar' },
-      el('button', {
-        class: 'btn tiny', type: 'button',
+      el('button', { class: 'btn tiny', type: 'button',
         onClick: () => { d.rows.push(new Array(cols).fill('')); ctx.rerender(); },
       }, t('addRow')),
-      el('button', {
-        class: 'btn tiny', type: 'button',
+      el('button', { class: 'btn tiny', type: 'button',
         onClick: () => {
           d.header.push(`${t('table')} ${d.header.length + 1}`);
           d.rows.forEach((r) => r.push(''));
           ctx.rerender();
         },
       }, t('addCol')),
-      el('button', {
-        class: 'btn tiny', type: 'button',
-        disabled: cols <= 1,
+      el('button', { class: 'btn tiny', type: 'button', disabled: cols <= 1,
         onClick: () => {
           if (d.header.length <= 1) return;
           d.header.pop();
@@ -1782,8 +1082,7 @@ defineComponent({
         },
       }, t('removeCol')),
       el('button', {
-        class: 'btn tiny link-trigger', type: 'button',
-        title: t('linkBtnTitle'),
+        class: 'btn tiny link-trigger', type: 'button', title: t('linkBtnTitle'),
         onMouseDown: (e) => e.preventDefault(),
         onClick: (e) => openLinkPopover(e.currentTarget, (text, url) => {
           if (!activeCell) { toast(t('linkNeedCell')); return false; }
@@ -1792,15 +1091,10 @@ defineComponent({
         }),
       }, t('insertLink'))
     ));
-
     wrap.append(el('div', { class: 'te-hint' },
-      t('tableHintPre'),
-      el('code', {}, '[text](https://…)'),
-      t('tableHintMid1'),
-      el('code', {}, '[text](#heading)'),
-      t('tableHintMid2')
+      t('tableHintPre'), el('code', {}, '[text](https://…)'), t('tableHintMid1'),
+      el('code', {}, '[text](#heading)'), t('tableHintMid2')
     ));
-
     return wrap;
   },
   toMarkdown(b) {
@@ -1808,14 +1102,13 @@ defineComponent({
     if (!header.length) return '';
     const esc = (s) => String(s ?? '').replace(/\|/g, '\\|');
     const line = (arr) => `| ${arr.map(esc).join(' | ')} |`;
-    const sep  = `| ${header.map(() => '---').join(' | ')} |`;
+    const sep = `| ${header.map(() => '---').join(' | ')} |`;
     return [line(header), sep, ...rows.map(line)].join('\n');
   },
 });
 
 defineComponent({
-  type: 'image',
-  icon: '🖼️',
+  type: 'image', icon: '🖼️',
   create: () => ({ url: '', alt: '' }),
   editor(block, ctx) {
     const d = block.data;
@@ -1848,8 +1141,7 @@ const CODE_LANGUAGES = [
 ];
 
 defineComponent({
-  type: 'code',
-  icon: '💻',
+  type: 'code', icon: '💻',
   create: () => ({ lang: 'javascript', code: '' }),
   editor(block, ctx) {
     const d = block.data;
@@ -1869,17 +1161,13 @@ defineComponent({
 });
 
 defineComponent({
-  type: 'admonition',
-  icon: '💡',
+  type: 'admonition', icon: '💡',
   create: () => ({ kind: 'note', text: '' }),
   editor(block, ctx) {
     const d = block.data;
     return el('div', { class: 'stack' },
-      select(d.kind, [
-        ['note', t('note')],
-        ['tip', t('tip')],
-        ['warning', t('warning')],
-      ], (v) => ctx.update({ kind: v })),
+      select(d.kind, [['note', t('note')], ['tip', t('tip')], ['warning', t('warning')]],
+        (v) => ctx.update({ kind: v })),
       textarea(d.text, (v) => ctx.update({ text: v }), t('admonitionPlaceholder'), 3)
     );
   },
@@ -1897,12 +1185,10 @@ defineComponent({
 });
 
 defineComponent({
-  type: 'quote',
-  icon: '💬',
+  type: 'quote', icon: '💬',
   create: () => ({ text: '' }),
   editor(block, ctx) {
-    return textarea(block.data.text, (v) => ctx.update({ text: v }),
-      t('quotePlaceholder'), 3);
+    return textarea(block.data.text, (v) => ctx.update({ text: v }), t('quotePlaceholder'), 3);
   },
   toMarkdown(b) {
     const lines = (b.data.text || '').split('\n');
@@ -1911,15 +1197,12 @@ defineComponent({
 });
 
 defineComponent({
-  type: 'list',
-  icon: '☰',
+  type: 'list', icon: '☰',
   create: () => ({ ordered: false, items: '' }),
   editor(block, ctx) {
     const d = block.data;
-
     const btnU = el('button', { class: 'seg-btn' + (d.ordered ? '' : ' active'), type: 'button' }, t('listUnordered'));
     const btnO = el('button', { class: 'seg-btn' + (d.ordered ? ' active' : ''), type: 'button' }, t('listOrdered'));
-
     const setMode = (ordered) => {
       d.ordered = ordered;
       btnU.classList.toggle('active', !ordered);
@@ -1928,7 +1211,6 @@ defineComponent({
     };
     btnU.addEventListener('click', () => setMode(false));
     btnO.addEventListener('click', () => setMode(true));
-
     return el('div', { class: 'stack' },
       el('div', { class: 'seg' }, btnU, btnO),
       textarea(d.items, (v) => ctx.update({ items: v }), t('listPlaceholder'), 4)
@@ -1937,25 +1219,19 @@ defineComponent({
   toMarkdown(b) {
     const items = (b.data.items || '').split('\n').filter((l) => l.trim() !== '');
     if (!items.length) return '';
-    return items
-      .map((it, i) => (b.data.ordered ? `${i + 1}. ${it}` : `- ${it}`))
-      .join('\n');
+    return items.map((it, i) => (b.data.ordered ? `${i + 1}. ${it}` : `- ${it}`)).join('\n');
   },
 });
 
 defineComponent({
-  type: 'hr',
-  icon: '➖',
+  type: 'hr', icon: '➖',
   create: () => ({}),
-  editor() {
-    return el('div', { class: 'hint' }, t('hrHint'));
-  },
+  editor() { return el('div', { class: 'hint' }, t('hrHint')); },
   toMarkdown: () => '---',
 });
 
 defineComponent({
-  type: 'details',
-  icon: '📋',
+  type: 'details', icon: '📋',
   create: () => ({ summary: '', body: '' }),
   editor(block, ctx) {
     const d = block.data;
@@ -1966,14 +1242,7 @@ defineComponent({
   },
   toMarkdown(b) {
     const { summary, body } = b.data;
-    return [
-      '<details>',
-      `<summary>${summary || t('details')}</summary>`,
-      '',
-      (body || '').trim(),
-      '',
-      '</details>',
-    ].join('\n');
+    return ['<details>', `<summary>${summary || t('details')}</summary>`, '', (body || '').trim(), '', '</details>'].join('\n');
   },
 });
 
@@ -1982,33 +1251,21 @@ const TOOLBAR = [
   'admonition', 'quote', 'list', 'hr', 'details',
 ];
 
-/* =========================================================================
- * 7. 渲染主逻辑
- * ========================================================================= */
-
+/* ---------- 7. 状态渲染 ---------- */
 let previewTimer = null;
-
 const previewEl   = $('#preview');
 const blockListEl = $('#blockList');
 const paletteEl   = $('#palette');
 
 function schedulePreview() {
   clearTimeout(previewTimer);
-  previewTimer = setTimeout(() => {
-    renderPreview();
-    persist();
-  }, 100);
+  previewTimer = setTimeout(() => { renderPreview(); persist(); }, 100);
 }
-
 const STORAGE_KEY = 'md-generator:blocks';
-const THEME_KEY   = 'md-generator:theme';
-
+const THEME_KEY = 'md-generator:theme';
 function persist() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.blocks));
-  } catch (_) { /* ignore */ }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.blocks)); } catch (_) { /* ignore */ }
 }
-
 function restore() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -2018,14 +1275,11 @@ function restore() {
     state.blocks = data.filter((b) => b && COMPONENTS[b.type]);
     state.seq = state.blocks.reduce((m, b) => Math.max(m, Number(b.id) || 0), 0);
     return state.blocks.length > 0;
-  } catch (_) {
-    return false;
-  }
+  } catch (_) { return false; }
 }
 
 function renderBlockList() {
   blockListEl.innerHTML = '';
-
   if (state.blocks.length === 0) {
     blockListEl.append(
       el('div', { class: 'empty' },
@@ -2036,51 +1290,27 @@ function renderBlockList() {
     );
     return;
   }
-
   state.blocks.forEach((block, index) => {
     blockListEl.append(renderBlockCard(block, index));
   });
-
   $$('textarea', blockListEl).forEach(autoGrow);
 }
 
 function renderBlockCard(block, index) {
   const def = COMPONENTS[block.type];
-
   const ctx = {
-    update(patch) {
-      Object.assign(block.data, patch);
-      state.userEdited = true;
-      schedulePreview();
-    },
-    touch() {
-      state.userEdited = true;
-      schedulePreview();
-    },
-    rerender() {
-      state.userEdited = true;
-      renderBlockList();
-      schedulePreview();
-    },
+    update(patch) { Object.assign(block.data, patch); state.userEdited = true; schedulePreview(); },
+    touch() { state.userEdited = true; schedulePreview(); },
+    rerender() { state.userEdited = true; renderBlockList(); schedulePreview(); },
   };
-
   return el('div', { class: 'card', 'data-id': block.id },
     el('div', { class: 'card-head' },
       el('span', { class: 'card-badge' }, def.icon),
       el('span', { class: 'card-title' }, t(def.type)),
       el('div', { class: 'card-actions' },
-        el('button', {
-          class: 'btn-icon', type: 'button', title: t('moveUp'),
-          onClick: () => moveBlock(index, -1),
-        }, '↑'),
-        el('button', {
-          class: 'btn-icon', type: 'button', title: t('moveDown'),
-          onClick: () => moveBlock(index, 1),
-        }, '↓'),
-        el('button', {
-          class: 'btn-icon danger', type: 'button', title: t('delete'),
-          onClick: () => removeBlock(index),
-        }, '✕')
+        el('button', { class: 'btn-icon', type: 'button', title: t('moveUp'), onClick: () => moveBlock(index, -1) }, '↑'),
+        el('button', { class: 'btn-icon', type: 'button', title: t('moveDown'), onClick: () => moveBlock(index, 1) }, '↓'),
+        el('button', { class: 'btn-icon danger', type: 'button', title: t('delete'), onClick: () => removeBlock(index) }, '✕')
       )
     ),
     el('div', { class: 'card-body' }, def.editor(block, ctx))
@@ -2090,14 +1320,11 @@ function renderBlockCard(block, index) {
 function addBlock(type) {
   const def = COMPONENTS[type];
   if (!def) return;
-
   const block = { id: ++state.seq, type, data: def.create() };
   state.blocks.push(block);
   state.userEdited = true;
-
   renderBlockList();
   schedulePreview();
-
   requestAnimationFrame(() => {
     const card = blockListEl.querySelector(`.card[data-id="${block.id}"]`);
     if (!card) return;
@@ -2106,14 +1333,12 @@ function addBlock(type) {
     if (firstInput) firstInput.focus();
   });
 }
-
 function removeBlock(index) {
   state.blocks.splice(index, 1);
   state.userEdited = true;
   renderBlockList();
   schedulePreview();
 }
-
 function moveBlock(index, delta) {
   const target = index + delta;
   if (target < 0 || target >= state.blocks.length) return;
@@ -2124,32 +1349,21 @@ function moveBlock(index, delta) {
   schedulePreview();
 }
 
-/* =========================================================================
- * 8. Markdown 生成
- * ========================================================================= */
-
+/* ---------- 8. Markdown 生成 ---------- */
 function buildMarkdown() {
   const parts = state.blocks
     .map((block) => {
       const def = COMPONENTS[block.type];
       if (!def) return '';
-      try {
-        return def.toMarkdown(block) || '';
-      } catch (err) {
-        console.warn('Component toMarkdown failed:', block.type, err);
-        return '';
-      }
+      try { return def.toMarkdown(block) || ''; }
+      catch (err) { console.warn('Component toMarkdown failed:', block.type, err); return ''; }
     })
     .map((s) => String(s).trim())
     .filter((s) => s !== '');
-
   return parts.length ? parts.join('\n\n') : '';
 }
 
-/* =========================================================================
- * 9. 预览渲染
- * ========================================================================= */
-
+/* ---------- 9. 预览渲染 ---------- */
 function admonitionMeta() {
   return {
     note:      { icon: '💡', label: t('admNote') },
@@ -2159,7 +1373,6 @@ function admonitionMeta() {
     caution:   { icon: '🛑', label: t('admCaution') },
   };
 }
-
 const ALERT_RE = /\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i;
 
 function stripLeadingText(root, prefixLength) {
@@ -2187,33 +1400,33 @@ function transformAlerts(container) {
   Array.from(container.querySelectorAll('blockquote')).forEach((bq) => {
     const firstP = bq.querySelector('p');
     if (!firstP) return;
-
     const textContent = firstP.textContent || '';
     const match = textContent.match(ALERT_RE);
     if (!match) return;
-
     const idx = textContent.indexOf(match[0]);
     if (idx < 0) return;
     if (textContent.slice(0, idx).trim() !== '') return;
-
     const kind = match[1].toLowerCase();
     const m = meta[kind] || meta.note;
-
     stripLeadingText(firstP, idx + match[0].length);
-    if (!firstP.textContent.trim() && firstP.children.length === 0) {
-      firstP.remove();
-    }
-
+    if (!firstP.textContent.trim() && firstP.children.length === 0) firstP.remove();
     const body = el('div', { class: 'admonition-body' });
     while (bq.firstChild) body.append(bq.firstChild);
-
     const titleEl = el('div', { class: 'admonition-title' },
       el('span', {}, m.icon),
       el('span', {}, m.label)
     );
-
     const wrap = el('div', { class: `admonition ${kind}` }, titleEl, body);
     bq.replaceWith(wrap);
+  });
+}
+
+/* 修复点：不用自定义 renderer，改为渲染后遍历 DOM 补 id */
+function addHeadingIds(container) {
+  container.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((h) => {
+    if (h.id) return;
+    const id = slugify(h.textContent || '');
+    if (id) h.id = id;
   });
 }
 
@@ -2223,7 +1436,6 @@ function highlightCode(container) {
     try { hljs.highlightElement(block); } catch (_) { /* ignore */ }
   });
 }
-
 function decorateLinks(container) {
   container.querySelectorAll('a[href]').forEach((a) => {
     const href = a.getAttribute('href') || '';
@@ -2236,12 +1448,10 @@ function decorateLinks(container) {
 
 function renderPreview() {
   const md = buildMarkdown();
-
   if (!md.trim()) {
     previewEl.innerHTML = `<div class="preview-empty">${t('previewEmpty')}</div>`;
     return;
   }
-
   let html;
   try {
     html = (typeof marked !== 'undefined')
@@ -2249,51 +1459,37 @@ function renderPreview() {
       : `<pre>${md.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</pre>`;
   } catch (err) {
     console.error('Markdown parse failed:', err);
-    previewEl.innerHTML = `<div class="preview-empty">${t('previewError')}</div>`;
+    previewEl.innerHTML = `<div class="preview-empty">${t('previewError')}<br><small style="opacity:.7;font-size:12px">${String(err && err.message || err)}</small></div>`;
     return;
   }
-
   previewEl.innerHTML = html;
+  addHeadingIds(previewEl);   /* ← 新增：后处理补标题 id */
   transformAlerts(previewEl);
   highlightCode(previewEl);
   decorateLinks(previewEl);
 }
 
-/* =========================================================================
- * 10. 语法速查 Modal
- * ========================================================================= */
-
+/* ---------- 10. 语法速查 Modal ---------- */
 let guideOverlayEl = null;
 
 function buildGuide() {
   const body = $('#guideBody');
   if (!body) return;
   body.innerHTML = '';
-
-  /* 简介 */
   body.append(el('p', { class: 'guide-intro' }, t('guideIntro')));
-
   const data = GUIDE_DATA[state.lang] || GUIDE_DATA.zh;
-
   data.forEach((section) => {
     const secEl = el('section', { class: 'guide-section' });
     secEl.append(el('h3', {}, section.section));
-
     section.items.forEach((item) => {
       const itemEl = el('div', { class: 'guide-item' });
-
-      if (item.note) {
-        itemEl.append(el('div', { class: 'guide-item-note' }, item.note));
-      }
-
-      /* 源码展示 */
+      if (item.note) itemEl.append(el('div', { class: 'guide-item-note' }, item.note));
       itemEl.append(el('pre', { class: 'guide-item-code' }, item.code));
-
-      /* 渲染结果 */
       const resultEl = el('div', { class: 'markdown-body guide-item-result' });
       try {
         if (typeof marked !== 'undefined') {
           resultEl.innerHTML = marked.parse(item.code, { gfm: true, breaks: false });
+          addHeadingIds(resultEl);   /* ← 新增 */
           transformAlerts(resultEl);
           highlightCode(resultEl);
           decorateLinks(resultEl);
@@ -2301,13 +1497,12 @@ function buildGuide() {
           resultEl.textContent = item.code;
         }
       } catch (err) {
+        console.warn('Guide example parse failed:', err);
         resultEl.textContent = item.code;
       }
       itemEl.append(resultEl);
-
       secEl.append(itemEl);
     });
-
     body.append(secEl);
   });
 }
@@ -2315,41 +1510,28 @@ function buildGuide() {
 function openGuide() {
   if (!guideOverlayEl) guideOverlayEl = $('#guideOverlay');
   if (!guideOverlayEl) return;
-
-  /* 更新标题文字（语言可能已切换） */
   const titleEl = $('#guideTitle');
   if (titleEl) titleEl.textContent = t('guideTitle');
-
   buildGuide();
-
-  /* 打开时禁止 body 滚动 */
   document.body.dataset.prevOverflow = document.body.style.overflow || '';
   document.body.style.overflow = 'hidden';
-
   guideOverlayEl.classList.add('open');
 }
-
 function closeGuide() {
   if (!guideOverlayEl) guideOverlayEl = $('#guideOverlay');
   if (!guideOverlayEl) return;
-
   guideOverlayEl.classList.remove('open');
   document.body.style.overflow = document.body.dataset.prevOverflow || '';
 }
-
 function isGuideOpen() {
   if (!guideOverlayEl) guideOverlayEl = $('#guideOverlay');
   return !!guideOverlayEl && guideOverlayEl.classList.contains('open');
 }
 
-/* =========================================================================
- * 11. 底部操作
- * ========================================================================= */
-
+/* ---------- 11. 底部操作 ---------- */
 async function copyMarkdown() {
   const md = buildMarkdown();
   if (!md.trim()) { toast(t('nothingToCopy')); return; }
-
   try {
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(md);
@@ -2368,14 +1550,12 @@ async function copyMarkdown() {
     try { document.execCommand('copy'); } catch (e) { /* ignore */ }
     ta.remove();
   }
-
   toast(t('copied'));
 }
 
 function downloadMarkdown() {
   const md = buildMarkdown();
   if (!md.trim()) { toast(t('nothingToDownload')); return; }
-
   const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -2385,27 +1565,21 @@ function downloadMarkdown() {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
-
   toast(t('downloaded'));
 }
 
 function clearAll() {
   if (!state.blocks.length) { toast(t('alreadyEmpty')); return; }
   if (!window.confirm(t('confirmClear'))) return;
-
   state.blocks = [];
   state.userEdited = false;
   try { localStorage.removeItem(STORAGE_KEY); } catch (_) { /* ignore */ }
-
   renderBlockList();
   renderPreview();
   toast(t('cleared'));
 }
 
-/* =========================================================================
- * 12. 主题
- * ========================================================================= */
-
+/* ---------- 12. 主题 ---------- */
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   const btn = $('#themeToggle');
@@ -2415,118 +1589,71 @@ function applyTheme(theme) {
   }
   try { localStorage.setItem(THEME_KEY, theme); } catch (_) { /* ignore */ }
 }
-
 function initTheme() {
   let saved = null;
   try { saved = localStorage.getItem(THEME_KEY); } catch (_) { /* ignore */ }
-
   let prefersDark = false;
-  try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; }
-  catch (_) { /* ignore */ }
-
+  try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (_) { /* ignore */ }
   applyTheme(saved || (prefersDark ? 'dark' : 'light'));
 }
 
-/* =========================================================================
- * 13. 语言切换
- * ========================================================================= */
-
+/* ---------- 13. 语言切换 ---------- */
 function updateChromeText() {
   document.documentElement.setAttribute('lang', state.lang === 'zh' ? 'zh-CN' : 'en');
   document.title = t('appTitle');
-
-  const brand = $('#brandName');
-  if (brand) brand.textContent = t('brandName');
-
-  const label = $('#previewLabel');
-  if (label) label.textContent = t('preview');
-
-  const copy = $('#btnCopy');
-  if (copy) copy.textContent = t('copy');
-  const dl = $('#btnDownload');
-  if (dl) dl.textContent = t('download');
-  const clr = $('#btnClear');
-  if (clr) clr.textContent = t('clear');
-
+  const brand = $('#brandName'); if (brand) brand.textContent = t('brandName');
+  const label = $('#previewLabel'); if (label) label.textContent = t('preview');
+  const copy = $('#btnCopy'); if (copy) copy.textContent = t('copy');
+  const dl = $('#btnDownload'); if (dl) dl.textContent = t('download');
+  const clr = $('#btnClear'); if (clr) clr.textContent = t('clear');
   const langBtn = $('#langToggle');
-  if (langBtn) {
-    langBtn.textContent = state.lang === 'zh' ? 'EN' : '中';
-    langBtn.title = t('langToggle');
-  }
-
-  const guideBtn = $('#guideBtn');
-  if (guideBtn) guideBtn.title = t('guideBtnTitle');
-
-  const guideTitle = $('#guideTitle');
-  if (guideTitle) guideTitle.textContent = t('guideTitle');
-
+  if (langBtn) { langBtn.textContent = state.lang === 'zh' ? 'EN' : '中'; langBtn.title = t('langToggle'); }
+  const guideBtn = $('#guideBtn'); if (guideBtn) guideBtn.title = t('guideBtnTitle');
+  const guideTitle = $('#guideTitle'); if (guideTitle) guideTitle.textContent = t('guideTitle');
   const themeBtn = $('#themeToggle');
   if (themeBtn) {
     const cur = document.documentElement.getAttribute('data-theme');
     themeBtn.title = cur === 'dark' ? t('themeLight') : t('themeDark');
   }
 }
-
 function applyLanguage() {
   saveLang();
   updateChromeText();
-
-  /* 用户没编辑过则跟随语言重建示例 */
   if (!state.userEdited) {
     state.blocks = [];
     state.seq = 0;
     seedDefault();
   }
-
   renderPalette();
   renderBlockList();
   renderPreview();
-
-  /* 如果速查面板开着，重建内容 */
   if (isGuideOpen()) buildGuide();
 }
-
 function toggleLanguage() {
   state.lang = state.lang === 'zh' ? 'en' : 'zh';
   applyLanguage();
 }
 
-/* =========================================================================
- * 14. 初始化
- * ========================================================================= */
-
+/* ---------- 14. 初始化 ---------- */
+/* 修复点：不再注册自定义 heading renderer，只做基础配置 */
 function configureMarked() {
   if (typeof marked === 'undefined') return;
-  marked.use({
-    renderer: {
-      heading(token) {
-        const { tokens, depth, text } = token;
-        const htmlText = this.parser.parseInline(tokens);
-        const id = slugify(text || '');
-        const idAttr = id ? ` id="${String(id).replace(/"/g, '&quot;')}"` : '';
-        return `<h${depth}${idAttr}>${htmlText}</h${depth}>\n`;
-      },
-    },
-  });
+  try {
+    if (typeof marked.setOptions === 'function') {
+      marked.setOptions({ gfm: true, breaks: false });
+    }
+  } catch (_) { /* ignore */ }
 }
 
 function seedDefault() {
   const push = (type, data) => {
     const def = COMPONENTS[type];
-    state.blocks.push({
-      id: ++state.seq,
-      type,
-      data: Object.assign(def.create(), data),
-    });
+    state.blocks.push({ id: ++state.seq, type, data: Object.assign(def.create(), data) });
   };
-
   push('heading', { level: 1, text: t('sampleTitle') });
   push('paragraph', { text: t('sampleParagraph') });
   push('admonition', { kind: 'tip', text: t('sampleTip') });
-  push('code', {
-    lang: 'javascript',
-    code: "console.log('Hello, Markdown!');",
-  });
+  push('code', { lang: 'javascript', code: "console.log('Hello, Markdown!');" });
 }
 
 function renderPalette() {
@@ -2536,8 +1663,7 @@ function renderPalette() {
     if (!def) return;
     paletteEl.append(
       el('button', {
-        class: 'pal-btn',
-        type: 'button',
+        class: 'pal-btn', type: 'button',
         title: t('addComponent').replace('{name}', t(def.type)),
         onClick: () => addBlock(type),
       },
@@ -2553,35 +1679,27 @@ function bindEvents() {
     const cur = document.documentElement.getAttribute('data-theme');
     applyTheme(cur === 'dark' ? 'light' : 'dark');
   });
-
   $('#langToggle').addEventListener('click', toggleLanguage);
-
   const guideBtn = $('#guideBtn');
   if (guideBtn) guideBtn.addEventListener('click', openGuide);
-
   const guideCloseBtn = $('#guideClose');
   if (guideCloseBtn) guideCloseBtn.addEventListener('click', closeGuide);
-
   const overlay = $('#guideOverlay');
   if (overlay) {
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) closeGuide();
     });
   }
-
   $('#btnCopy').addEventListener('click', copyMarkdown);
   $('#btnDownload').addEventListener('click', downloadMarkdown);
   $('#btnClear').addEventListener('click', clearAll);
-
   window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
       e.preventDefault();
       downloadMarkdown();
       return;
     }
-    if (e.key === 'Escape' && isGuideOpen()) {
-      closeGuide();
-    }
+    if (e.key === 'Escape' && isGuideOpen()) closeGuide();
   });
 }
 
@@ -2589,21 +1707,14 @@ function init() {
   if (typeof hljs !== 'undefined') {
     try { hljs.configure({ ignoreUnescapedHTML: true }); } catch (_) { /* ignore */ }
   }
-
   configureMarked();
   updateChromeText();
-
   const hasSaved = restore();
-  if (hasSaved) {
-    state.userEdited = true;
-  } else {
-    seedDefault();
-  }
-
+  if (hasSaved) state.userEdited = true;
+  else seedDefault();
   renderPalette();
   renderBlockList();
   renderPreview();
-
   bindEvents();
   initTheme();
 }
